@@ -1,0 +1,94 @@
+import { Mantra } from '../types'
+
+export const mantras: Omit<Mantra, 'id'>[] = [
+  {
+    slug: 'mahamrityunjaya',
+    sanskrit: 'Om Tryambakam Yajamahe Sugandhim Pushtivardhanam Urvarukamiva Bandhanan Mrityor Mukshiya Maamritat',
+    devanagari: 'ॐ त्र्यम्बकं यजामहे सुगन्धिं पुष्टिवर्धनम् उर्वारुकमिव बन्धनान् मृत्योर्मुक्षीय मामृतात्',
+    transliteration: 'Om Tryambakam Yajamahe Sugandhim Pushtivardhanam Urvarukamiva Bandhanan Mrityor Mukshiya Maamritat',
+    meaning: 'Healing, protection; removes fear and grants longevity',
+    suggested_rounds: 108,
+    emotions: ['ANXIETY']
+  },
+  {
+    slug: 'gayatri',
+    sanskrit: 'Om Bhur Bhuvaḥ Swaḥ Tat-savitur Vareṇyaṃ Bhargo Devasya Dhīmahi Dhiyo Yonaḥ Prachodayāt',
+    devanagari: 'ॐ भूर् भुवः स्वः तत्सवितुर्वरेण्यं भर्गो देवस्य धीमहि धियो यो नः प्रचोदयात्',
+    transliteration: 'Om Bhur Bhuvah Svah Tat-savitur Varenyam Bhargo Devasya Dhimahi Dhiyo Yonah Prachodayat',
+    meaning: 'Awakens inner light and clarity; dispels mental fog',
+    suggested_rounds: 108,
+    emotions: ['STRESS']
+  },
+  {
+    slug: 'om-namah-shivaya',
+    sanskrit: 'Om Namah Shivaya',
+    devanagari: 'ॐ नमः शिवाय',
+    transliteration: 'Om Namah Shivaya',
+    meaning: 'Surrendering ego; calming the fire within',
+    suggested_rounds: 108,
+    emotions: ['ANGER']
+  },
+  {
+    slug: 'so-ham',
+    sanskrit: 'So Ham',
+    devanagari: 'सो ऽहम्',
+    transliteration: 'So Ham',
+    meaning: 'Breath-anchoring "I am That"; grounding and centering',
+    suggested_rounds: 108,
+    emotions: ['GROUNDING']
+  },
+  {
+    slug: 'om-mani-padme-hum',
+    sanskrit: 'Om Mani Padme Hum',
+    devanagari: 'ॐ मणि पद्मे हूँ',
+    transliteration: 'Om Mani Padme Hum',
+    meaning: 'Compassion and ease of sorrow; Tibetan Buddhist mantra',
+    suggested_rounds: 108,
+    emotions: ['SADNESS']
+  },
+  {
+    slug: 'ganesh-mantra',
+    sanskrit: 'Om Gam Ganapataye Namaha',
+    devanagari: 'ॐ गं गणपतये नमः',
+    transliteration: 'Om Gam Ganapataye Namaha',
+    meaning: 'Remover of obstacles; new beginnings and confidence',
+    suggested_rounds: 108,
+    emotions: ['CONFIDENCE']
+  },
+  {
+    slug: 'om-shanti',
+    sanskrit: 'Om Shanti Shanti Shanti',
+    devanagari: 'ॐ शान्तिः शान्तिः शान्तिः',
+    transliteration: 'Om Shanti Shanti Shanti',
+    meaning: 'Invokes peace in body, mind, and spirit',
+    suggested_rounds: 108,
+    emotions: ['PEACE']
+  },
+  {
+    slug: 'lokah-samastah',
+    sanskrit: 'Lokah Samastah Sukhino Bhavantu',
+    devanagari: 'लोकाः समस्ताः सुखिनो भवन्तु',
+    transliteration: 'Lokah Samastah Sukhino Bhavantu',
+    meaning: 'May all beings everywhere be happy and free',
+    suggested_rounds: 108,
+    emotions: ['GRATITUDE']
+  },
+  {
+    slug: 'saraswati-mantra',
+    sanskrit: 'Om Aim Saraswatyai Namah',
+    devanagari: 'ॐ ऐं सरस्वत्यै नमः',
+    transliteration: 'Om Aim Saraswatyai Namah',
+    meaning: 'Clarity and learning; goddess of wisdom',
+    suggested_rounds: 108,
+    emotions: ['FOCUS']
+  },
+  {
+    slug: 'aham-brahmasmi',
+    sanskrit: 'Aham Brahmasmi',
+    devanagari: 'अहं ब्रह्मास्मि',
+    transliteration: 'Aham Brahmasmi',
+    meaning: 'Non-dual realization; release identification with ego',
+    suggested_rounds: 108,
+    emotions: ['LETTING_GO']
+  }
+]
