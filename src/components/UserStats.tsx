@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
-import { Calendar, TrendingUp, Clock, Award, BarChart3, Activity, Sparkles, Flame } from 'lucide-react'
+import { Calendar, TrendingUp, Award, BarChart3, Activity, Sparkles, Flame } from 'lucide-react'
 import { EdgeFunctionService } from '../services/edgeFunctions'
 import { SupabaseService } from '../services/supabase'
 import { UserStats as UserStatsType } from '../types'
 
 interface UserStatsProps {
   userId: string
+  onMantraSelect?: (mantraId: number) => void
 }
 
 interface UserAnalytics {
@@ -22,7 +23,7 @@ interface UserAnalytics {
 }
 
 
-export function UserStats({ userId }: UserStatsProps) {
+export function UserStats({ userId, onMantraSelect }: UserStatsProps) {
   const [stats, setStats] = useState<UserStatsType | null>(null)
   const [analytics, setAnalytics] = useState<UserAnalytics | null>(null)
   const [loading, setLoading] = useState(true)
@@ -69,20 +70,6 @@ export function UserStats({ userId }: UserStatsProps) {
   }
 
 
-  const getStreakColor = (streak: number) => {
-    if (streak >= 30) return 'text-purple-600 bg-purple-100'
-    if (streak >= 14) return 'text-green-600 bg-green-100'
-    if (streak >= 7) return 'text-blue-600 bg-blue-100'
-    return 'text-primary-600 bg-primary-100'
-  }
-
-  const getStreakEmoji = (streak: number) => {
-    if (streak >= 30) return '🏆'
-    if (streak >= 14) return '🔥'
-    if (streak >= 7) return '⭐'
-    if (streak >= 3) return '🌟'
-    return '💫'
-  }
 
   if (loading) {
     return (
@@ -129,166 +116,134 @@ export function UserStats({ userId }: UserStatsProps) {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Compact Main Stats Overview */}
-      <div className="card relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-50/30 via-purple-50/30 to-blue-50/30 opacity-50"></div>
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      {/* Compact Stats Card */}
+      <div className="lg:col-span-2 bg-white/60 backdrop-blur-sm border border-white/40 rounded-2xl p-4 shadow-sm relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-violet-50/20 via-purple-50/20 to-blue-50/20 opacity-50"></div>
         
         <div className="relative">
-          {/* Compact header */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center">
-                <BarChart3 className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold bg-gradient-to-r from-gray-900 via-violet-800 to-purple-800 bg-clip-text text-transparent">Practice Stats</h3>
-                <p className="text-sm text-gray-600">Your meditation journey</p>
-              </div>
+          {/* Header */}
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-6 h-6 bg-gradient-to-br from-violet-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <BarChart3 className="w-3 h-3 text-white" />
             </div>
-            <div className="text-3xl">{stats ? getStreakEmoji(stats.current_streak) : '🧘‍♂️'}</div>
+            <div>
+              <h3 className="text-sm font-bold text-gray-900">Practice Stats</h3>
+              <p className="text-xs text-gray-600">Your meditation journey</p>
+            </div>
           </div>
-
-          {/* Compact Key Metrics Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          {/* Stats Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {/* Current Streak */}
-            <div className="stats-metric group">
-              <div className="flex flex-col items-center text-center">
-                <div className={`w-12 h-12 rounded-2xl grid place-items-center mb-3 ${
-                  stats ? getStreakColor(stats.current_streak) : 'bg-violet-100 text-violet-600'
-                } group-hover:scale-110 transition-transform duration-300`}>
-                  <Flame className="w-6 h-6" />
+            <div className="text-center">
+              <div className="flex flex-col items-center">
+                <div className="w-8 h-8 rounded-lg bg-violet-100 text-violet-600 flex items-center justify-center mb-1.5">
+                  <Flame className="w-4 h-4" />
                 </div>
-                <div className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent mb-1">
-                  {stats?.current_streak || 0}
-                </div>
-                <div className="text-xs text-gray-600 font-medium">Day Streak</div>
+                <div className="text-lg font-bold text-violet-600">{stats?.current_streak || 0}</div>
+                <div className="text-xs text-gray-600">Day Streak</div>
                 {(stats?.current_streak || 0) >= 7 && (
-                  <div className="flex items-center gap-1 mt-1">
-                    <Sparkles className="w-3 h-3 text-violet-500" />
-                    <span className="text-xs text-violet-600 font-medium">On Fire!</span>
-                  </div>
+                  <div className="text-xs text-violet-600 font-medium mt-0.5">🔥</div>
                 )}
-              </div>
-            </div>
-
-            {/* Total Repetitions */}
-            <div className="stats-metric group">
-              <div className="flex flex-col items-center text-center">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 grid place-items-center mb-3 group-hover:scale-110 transition-transform duration-300">
-                  <TrendingUp className="w-6 h-6" />
-                </div>
-                <div className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-1">
-                  {stats?.total_repetitions?.toLocaleString() || 0}
-                </div>
-                <div className="text-xs text-gray-600 font-medium">Repetitions</div>
               </div>
             </div>
 
             {/* Total Sessions */}
-            <div className="stats-metric group">
-              <div className="flex flex-col items-center text-center">
-                <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 grid place-items-center mb-3 group-hover:scale-110 transition-transform duration-300">
-                  <BarChart3 className="w-6 h-6" />
+            <div className="text-center">
+              <div className="flex flex-col items-center">
+                <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center mb-1.5">
+                  <BarChart3 className="w-4 h-4" />
                 </div>
-                <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-1">
-                  {analytics?.totalSessions || 0}
-                </div>
-                <div className="text-xs text-gray-600 font-medium">Sessions</div>
+                <div className="text-lg font-bold text-blue-600">{analytics?.totalSessions || 0}</div>
+                <div className="text-xs text-gray-600">Sessions</div>
               </div>
             </div>
 
             {/* Weekly Sessions */}
-            <div className="stats-metric group">
-              <div className="flex flex-col items-center text-center">
-                <div className="w-12 h-12 rounded-2xl bg-purple-100 text-purple-600 grid place-items-center mb-3 group-hover:scale-110 transition-transform duration-300">
-                  <Calendar className="w-6 h-6" />
+            <div className="text-center">
+              <div className="flex flex-col items-center">
+                <div className="w-8 h-8 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center mb-1.5">
+                  <Calendar className="w-4 h-4" />
                 </div>
-                <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-1">
-                  {analytics?.weeklySessions || 0}
+                <div className="text-lg font-bold text-purple-600">{analytics?.weeklySessions || 0}</div>
+                <div className="text-xs text-gray-600">This Week</div>
+              </div>
+            </div>
+
+            {/* Total Repetitions */}
+            <div className="text-center">
+              <div className="flex flex-col items-center">
+                <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center mb-1.5">
+                  <TrendingUp className="w-4 h-4" />
                 </div>
-                <div className="text-xs text-gray-600 font-medium">This Week</div>
+                <div className="text-lg font-bold text-emerald-600">{(stats?.total_repetitions || 0) > 999 ? `${Math.floor((stats?.total_repetitions || 0) / 1000)}k` : (stats?.total_repetitions || 0)}</div>
+                <div className="text-xs text-gray-600">Repetitions</div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Compact Last Practice Info */}
-          {(stats?.last_practice_date || (stats?.current_streak && stats.current_streak >= 7)) && (
-            <div className="pt-4 mt-4 border-t border-gray-200/60">
-              <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center text-gray-600">
-                  <Clock className="w-4 h-4 mr-2 text-violet-500" />
-                  <span className="font-medium">
-                    {stats?.last_practice_date
-                      ? `Last: ${new Date(stats.last_practice_date).toLocaleDateString('en-US', {
-                          month: 'short',
-                          day: 'numeric'
-                        })}`
-                      : 'Start your first practice!'}
-                  </span>
-                </div>
-                {stats?.current_streak && stats.current_streak >= 7 && (
-                  <div className="flex items-center gap-1 bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 px-2 py-1 rounded-xl text-xs font-semibold border border-green-200/60">
-                    <Award className="w-3 h-3" />
-                    Great streak!
+      {/* Side Mantras Section - Shows Top Mantras or Get Started */}
+      <div className="lg:col-span-1 bg-white/60 backdrop-blur-sm border border-white/40 rounded-2xl p-4 shadow-sm relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-50/20 via-orange-50/20 to-yellow-50/20 opacity-50"></div>
+        
+        <div className="relative">
+          <div className="flex items-center gap-2 mb-3">
+            <Award className="w-5 h-5 text-amber-600" />
+            <h4 className="text-sm font-bold text-gray-900">
+              {analytics?.topMantras && analytics.topMantras.length > 0 ? 'Top Mantras' : 'Your Journey'}
+            </h4>
+          </div>
+          
+          {analytics?.topMantras && analytics.topMantras.length > 0 ? (
+            /* Existing Top Mantras for users with data */
+            <div className="space-y-2">
+              {analytics.topMantras.slice(0, 2).map((item, index) => (
+                <button
+                  key={item.mantraId}
+                  onClick={() => onMantraSelect?.(item.mantraId)}
+                  className="flex items-center justify-between p-2 bg-white/50 hover:bg-white/80 rounded-lg border border-white/40 transition-all duration-200 hover:scale-[1.02] group text-left w-full"
+                  title="Click to practice this mantra again"
+                >
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                    <div className={`w-6 h-6 rounded-md grid place-items-center text-xs font-bold flex-shrink-0 ${
+                      index === 0 ? 'bg-gradient-to-br from-yellow-400 to-amber-500 text-white' :
+                      'bg-gradient-to-br from-gray-300 to-gray-400 text-white'
+                    }`}>
+                      {index + 1}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="font-medium text-gray-900 text-xs truncate">
+                        {item.mantra?.transliteration || 'Unknown Mantra'}
+                      </div>
+                      <div className="text-xs text-gray-500">{item.count} sessions</div>
+                    </div>
                   </div>
-                )}
+                  <div className="w-5 h-5 rounded-full bg-violet-100 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0">
+                    <span className="text-violet-600 text-xs">▶</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          ) : (
+            /* New User Get Started Message */
+            <div className="text-center py-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-violet-100 to-purple-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <Sparkles className="w-6 h-6 text-violet-600" />
+              </div>
+              <p className="text-xs text-gray-600 mb-3 leading-relaxed">
+                Start your first meditation session to see your favorite mantras here
+              </p>
+              <div className="flex items-center justify-center gap-1 text-xs text-violet-600 font-medium">
+                <span>🧘‍♀️</span>
+                <span>Begin your journey</span>
               </div>
             </div>
           )}
         </div>
       </div>
-
-      {/* Enhanced Favorite Mantras */}
-      {analytics?.topMantras && analytics.topMantras.length > 0 && (
-        <div className="card relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-amber-50/30 via-orange-50/30 to-yellow-50/30 opacity-50"></div>
-          
-          <div className="relative">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center">
-                <Award className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h4 className="text-xl font-bold text-gray-900">Your Favorite Mantras</h4>
-                <p className="text-sm text-gray-600">Most practiced sacred sounds</p>
-              </div>
-            </div>
-            
-            <div className="space-y-4">
-              {analytics.topMantras.slice(0, 3).map((item, index) => (
-                <div key={item.mantraId} className="flex items-center justify-between p-5 bg-white/80 backdrop-blur-sm rounded-2xl border border-white/40 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 group">
-                  <div className="flex items-center gap-4">
-                    <div className={`w-12 h-12 rounded-2xl grid place-items-center text-lg font-bold ${
-                      index === 0 ? 'bg-gradient-to-br from-yellow-400 to-amber-500 text-white shadow-lg' :
-                      index === 1 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white shadow-md' :
-                      'bg-gradient-to-br from-orange-400 to-amber-600 text-white shadow-md'
-                    } group-hover:scale-110 transition-transform duration-300`}>
-                      {index + 1}
-                    </div>
-                    <div>
-                      <div className="font-bold text-gray-900 text-lg">
-                        {item.mantra?.transliteration || 'Unknown Mantra'}
-                      </div>
-                      <div className="text-base text-gray-600 font-sanskrit">
-                        {item.mantra?.devanagari}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
-                      {item.count}
-                    </div>
-                    <div className="text-sm text-gray-500 font-medium">
-                      session{item.count !== 1 ? 's' : ''}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
 
     </div>
   )

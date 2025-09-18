@@ -8,13 +8,12 @@ import { Auth } from './components/Auth'
 import { UserStats } from './components/UserStats'
 // import { UserProfile } from './components/UserProfile'
 import { UserProfilePage } from './pages/UserProfilePage'
-import { EdgeFunctionExample } from './components/EdgeFunctionExample'
 import { Emotion, Mantra } from './types'
 import { SupabaseService } from './services/supabase'
 import { emotions } from './data/emotions'
 import { mantras } from './data/mantras'
 
-type AppState = 'auth' | 'emotion-selector' | 'mantra-practice' | 'reflection' | 'test-api' | 'profile'
+type AppState = 'auth' | 'emotion-selector' | 'mantra-practice' | 'reflection' | 'profile'
 
 function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' } = {}) {
   const [currentState, setCurrentState] = useState<AppState>('auth')
@@ -28,7 +27,6 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' } = {}) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isAuthLoading, setIsAuthLoading] = useState(true)
   // const [showProfile, setShowProfile] = useState(false)
-  const [showApiTest, setShowApiTest] = useState(false)
 
   const navigate = useNavigate()
   const params = useParams()
@@ -95,6 +93,28 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' } = {}) {
     setCurrentState('mantra-practice')
   }
 
+  const handleFavoriteMantraSelect = (mantraId: number) => {
+    // Find the mantra by ID (mantras array is 0-indexed, but IDs are 1-indexed)
+    const mantraData = mantras[mantraId - 1]
+    if (mantraData) {
+      const fullMantra: Mantra = { id: mantraId, ...mantraData }
+      
+      // Find the first emotion that matches this mantra
+      const matchingEmotion = emotions.find(emotion => 
+        mantraData.emotions.includes(emotion.id)
+      )
+      
+      if (matchingEmotion) {
+        setSelectedEmotion(matchingEmotion)
+        setSelectedMantra(fullMantra)
+        setCurrentState('mantra-practice')
+        
+        // Scroll to top for better UX
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    }
+  }
+
   const handlePracticeComplete = (repetitions: number, duration: number) => {
     setSessionData({ repetitions, duration })
     setCurrentState('reflection')
@@ -122,13 +142,6 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' } = {}) {
 
   // Removed modal profile close; routing handles navigation
 
-  const handleApiTestClick = () => {
-    setShowApiTest(true)
-  }
-
-  const handleApiTestClose = () => {
-    setShowApiTest(false)
-  }
 
   const handleLogout = () => {
     setUser(null)
@@ -168,10 +181,9 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' } = {}) {
         onBack={handleBackToEmotions}
         selectedEmotion={selectedEmotion}
         onProfileClick={handleProfileClick}
-        onApiTestClick={handleApiTestClick}
       />
       
-      <main className="relative z-10 w-full px-4 py-6">
+      <main className="relative z-10 w-full px-4 py-6 pt-32">
         {currentState === 'emotion-selector' && (
           <div className="max-w-7xl mx-auto">
             {/* Welcome Section */}
@@ -179,7 +191,7 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' } = {}) {
               <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-900 via-violet-800 to-purple-800 bg-clip-text text-transparent mb-3">
                 Welcome to Your Mindful Practice
               </h1>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-base text-gray-600 max-w-2xl mx-auto leading-relaxed">
                 Choose how you're feeling today and discover the perfect mantra to guide your meditation journey
               </p>
             </div>
@@ -187,7 +199,7 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' } = {}) {
             {/* Stats Section - Compact and Optional */}
             {user && (
               <div className="mb-8 animate-in fade-in slide-in-from-top-4 duration-700" style={{animationDelay: '100ms'}}>
-                <UserStats userId={user.id} />
+                <UserStats userId={user.id} onMantraSelect={handleFavoriteMantraSelect} />
               </div>
             )}
 
@@ -227,30 +239,6 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' } = {}) {
         )}
       </main>
 
-      {/* Enhanced API Test Modal */}
-      {showApiTest && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-300">
-          <div className="bg-white/95 backdrop-blur-xl rounded-3xl max-w-6xl w-full max-h-[90vh] overflow-y-auto shadow-[0_20px_64px_rgba(0,0,0,0.15)] border border-white/40 animate-in zoom-in-95 slide-in-from-bottom-4 duration-500">
-            <div className="p-6 border-b border-gray-200/60 flex justify-between items-center">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center">
-                  <span className="text-white text-lg">🧪</span>
-                </div>
-                <h2 className="text-xl font-bold text-gray-900">API Test Panel</h2>
-              </div>
-              <button
-                onClick={handleApiTestClose}
-                className="w-10 h-10 rounded-2xl bg-gray-100/80 hover:bg-gray-200 transition-all duration-300 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:scale-105"
-              >
-                ×
-              </button>
-            </div>
-            <div className="p-6">
-              <EdgeFunctionExample />
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

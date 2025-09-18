@@ -53,7 +53,7 @@ export function EmotionSelector({ onEmotionSelect }: EmotionSelectorProps) {
           <Sparkles className="w-8 h-8 text-violet-500 pulse-subtle" />
         </div>
         
-        <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-base text-gray-600 mb-6 max-w-2xl mx-auto leading-relaxed">
           Select your current emotion to discover the perfect mantra for your mindful practice
         </p>
         
