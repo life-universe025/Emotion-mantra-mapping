@@ -9,7 +9,7 @@ A beautiful, modern web application that helps users find the perfect mantra for
 - **Interactive Practice Session**: Audio playback, repetition counter, and progress tracking
 - **Guided Breathing Exercises**: 4 different breathing patterns (4-7-8, Box Breathing, Simple Deep, Energizing)
 - **Reflection Journaling**: Post-practice reflection and note-taking
-- **Multilingual Support**: English and Hindi with seamless language switching
+- **Multilingual Support**: 16 languages including English, Hindi, Spanish, French, Japanese, Russian, German, and 9 Indian languages with seamless language switching
 
 ### 📊 **Advanced Analytics & Tracking**
 - **Streak Tracking**: Daily practice streaks with celebration animations
@@ -26,6 +26,14 @@ A beautiful, modern web application that helps users find the perfect mantra for
 - **Devanagari Script Support**: Authentic Sanskrit display with proper fonts
 - **Accessibility**: Screen reader support and keyboard navigation
 
+### 🌍 **Global Language Support**
+- **16 Languages**: English, Hindi, Spanish, French, Japanese, Russian, German, Nepali, Odia, Bengali, Telugu, Punjabi, Marathi, Assamese, Gujarati, Kannada
+- **Searchable Language Selector**: Compact dropdown with search functionality for easy language switching
+- **Native Script Display**: Authentic display of languages in their native scripts (हिंदी, 日本語, বাংলা, etc.)
+- **Complete Translation**: Full interface translation including emotions, mantras, instructions, and UI elements
+- **Cultural Adaptation**: Respectful and appropriate translations for spiritual content
+- **Performance Optimized**: Efficient language loading with minimal bundle size impact
+
 ### 🔐 **Secure & Private**
 - **Supabase Authentication**: Email magic links and Google OAuth
 - **Row Level Security**: Your data is private and secure
@@ -38,7 +46,7 @@ A beautiful, modern web application that helps users find the perfect mantra for
 - **React 18** + **TypeScript** + **Vite** - Modern development experience
 - **Tailwind CSS** - Utility-first styling with custom animations
 - **React Router** - Client-side routing
-- **React i18next** - Internationalization (English/Hindi)
+- **React i18next** - Internationalization (16 languages with searchable language selector)
 - **Recharts** - Beautiful data visualization
 - **Lucide React** + **React Icons** - Comprehensive icon library
 
@@ -165,8 +173,16 @@ The app includes 10 traditional Sanskrit mantras with their emotional correspond
 - **Particle Effects**: Beautiful visual feedback for streak milestones
 - **Milestone Recognition**: Special animations for 7, 21, 30, 50, and 100-day streaks
 
+### **Language Selector Component**
+- **Searchable Dropdown**: Compact language selector with search functionality
+- **Native Script Display**: Shows languages in their authentic scripts (हिंदी, 日本語, বাংলা)
+- **16 Languages**: Complete support for major global and Indian languages
+- **Performance Optimized**: Efficient loading with minimal bundle size impact
+- **User-Friendly**: Easy language switching with visual feedback
+
 ### **Enhanced User Experience**
-- **Multilingual Support**: Full English and Hindi localization
+- **Global Language Support**: 16 languages with complete interface translation
+- **Searchable Language Selector**: Compact, searchable dropdown for easy language switching
 - **Theme System**: Dark/light mode with smooth transitions
 - **Responsive Design**: Optimized for all device sizes
 - **Accessibility**: Screen reader support and keyboard navigation
@@ -193,11 +209,25 @@ src/
 ├── data/               # Static data
 │   ├── emotions.ts
 │   └── mantras.ts
-├── i18n/               # Internationalization
+├── i18n/               # Internationalization (16 languages)
 │   ├── index.ts
 │   └── locales/
-│       ├── en.json
-│       └── hi.json
+│       ├── en.json      # English
+│       ├── hi.json      # Hindi
+│       ├── es.json      # Spanish
+│       ├── fr.json      # French
+│       ├── ja.json      # Japanese
+│       ├── ru.json      # Russian
+│       ├── de.json      # German
+│       ├── ne.json      # Nepali
+│       ├── or.json      # Odia
+│       ├── bn.json      # Bengali
+│       ├── te.json      # Telugu
+│       ├── pa.json      # Punjabi
+│       ├── mr.json      # Marathi
+│       ├── as.json      # Assamese
+│       ├── gu.json      # Gujarati
+│       └── kn.json      # Kannada
 ├── lib/                # Utilities
 │   └── supabase.ts
 ├── pages/              # Page components
