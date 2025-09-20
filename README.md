@@ -187,6 +187,338 @@ The app includes 10 traditional Sanskrit mantras with their emotional correspond
 - **Responsive Design**: Optimized for all device sizes
 - **Accessibility**: Screen reader support and keyboard navigation
 
+## 🏗️ System Architecture
+
+### High-Level Design (HLD)
+
+```mermaid
+graph TB
+    subgraph "Client Layer"
+        A[React Frontend]
+        B[Language Selector]
+        C[Authentication UI]
+        D[Meditation Interface]
+        E[Analytics Dashboard]
+    end
+    
+    subgraph "API Layer"
+        F[Supabase Client]
+        G[Edge Functions]
+        H[Authentication Service]
+    end
+    
+    subgraph "Database Layer"
+        I[(PostgreSQL)]
+        J[RLS Policies]
+        K[Database Triggers]
+    end
+    
+    subgraph "External Services"
+        L[Google OAuth]
+        M[Email Service]
+    end
+    
+    A --> F
+    B --> F
+    C --> H
+    D --> F
+    E --> F
+    
+    F --> G
+    F --> I
+    H --> L
+    H --> M
+    
+    I --> J
+    I --> K
+    
+    style A fill:#e1f5fe
+    style I fill:#f3e5f5
+    style G fill:#fff3e0
+```
+
+### Low-Level Design (LLD)
+
+```mermaid
+graph TB
+    subgraph "Frontend Components"
+        A1[LandingPage]
+        A2[EmotionSelector]
+        A3[MantraPractice]
+        A4[UserStats]
+        A5[LanguageSelector]
+        A6[BreathingGuide]
+        A7[ReflectionModal]
+    end
+    
+    subgraph "State Management"
+        B1[ThemeContext]
+        B2[ProfileCustomizationContext]
+        B3[i18n Context]
+    end
+    
+    subgraph "Services Layer"
+        C1[SupabaseService]
+        C2[EdgeFunctions]
+        C3[AuthService]
+    end
+    
+    subgraph "Database Schema"
+        D1[(mantras)]
+        D2[(sessions)]
+        D3[(user_stats)]
+        D4[(auth.users)]
+    end
+    
+    subgraph "Edge Functions"
+        E1[/mantras]
+        E2[/sessions]
+        E3[/user-stats]
+        E4[/profile-analytics]
+    end
+    
+    A1 --> B1
+    A1 --> B3
+    A2 --> C1
+    A3 --> C1
+    A4 --> C1
+    A5 --> B3
+    A6 --> C1
+    A7 --> C1
+    
+    C1 --> E1
+    C1 --> E2
+    C1 --> E3
+    C1 --> E4
+    
+    E1 --> D1
+    E2 --> D2
+    E3 --> D3
+    E4 --> D2
+    E4 --> D3
+    
+    C3 --> D4
+    
+    style A1 fill:#e8f5e8
+    style C1 fill:#fff2cc
+    style D1 fill:#f0e6ff
+    style E1 fill:#ffe6e6
+```
+
+### Data Flow Architecture
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant S as Supabase Client
+    participant E as Edge Functions
+    participant D as Database
+    participant A as Auth Service
+    
+    Note over U,A: User Authentication Flow
+    U->>F: Enter email
+    F->>A: Sign in with email
+    A->>U: Send magic link
+    U->>A: Click magic link
+    A->>F: Return JWT token
+    F->>S: Store auth session
+    
+    Note over U,A: Meditation Practice Flow
+    U->>F: Select emotion
+    F->>S: Get mantras by emotion
+    S->>E: Call /mantras endpoint
+    E->>D: Query mantras table
+    D->>E: Return mantra data
+    E->>S: Return mantras
+    S->>F: Display mantras
+    
+    U->>F: Start practice session
+    F->>S: Create session record
+    S->>E: Call /sessions endpoint
+    E->>D: Insert session data
+    D->>D: Trigger stats update
+    D->>E: Confirm insertion
+    E->>S: Return session data
+    S->>F: Update UI
+    
+    Note over U,A: Analytics & Stats Flow
+    F->>S: Get user statistics
+    S->>E: Call /user-stats endpoint
+    E->>D: Query user_stats table
+    D->>E: Return user data
+    E->>S: Return statistics
+    S->>F: Display analytics
+```
+
+### Security Architecture
+
+```mermaid
+graph TB
+    subgraph "Authentication Layer"
+        A1[JWT Tokens]
+        A2[Magic Links]
+        A3[Google OAuth]
+        A4[Session Management]
+    end
+    
+    subgraph "Authorization Layer"
+        B1[Row Level Security]
+        B2[User Isolation]
+        B3[Policy Enforcement]
+        B4[Access Control]
+    end
+    
+    subgraph "Data Protection"
+        C1[Encrypted Storage]
+        C2[Secure Transmission]
+        C3[Privacy Controls]
+        C4[Data Isolation]
+    end
+    
+    subgraph "Database Security"
+        D1[RLS Policies]
+        D2[User Context]
+        D3[Query Filtering]
+        D4[Audit Logging]
+    end
+    
+    A1 --> B1
+    A2 --> B1
+    A3 --> B1
+    A4 --> B1
+    
+    B1 --> C1
+    B2 --> C2
+    B3 --> C3
+    B4 --> C4
+    
+    C1 --> D1
+    C2 --> D2
+    C3 --> D3
+    C4 --> D4
+    
+    style A1 fill:#ffebee
+    style B1 fill:#e8f5e8
+    style C1 fill:#e3f2fd
+    style D1 fill:#fff3e0
+```
+
+### Component Interaction Flow
+
+```mermaid
+graph TD
+    subgraph "App Entry Point"
+        A[App.tsx]
+        B[main.tsx]
+    end
+    
+    subgraph "Landing & Auth"
+        C[LandingPage]
+        D[Auth]
+        E[Header]
+    end
+    
+    subgraph "Core Meditation Flow"
+        F[EmotionSelector]
+        G[MantraPractice]
+        H[BreathingGuide]
+        I[ReflectionModal]
+    end
+    
+    subgraph "User Experience"
+        J[UserStats]
+        K[UserProfile]
+        L[LanguageSelector]
+        M[ThemeContext]
+    end
+    
+    subgraph "Data & Services"
+        N[SupabaseService]
+        O[EdgeFunctions]
+        P[i18n Context]
+    end
+    
+    A --> C
+    A --> D
+    A --> E
+    
+    C --> F
+    F --> G
+    G --> H
+    G --> I
+    
+    E --> L
+    E --> M
+    C --> L
+    C --> M
+    
+    F --> N
+    G --> N
+    H --> N
+    I --> N
+    J --> N
+    K --> N
+    
+    N --> O
+    L --> P
+    C --> P
+    G --> P
+    
+    style A fill:#e1f5fe
+    style F fill:#e8f5e8
+    style N fill:#fff2cc
+    style L fill:#f3e5f5
+```
+
+### Database Schema Relationships
+
+```mermaid
+erDiagram
+    auth_users ||--o{ sessions : "has many"
+    auth_users ||--|| user_stats : "has one"
+    mantras ||--o{ sessions : "practiced in"
+    
+    auth_users {
+        uuid id PK
+        string email
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    mantras {
+        int id PK
+        string slug UK
+        string sanskrit
+        string devanagari
+        string transliteration
+        string meaning
+        string audio_url
+        int suggested_rounds
+        string[] emotions
+        timestamp created_at
+    }
+    
+    sessions {
+        int id PK
+        uuid user_id FK
+        int mantra_id FK
+        int repetitions
+        int duration_seconds
+        text notes
+        timestamp created_at
+    }
+    
+    user_stats {
+        uuid user_id PK,FK
+        date last_practice_date
+        int current_streak
+        int total_repetitions
+        timestamp created_at
+        timestamp updated_at
+    }
+```
+
 ## 🏗️ Project Structure
 
 ```
