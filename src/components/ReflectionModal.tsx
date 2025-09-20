@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { Heart, Send } from 'lucide-react'
+import { IoHeart, IoSend, IoClose } from 'react-icons/io5'
 import { Mantra, Emotion } from '../types'
 import { SupabaseService } from '../services/supabase'
 import { EdgeFunctionService } from '../services/edgeFunctions'
+import { useTranslation } from 'react-i18next'
 
 interface ReflectionModalProps {
   mantra: Mantra
@@ -10,18 +11,26 @@ interface ReflectionModalProps {
   sessionData: {
     repetitions: number
     duration: number
+    breathingSession?: {
+      pattern: string
+      cycles: number
+      duration_seconds: number
+    }
   }
   onComplete: () => void
+  onClose?: () => void
 }
 
 export function ReflectionModal({ 
   mantra, 
   emotion, 
   sessionData, 
-  onComplete 
+  onComplete,
+  onClose 
 }: ReflectionModalProps) {
   const [reflection, setReflection] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const { t } = useTranslation()
 
   const handleSubmit = async () => {
     setIsSubmitting(true)
@@ -43,7 +52,10 @@ export function ReflectionModal({
           mantra_id: mantra.id,
           repetitions: sessionData.repetitions,
           duration_seconds: sessionData.duration,
-          notes: reflection.trim() || undefined
+          notes: reflection.trim() || undefined,
+          breathing_pattern: sessionData.breathingSession?.pattern,
+          breathing_cycles: sessionData.breathingSession?.cycles,
+          breathing_duration_seconds: sessionData.breathingSession?.duration_seconds
         })
         console.log('Session saved successfully')
       } catch (e) {
@@ -67,60 +79,84 @@ export function ReflectionModal({
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 pt-20 z-40">
-      <div className="bg-white rounded-2xl max-w-md w-full max-h-[calc(90vh-5rem)] overflow-y-auto">
+    <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-black dark:bg-opacity-70 flex items-center justify-center p-4 pt-20 z-40">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full max-h-[calc(90vh-5rem)] overflow-y-auto relative">
+        {/* Close button */}
+        <button
+          onClick={onClose || onComplete}
+          className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors duration-200 z-10"
+          aria-label={t('reflectionModal.close')}
+        >
+          <IoClose className="w-5 h-5" />
+        </button>
         <div className="p-6">
           {/* Header */}
           <div className="text-center mb-6">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Heart className="w-8 h-8 text-green-600" />
+            <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-4">
+              <IoHeart className="w-8 h-8 text-green-600 dark:text-green-400" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
-              Practice Complete!
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+              {t('reflectionModal.practiceComplete')}
             </h2>
-            <p className="text-gray-600">
-              Take a moment to reflect on your experience
+            <p className="text-gray-600 dark:text-gray-300">
+              {t('reflectionModal.takeMoment')}
             </p>
           </div>
 
           {/* Session summary */}
-          <div className="bg-gray-50 rounded-xl p-4 mb-6">
-            <h3 className="font-semibold text-gray-800 mb-3">Your Practice</h3>
+          <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 mb-6">
+            <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">{t('reflectionModal.yourPractice')}</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-600">Mantra:</span>
-                <span className="font-medium">{mantra.transliteration}</span>
+                <span className="text-gray-600 dark:text-gray-400">{t('reflectionModal.mantra')}</span>
+                <span className="font-medium text-gray-900 dark:text-gray-100">{t(`mantras.${mantra.slug}.transliteration`)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Emotion:</span>
-                <span className="font-medium">{emotion.name}</span>
+                <span className="text-gray-600 dark:text-gray-400">{t('reflectionModal.emotion')}</span>
+                <span className="font-medium text-gray-900 dark:text-gray-100">{t(`emotions.${emotion.id}.name`)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Repetitions:</span>
-                <span className="font-medium">{sessionData.repetitions}</span>
+                <span className="text-gray-600 dark:text-gray-400">{t('reflectionModal.repetitions')}</span>
+                <span className="font-medium text-gray-900 dark:text-gray-100">{sessionData.repetitions}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Duration:</span>
-                <span className="font-medium">{formatTime(sessionData.duration)}</span>
+                <span className="text-gray-600 dark:text-gray-400">{t('reflectionModal.duration')}</span>
+                <span className="font-medium text-gray-900 dark:text-gray-100">{formatTime(sessionData.duration)}</span>
               </div>
+              {sessionData.breathingSession && (
+                <>
+                  <div className="flex justify-between border-t border-gray-200 dark:border-gray-600 pt-2 mt-2">
+                    <span className="text-gray-600 dark:text-gray-400">{t('reflectionModal.breathingPattern')}</span>
+                    <span className="font-medium text-gray-900 dark:text-gray-100">{sessionData.breathingSession.pattern}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600 dark:text-gray-400">{t('reflectionModal.breathingCycles')}</span>
+                    <span className="font-medium text-gray-900 dark:text-gray-100">{sessionData.breathingSession.cycles}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600 dark:text-gray-400">{t('reflectionModal.breathingDuration')}</span>
+                    <span className="font-medium text-gray-900 dark:text-gray-100">{formatTime(sessionData.breathingSession.duration_seconds)}</span>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
           {/* Reflection form */}
           <div className="mb-6">
-            <label htmlFor="reflection" className="block text-sm font-medium text-gray-700 mb-2">
-              How do you feel now?
+            <label htmlFor="reflection" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              {t('reflectionModal.howDoYouFeel')}
             </label>
             <textarea
               id="reflection"
               value={reflection}
               onChange={(e) => setReflection(e.target.value)}
-              placeholder="Share your thoughts, feelings, or insights from this practice..."
-              className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
+              placeholder={t('reflectionModal.shareThoughts')}
+              className="w-full p-3 border border-amber-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-transparent resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
               rows={4}
             />
-            <p className="text-xs text-gray-500 mt-1">
-              Optional: Your reflection is private and helps track your journey
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              {t('reflectionModal.optionalNote')}
             </p>
           </div>
 
@@ -128,29 +164,29 @@ export function ReflectionModal({
           <div className="flex space-x-3">
             <button
               onClick={onComplete}
-              className="flex-1 btn-secondary"
+              className="flex-1 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl hover:bg-white dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 font-medium py-2.5 px-4 rounded-xl border border-gray-200/60 dark:border-gray-600/60 hover:border-gray-300/80 dark:hover:border-gray-500/80 transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 text-sm"
               disabled={isSubmitting}
             >
-              Skip Reflection
+{t('reflectionModal.skipReflection')}
             </button>
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="flex-1 btn-primary flex items-center justify-center space-x-2"
+              className="flex-1 bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 hover:from-orange-700 hover:via-amber-700 hover:to-yellow-700 dark:from-orange-500 dark:via-amber-500 dark:to-yellow-500 dark:hover:from-orange-600 dark:hover:via-amber-600 dark:hover:to-yellow-600 text-white font-medium py-2.5 px-4 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 flex items-center justify-center space-x-2 text-sm"
             >
               {isSubmitting ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
-                <Send className="w-5 h-5" />
+                <IoSend className="w-4 h-4" />
               )}
-              <span>Save & Continue</span>
+              <span>{t('reflectionModal.saveAndContinue')}</span>
             </button>
           </div>
 
           {/* Encouragement */}
           <div className="mt-6 text-center">
-            <p className="text-sm text-gray-500">
-              Great work! Every practice brings you closer to inner peace.
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              {t('reflectionModal.greatWork')}
             </p>
           </div>
         </div>

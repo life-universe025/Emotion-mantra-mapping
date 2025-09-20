@@ -17,6 +17,9 @@ export interface Session {
   repetitions: number;
   duration_seconds: number;
   notes?: string;
+  breathing_pattern?: string;
+  breathing_cycles?: number;
+  breathing_duration_seconds?: number;
   created_at: string;
 }
 
@@ -25,12 +28,16 @@ export interface UserStats {
   last_practice_date?: string;
   current_streak: number;
   total_repetitions: number;
+  total_breathing_sessions?: number;
+  total_breathing_duration?: number;
+  favorite_breathing_pattern?: string;
 }
 
 export interface Emotion {
   id: string;
   name: string;
   icon: string;
+  reactIcon?: React.ComponentType<any>;
   description: string;
   color: string;
 }
@@ -46,3 +53,11 @@ export type EmotionType =
   | 'GRATITUDE'
   | 'FOCUS'
   | 'LETTING_GO';
+
+export interface BreathingSession {
+  pattern: string;
+  cycles: number;
+  duration_seconds: number;
+  started_at: Date;
+  completed_at?: Date;
+}

@@ -53,6 +53,9 @@ export class EdgeFunctionService {
     repetitions: number
     duration_seconds: number
     notes?: string
+    breathing_pattern?: string
+    breathing_cycles?: number
+    breathing_duration_seconds?: number
   }) {
     // Get the current session to include auth token
     const { data: { session } } = await supabase.auth.getSession()
@@ -87,6 +90,30 @@ export class EdgeFunctionService {
     }
 
     const response = await fetch(`${FUNCTIONS_URL}/user-stats/users/${userId}/stats`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`,
+      },
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+
+    return await response.json()
+  }
+
+  // GET /users/:id/analytics
+  static async getProfileAnalytics(userId: string) {
+    // Get the current session to include auth token
+    const { data: { session } } = await supabase.auth.getSession()
+    
+    if (!session) {
+      throw new Error('User not authenticated')
+    }
+
+    const response = await fetch(`${FUNCTIONS_URL}/profile-analytics/users/${userId}/analytics`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

@@ -174,4 +174,161 @@ export class SupabaseService {
       topMantras
     }
   }
+
+  // Practice History for Charts
+  static async getDailyPracticeHistory(userId: string, days = 30) {
+    const startDate = new Date()
+    startDate.setDate(startDate.getDate() - days)
+    
+    const { data, error } = await supabase
+      .from('sessions')
+      .select('created_at, repetitions, duration_seconds')
+      .eq('user_id', userId)
+      .gte('created_at', startDate.toISOString())
+      .order('created_at', { ascending: true })
+
+    if (error) return { data: [], error }
+
+    // Group sessions by date
+    const dailyData: { [key: string]: { sessions: number, repetitions: number, duration: number } } = {}
+    
+    // Initialize all dates with zero values
+    for (let i = 0; i < days; i++) {
+      const date = new Date()
+      date.setDate(date.getDate() - days + i + 1)
+      const dateKey = date.toISOString().split('T')[0]
+      dailyData[dateKey] = { sessions: 0, repetitions: 0, duration: 0 }
+    }
+
+    // Populate with actual data
+    data?.forEach(session => {
+      const dateKey = session.created_at.split('T')[0]
+      if (dailyData[dateKey]) {
+        dailyData[dateKey].sessions += 1
+        dailyData[dateKey].repetitions += session.repetitions
+        dailyData[dateKey].duration += session.duration_seconds
+      }
+    })
+
+    // Convert to array format for charts
+    const chartData = Object.entries(dailyData).map(([date, stats]) => ({
+      date,
+      sessions: stats.sessions,
+      repetitions: stats.repetitions,
+      duration: Math.round(stats.duration / 60), // Convert to minutes
+      dateLabel: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+    }))
+
+    return { data: chartData, error: null }
+  }
+
+  static async getWeeklyPracticeHistory(userId: string, weeks = 12) {
+    const startDate = new Date()
+    startDate.setDate(startDate.getDate() - (weeks * 7))
+    
+    const { data, error } = await supabase
+      .from('sessions')
+      .select('created_at, repetitions, duration_seconds')
+      .eq('user_id', userId)
+      .gte('created_at', startDate.toISOString())
+      .order('created_at', { ascending: true })
+
+    if (error) return { data: [], error }
+
+    // Group sessions by week
+    const weeklyData: { [key: string]: { sessions: number, repetitions: number, duration: number } } = {}
+    
+    data?.forEach(session => {
+      const sessionDate = new Date(session.created_at)
+      const weekStart = new Date(sessionDate)
+      weekStart.setDate(sessionDate.getDate() - sessionDate.getDay()) // Start of week (Sunday)
+      const weekKey = weekStart.toISOString().split('T')[0]
+      
+      if (!weeklyData[weekKey]) {
+        weeklyData[weekKey] = { sessions: 0, repetitions: 0, duration: 0 }
+      }
+      
+      weeklyData[weekKey].sessions += 1
+      weeklyData[weekKey].repetitions += session.repetitions
+      weeklyData[weekKey].duration += session.duration_seconds
+    })
+
+    // Convert to array format for charts
+    const chartData = Object.entries(weeklyData)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([weekStart, stats]) => ({
+        week: weekStart,
+        sessions: stats.sessions,
+        repetitions: stats.repetitions,
+        duration: Math.round(stats.duration / 60), // Convert to minutes
+        weekLabel: `Week of ${new Date(weekStart).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
+      }))
+
+    return { data: chartData, error: null }
+  }
+
+  static async getStreakHistory(userId: string) {
+    const { data, error } = await supabase
+      .from('sessions')
+      .select('created_at')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: true })
+
+    if (error) return { streaks: [], currentStreak: 0, longestStreak: 0, error }
+
+    if (!data || data.length === 0) {
+      return { streaks: [], currentStreak: 0, longestStreak: 0, error: null }
+    }
+
+    // Calculate streaks
+    const practicedays = [...new Set(data.map(session => session.created_at.split('T')[0]))]
+    practicedays.sort()
+
+    let streaks = []
+    let currentStreak = 1
+    let longestStreak = 1
+    let streakStart = practicedays[0]
+
+    for (let i = 1; i < practicedays.length; i++) {
+      const prevDate = new Date(practicedays[i - 1])
+      const currDate = new Date(practicedays[i])
+      const daysDiff = (currDate.getTime() - prevDate.getTime()) / (1000 * 60 * 60 * 24)
+
+      if (daysDiff === 1) {
+        // Consecutive day
+        currentStreak++
+      } else {
+        // End of streak
+        streaks.push({
+          start: streakStart,
+          end: practicedays[i - 1],
+          length: currentStreak
+        })
+        longestStreak = Math.max(longestStreak, currentStreak)
+        currentStreak = 1
+        streakStart = practicedays[i]
+      }
+    }
+
+    // Add the final streak
+    streaks.push({
+      start: streakStart,
+      end: practicedays[practicedays.length - 1],
+      length: currentStreak
+    })
+    longestStreak = Math.max(longestStreak, currentStreak)
+
+    // Check if current streak is ongoing (practiced today or yesterday)
+    const today = new Date().toISOString().split('T')[0]
+    const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+    const lastPractice = practicedays[practicedays.length - 1]
+    const isCurrentStreak = lastPractice === today || lastPractice === yesterday
+
+    return {
+      streaks,
+      currentStreak: isCurrentStreak ? currentStreak : 0,
+      longestStreak,
+      error: null
+    }
+  }
 }

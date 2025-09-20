@@ -1,15 +1,17 @@
 import { useState } from 'react'
-import { Mail, Heart, Sparkles, Shield, ArrowRight } from 'lucide-react'
+import { IoMail, IoShield, IoArrowForward } from 'react-icons/io5'
 import { SupabaseService } from '../services/supabase'
+import { useTranslation } from 'react-i18next'
 
 interface AuthProps {
   onAuthSuccess: () => void
 }
 
-export function Auth({ onAuthSuccess }: AuthProps) {
+export function Auth({ onAuthSuccess: _onAuthSuccess }: AuthProps) {
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const { t } = useTranslation()
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -53,10 +55,6 @@ export function Auth({ onAuthSuccess }: AuthProps) {
     }
   }
 
-  const handleSkipAuth = () => {
-    // For demo purposes, allow skipping authentication
-    onAuthSuccess()
-  }
 
   // const handleLogout = async () => {
   //   try {
@@ -69,86 +67,89 @@ export function Auth({ onAuthSuccess }: AuthProps) {
   // }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-violet-50/30 to-blue-50/60 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50/40 to-yellow-50/60 dark:from-gray-900 dark:via-slate-900/90 dark:to-gray-800 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Ambient background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-violet-400/20 to-purple-400/20 rounded-full blur-3xl floating"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full blur-3xl floating" style={{animationDelay: '3s'}}></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-orange-400/15 to-amber-400/15 dark:from-orange-400/10 dark:to-amber-400/10 rounded-full blur-3xl floating"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-yellow-400/15 to-orange-400/15 dark:from-yellow-400/10 dark:to-orange-400/10 rounded-full blur-3xl floating" style={{animationDelay: '3s'}}></div>
+        
+        {/* Subtle spiritual symbols */}
+        <div className="absolute top-20 right-20 text-4xl text-amber-200/20 dark:text-amber-400/15 font-sanskrit select-none">ॐ</div>
+        <div className="absolute bottom-32 left-32 text-3xl text-orange-200/20 dark:text-orange-400/15 font-sanskrit select-none">🪷</div>
       </div>
 
-      <div className="relative z-10 max-w-lg w-full">
+      <div className="relative z-10 max-w-md w-full">
         <div className="card text-center relative overflow-hidden">
           {/* Background gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-violet-50/50 via-purple-50/50 to-blue-50/50 opacity-50"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 via-amber-50/50 to-yellow-50/50 dark:from-orange-900/20 dark:via-amber-900/20 dark:to-yellow-900/20 opacity-50"></div>
           
-          <div className="relative">
+          <div className="relative p-6">
             {/* Enhanced logo section */}
-            <div className="flex items-center justify-center gap-3 mb-8">
-              <div className="w-20 h-20 bg-gradient-to-br from-violet-500 via-purple-600 to-blue-600 rounded-3xl flex items-center justify-center shadow-2xl floating">
-                <Heart className="w-10 h-10 text-white" />
+            <div className="flex items-center justify-center gap-2 mb-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-orange-500 via-amber-600 to-yellow-600 dark:from-orange-400 dark:via-amber-500 dark:to-yellow-500 rounded-lg flex items-center justify-center shadow-lg floating border border-amber-400/30 dark:border-amber-500/40">
+                <span className="text-3xl text-white">ॐ</span>
               </div>
-              <Sparkles className="w-8 h-8 text-violet-500 pulse-subtle" />
+              <span className="text-2xl text-amber-500 dark:text-amber-400 pulse-subtle">🪷</span>
             </div>
             
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 via-violet-800 to-purple-800 bg-clip-text text-transparent mb-3">
-              Welcome to Mantra Practice
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-900 via-orange-800 to-yellow-800 dark:from-amber-300 dark:via-orange-300 dark:to-yellow-300 bg-clip-text text-transparent mb-2 font-traditional">
+              {t('auth.welcomeTitle')}
             </h1>
             
-            <p className="text-lg text-gray-600 mb-10 leading-relaxed">
-              Sign in to track your practice and build your meditation streak
+            <p className="text-base text-amber-700 dark:text-amber-200 mb-8 leading-relaxed">
+              {t('auth.welcomeSubtitle')}
             </p>
 
-            <form onSubmit={handleSignIn} className="space-y-6">
+            <form onSubmit={handleSignIn} className="space-y-4">
               <div className="text-left">
-                <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-3">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-500 w-5 h-5" />
+                  <IoMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500 dark:text-amber-400 w-4 h-4" />
                   <input
                     id="email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com"
-                    className="input-modern pl-12 pr-4"
+                    className="w-full pl-10 pr-4 py-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-md focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-transparent transition-all duration-200 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
                     required
                   />
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-violet-500/10 to-purple-500/10 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                 </div>
               </div>
 
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full btn-primary text-lg py-4 shadow-2xl hover:shadow-3xl"
+                className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 hover:from-orange-700 hover:via-amber-700 hover:to-yellow-700 dark:from-orange-500 dark:via-amber-500 dark:to-yellow-500 dark:hover:from-orange-600 dark:hover:via-amber-600 dark:hover:to-yellow-600 text-white font-medium py-3 px-6 rounded-md transition-all duration-200 shadow-sm hover:shadow-md text-sm"
               >
                 {isLoading ? (
-                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 ) : (
-                  <Mail className="w-5 h-5" />
+                  <IoMail className="w-4 h-4" />
                 )}
-                <span>{isLoading ? 'Sending Magic Link...' : 'Send Magic Link'}</span>
-                {!isLoading && <ArrowRight className="w-5 h-5" />}
+                <span>{isLoading ? 'Sending...' : 'Send Magic Link'}</span>
+                {!isLoading && <IoArrowForward className="w-4 h-4" />}
               </button>
             </form>
 
-            <div className="mt-8">
+            <div className="mt-6">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-200/60" />
+                  <div className="w-full border-t border-gray-200/60 dark:border-gray-600/60" />
                 </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-white/90 text-gray-500 font-medium">Or continue with</span>
+                <div className="relative flex justify-center text-xs">
+                  <span className="px-3 bg-white/90 dark:bg-gray-800/90 text-gray-500 dark:text-gray-400 font-medium">Or continue with</span>
                 </div>
               </div>
 
               <button
                 onClick={handleGoogleSignIn}
                 disabled={isLoading}
-                className="mt-6 w-full flex items-center justify-center px-6 py-4 bg-white/90 backdrop-blur-xl border border-gray-200/60 hover:border-gray-300/80 rounded-2xl shadow-lg hover:shadow-xl text-lg font-semibold text-gray-700 hover:text-gray-900 transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="mt-4 w-full flex items-center justify-center px-4 py-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 hover:border-gray-300/60 dark:hover:border-gray-600/60 rounded-md shadow-sm hover:shadow-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <svg className="w-6 h-6 mr-3" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                   <path
                     fill="#4285F4"
                     d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -171,41 +172,23 @@ export function Auth({ onAuthSuccess }: AuthProps) {
             </div>
 
             {message && (
-              <div className={`mt-6 p-4 rounded-2xl text-sm font-medium ${
+              <div className={`mt-4 p-3 rounded-md text-xs font-medium ${
                 message.includes('Check your email') 
-                  ? 'bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 border border-green-200/60' 
-                  : 'bg-gradient-to-r from-red-50 to-rose-50 text-red-700 border border-red-200/60'
+                  ? 'bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 text-green-700 dark:text-green-300 border border-green-200/60 dark:border-green-700/60' 
+                  : 'bg-gradient-to-r from-red-50 to-rose-50 dark:from-red-900/30 dark:to-rose-900/30 text-red-700 dark:text-red-300 border border-red-200/60 dark:border-red-700/60'
               }`}>
                 <div className="flex items-center gap-2">
                   {message.includes('Check your email') ? (
-                    <Mail className="w-4 h-4" />
+                    <IoMail className="w-3 h-3" />
                   ) : (
-                    <Shield className="w-4 h-4" />
+                    <IoShield className="w-3 h-3" />
                   )}
                   {message}
                 </div>
               </div>
             )}
 
-            <div className="mt-8 pt-6 border-t border-gray-200/60">
-              <button
-                onClick={handleSkipAuth}
-                className="text-sm text-gray-500 hover:text-violet-600 font-medium transition-colors duration-300 underline decoration-dotted underline-offset-4"
-              >
-                Continue without signing in (demo mode)
-              </button>
-            </div>
 
-            <div className="mt-8 text-xs text-gray-400 leading-relaxed">
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <Shield className="w-4 h-4" />
-                <span className="font-medium">Your Privacy Matters</span>
-              </div>
-              <p>
-                By continuing, you agree to our terms of service and privacy policy.
-                Your practice data is private, secure, and encrypted.
-              </p>
-            </div>
           </div>
         </div>
       </div>

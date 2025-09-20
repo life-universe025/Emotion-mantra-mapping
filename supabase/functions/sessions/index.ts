@@ -39,7 +39,7 @@ serve(async (req) => {
     // POST /sessions
     if (req.method === 'POST') {
       const body = await req.json()
-      const { mantra_id, repetitions, duration_seconds, notes } = body
+      const { mantra_id, repetitions, duration_seconds, notes, breathing_pattern, breathing_cycles, breathing_duration_seconds } = body
 
       // Validate required fields
       if (!mantra_id || !repetitions || !duration_seconds) {
@@ -60,7 +60,10 @@ serve(async (req) => {
           mantra_id,
           repetitions,
           duration_seconds,
-          notes: notes || null
+          notes: notes || null,
+          breathing_pattern: breathing_pattern || null,
+          breathing_cycles: breathing_cycles || null,
+          breathing_duration_seconds: breathing_duration_seconds || null
         }])
         .select()
         .single()
