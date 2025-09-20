@@ -44,9 +44,13 @@ A beautiful, modern web application that helps users find the perfect mantra for
 
 ### **Backend & Database**
 - **Supabase** - Backend-as-a-Service with PostgreSQL
-- **Edge Functions** - Serverless functions for analytics
-- **Row Level Security (RLS)** - Data privacy and security
-- **Real-time subscriptions** - Live data updates
+- **PostgreSQL** - Robust relational database with advanced features
+- **Edge Functions** - Deno-based serverless functions for API endpoints
+- **Row Level Security (RLS)** - Database-level access control and data privacy
+- **Real-time subscriptions** - Live data synchronization and updates
+- **Database Triggers** - Automatic user statistics updates and streak calculations
+- **CORS Support** - Cross-origin resource sharing for web applications
+- **Authentication** - JWT-based auth with magic links and OAuth providers
 
 ### **Audio & Media**
 - **Pre-rendered Audio** - Authentic mantra pronunciation
@@ -208,16 +212,31 @@ src/
 
 ## 🔧 Edge Functions
 
-### **Profile Analytics** (`/supabase/functions/profile-analytics/`)
-- **User Analytics**: Comprehensive user statistics and insights
-- **Milestone Calculation**: Automatic achievement detection
-- **Goal Progress**: Daily and weekly goal tracking
-- **Challenge System**: Gamified practice challenges
+### **Mantras** (`/supabase/functions/mantras/`)
+- **Mantra Retrieval**: Get all mantras or filter by emotion
+- **Individual Mantra Access**: Fetch specific mantra by ID
+- **Emotion Filtering**: Query mantras by emotional state
+- **Authentication**: Secure access with user verification
+
+### **Sessions** (`/supabase/functions/sessions/`)
+- **Session Creation**: Record meditation practice sessions
+- **Breathing Data**: Store breathing exercise information
+- **Automatic Stats Update**: Triggers user statistics updates
+- **Session Validation**: Ensures data integrity and completeness
 
 ### **User Stats** (`/supabase/functions/user-stats/`)
-- **Statistics Aggregation**: Real-time stats calculation
-- **Streak Management**: Automatic streak updates
-- **Performance Metrics**: Session and repetition tracking
+- **Statistics Retrieval**: Get user's current statistics
+- **Streak Information**: Access current streak and practice history
+- **Default Values**: Provides default stats for new users
+- **Real-time Updates**: Live statistics synchronization
+
+### **Profile Analytics** (`/supabase/functions/profile-analytics/`)
+- **Comprehensive Analytics**: Advanced user statistics and insights
+- **Milestone Calculation**: Automatic achievement detection and tracking
+- **Goal Progress**: Daily and weekly goal tracking with progress percentages
+- **Challenge System**: Gamified practice challenges and rewards
+- **Practice Insights**: Personalized recommendations based on usage patterns
+- **Achievement Badges**: Milestone recognition and celebration data
 
 ## 🎨 Styling & Theming
 
