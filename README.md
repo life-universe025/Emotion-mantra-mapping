@@ -695,18 +695,6 @@ The app is a standard Vite React app and can be deployed to:
 - **HTTPS**: All communications encrypted
 - **No Data Collection**: No third-party analytics or tracking
 
-## 🌍 Internationalization
-
-### **Supported Languages**
-- **English** (en) - Default
-- **Hindi** (hi) - Full translation
-
-### **Translation Coverage**
-- All UI text and labels
-- Emotion names and descriptions
-- Mantra meanings and instructions
-- Error messages and notifications
-
 ## 🧪 Development
 
 ### **Available Scripts**
@@ -741,10 +729,6 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 - Add proper error handling
 - Include accessibility features
 - Test on multiple devices
-
-## 📄 License
-
-MIT License - see LICENSE file for details
 
 ## 🙏 Acknowledgments
 
