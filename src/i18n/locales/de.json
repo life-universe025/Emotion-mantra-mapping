@@ -1,0 +1,274 @@
+{
+  "app": {
+    "title": "Sanatan Sadhana",
+    "subtitle": "Sanatan Mantra Sadhana"
+  },
+  "landing": {
+    "hero": {
+      "title": "Sanatan Mantra Sadhana",
+      "subtitle": "Entdecken Sie die ewige Weisheit heiliger Mantras für Ihre spirituelle Reise. Lassen Sie alte Schwingungen Ihre innere Transformation leiten.",
+      "quote": "मन्त्रो वै देवता मूर्ति: - Mantras sind die Verkörperung des Göttlichen",
+      "beginJourney": "Beginnen Sie Ihre Reise",
+      "learnMore": "Mehr Erfahren"
+    },
+    "features": {
+      "title": "Heilige Eigenschaften",
+      "subtitle": "Erleben Sie die Kraft alter Weisheit kombiniert mit moderner Technologie",
+      "emotionMantras": {
+        "title": "Emotionsbasierte Mantras",
+        "description": "Entdecken Sie heilige Mantras, die auf Ihren aktuellen emotionalen Zustand und spirituelle Bedürfnisse zugeschnitten sind."
+      },
+      "trackProgress": {
+        "title": "Verfolgen Sie Ihren Fortschritt",
+        "description": "Überwachen Sie Ihre spirituelle Reise mit detaillierten Analysen und Praxis-Einblicken."
+      },
+      "guidedPractice": {
+        "title": "Geführte Praxis",
+        "description": "Folgen Sie strukturierten Atemübungen und Mantra-Wiederholungssitzungen."
+      },
+      "sacredKnowledge": {
+        "title": "Heiliges Wissen",
+        "description": "Lernen Sie über die alte Weisheit und Bedeutung hinter jedem Mantra."
+      },
+      "reflectionGrowth": {
+        "title": "Reflexion und Wachstum",
+        "description": "Zeichnen Sie Ihre Erfahrungen auf und verfolgen Sie Ihre spirituelle Entwicklung im Laufe der Zeit."
+      },
+      "personalizedJourney": {
+        "title": "Personalisierte Reise",
+        "description": "Passen Sie Ihre Praxis mit Lieblings-Mantras und personalisierten Einstellungen an."
+      }
+    },
+    "benefits": {
+      "title": "Verwandeln Sie Ihr Leben",
+      "subtitle": "Schließen Sie sich Tausenden auf ihrer spirituellen Reise an",
+      "list": [
+        "Reduzieren Sie Stress und Angst durch alte Weisheit",
+        "Bauen Sie eine konsequente spirituelle Praxis auf",
+        "Verbinden Sie sich mit Ihrem inneren Selbst durch heilige Klänge",
+        "Verfolgen Sie Ihr emotionales und spirituelles Wachstum",
+        "Greifen Sie auf authentische Sanatan Dharma-Lehren zu"
+      ],
+      "startPractice": "Beginnen Sie Ihre Heilige Praxis"
+    },
+    "auth": {
+      "signIn": "Anmelden",
+      "welcome": "Willkommen bei {{appName}}",
+      "subtitle": "Beginnen Sie Ihre heilige Reise und verfolgen Sie Ihre spirituelle Praxis",
+      "emailLabel": "E-Mail-Adresse",
+      "emailPlaceholder": "ihre@email.com",
+      "sendMagicLink": "Magischen Link Senden",
+      "sending": "Senden...",
+      "orContinueWith": "Oder fortfahren mit",
+      "continueWithGoogle": "Mit Google fortfahren",
+      "checkEmail": "Überprüfen Sie Ihre E-Mail für den magischen Link!",
+      "errorSending": "Fehler beim Senden des magischen Links. Bitte versuchen Sie es erneut.",
+      "errorGoogle": "Fehler bei der Anmeldung mit Google. Bitte versuchen Sie es erneut.",
+      "somethingWrong": "Etwas ist schief gelaufen. Bitte versuchen Sie es erneut."
+    },
+    "footer": {
+      "blessing": "सर्वे भवन्तु सुखिनः सर्वे सन्तु निरामयाः - Mögen alle Wesen glücklich und frei von Krankheit sein"
+    }
+  },
+  "emotionSelector": {
+    "title": "Wie ist Ihr innerer Zustand heute?",
+    "subtitle": "Wählen Sie Ihren aktuellen emotionalen Zustand, um das heilige Mantra zu finden, das Ihre spirituelle Praxis leiten wird",
+    "emoji": "Emoji",
+    "modern": "Modern",
+    "searchPlaceholder": "Innere Zustände oder Emotionen suchen...",
+    "noResults": "Keine Emotionen gefunden, die Ihrer Suche entsprechen",
+    "tryDifferent": "Versuchen Sie einen anderen Suchbegriff",
+    "clearSearch": "Suche löschen",
+    "searchSuggestions": "oder versuchen Sie: {{suggestions}}",
+    "footerTip": "💡 Können Sie Ihr genaues Gefühl nicht finden? Wählen Sie die nächste Emotion, um Ihre Praxis zu beginnen"
+  },
+  "userStats": {
+    "beginSadhana": "Beginnen Sie Ihre Sadhana",
+    "currentStreak": "Aktuelle Serie",
+    "totalSessions": "Gesamte Sitzungen",
+    "weeklySessions": "Wöchentliche Sitzungen",
+    "sessions": "Sitzungen",
+    "repetitions": "Wiederholungen",
+    "favoriteMantras": "Lieblings-Mantras",
+    "yourSadhana": "Ihre Sadhana",
+    "practiceHistory": "Praxis-Historie",
+    "daily": "Täglich",
+    "weekly": "Wöchentlich",
+    "startFirstPractice": "Beginnen Sie Ihre erste Mantra-Praxis, um Ihre Lieblings-Mantras hier zu sehen",
+    "beginSadhanaShort": "Beginnen Sie Ihre Sadhana",
+    "mostPracticedMantras": "Ihre am meisten praktizierten Mantras",
+    "sadhanaStats": "Sadhana-Statistiken",
+    "spiritualJourney": "Ihre spirituelle Reise",
+    "dayStreak": "Tages-Serie",
+    "thisWeek": "Diese Woche",
+    "sessionsCount": "{{count}} Sitzungen"
+  },
+  "emotions": {
+    "ANXIETY": {
+      "name": "Angst / Furcht",
+      "description": "Sich besorgt, nervös oder ängstlich fühlen"
+    },
+    "STRESS": {
+      "name": "Stress / Geistiger Nebel",
+      "description": "Überwältigt, zerstreut oder unklar"
+    },
+    "ANGER": {
+      "name": "Wut / Ego",
+      "description": "Frustriert, gereizt oder stolz"
+    },
+    "GROUNDING": {
+      "name": "Erdung / Ruhe",
+      "description": "Bedürfnis nach Zentrierung und Stabilität"
+    },
+    "SADNESS": {
+      "name": "Traurigkeit / Mitgefühl",
+      "description": "Sich niedergeschlagen fühlen oder mehr Empathie brauchen"
+    },
+    "CONFIDENCE": {
+      "name": "Vertrauen / Neuanfang",
+      "description": "Bereit für Veränderung oder neue Anfänge"
+    },
+    "PEACE": {
+      "name": "Frieden / Schlaf / Beruhigung",
+      "description": "Ruhe und Entspannung suchen"
+    },
+    "GRATITUDE": {
+      "name": "Dankbarkeit / Freude",
+      "description": "Sich dankbar und freudig fühlen"
+    },
+    "FOCUS": {
+      "name": "Fokus / Studium",
+      "description": "Bedürfnis nach Klarheit und Konzentration"
+    },
+    "LETTING_GO": {
+      "name": "Loslassen / Akzeptanz",
+      "description": "Befreiung und Hingabe"
+    }
+  },
+  "mantras": {
+    "mahamrityunjaya": {
+      "transliteration": "Om Tryambakam Yajamahe Sugandhim Pushtivardhanam Urvarukamiva Bandhanan Mrityor Mukshiya Maamritat",
+      "meaning": "Heilung, Schutz; entfernt Angst und gewährt Langlebigkeit"
+    },
+    "gayatri": {
+      "transliteration": "Om Bhur Bhuvah Svah Tat-savitur Varenyam Bhargo Devasya Dhimahi Dhiyo Yonah Prachodayat",
+      "meaning": "Erweckt inneres Licht und Klarheit; vertreibt geistigen Nebel"
+    },
+    "om-namah-shivaya": {
+      "transliteration": "Om Namah Shivaya",
+      "meaning": "Ego-Hingabe; Beruhigung des inneren Feuers"
+    },
+    "so-ham": {
+      "transliteration": "So Ham",
+      "meaning": "Atem-Anker \"Ich bin Das\"; Erdung und Zentrierung"
+    },
+    "om-mani-padme-hum": {
+      "transliteration": "Om Mani Padme Hum",
+      "meaning": "Mitgefühl und Leichtigkeit des Leidens; tibetisches buddhistisches Mantra"
+    },
+    "ganesh-mantra": {
+      "transliteration": "Om Gam Ganapataye Namaha",
+      "meaning": "Entfernt Hindernisse; neue Anfänge und Vertrauen"
+    },
+    "om-shanti": {
+      "transliteration": "Om Shanti Shanti Shanti",
+      "meaning": "Ruft Frieden in Körper, Geist und Seele hervor"
+    },
+    "lokah-samastah": {
+      "transliteration": "Lokah Samastah Sukhino Bhavantu",
+      "meaning": "Mögen alle Wesen überall glücklich und frei sein"
+    },
+    "saraswati-mantra": {
+      "transliteration": "Om Aim Saraswatyai Namah",
+      "meaning": "Klarheit und Lernen; Göttin der Weisheit"
+    },
+    "aham-brahmasmi": {
+      "transliteration": "Aham Brahmasmi",
+      "meaning": "Nicht-duale Verwirklichung; Befreiung von Ego-Identifikation"
+    }
+  },
+  "auth": {
+    "welcomeTitle": "Willkommen bei {{appName}}",
+    "welcomeSubtitle": "Beginnen Sie Ihre heilige Reise und verfolgen Sie Ihre spirituelle Praxis"
+  },
+  "mantraPractice": {
+    "practiceCounter": "Praxis-Zähler",
+    "sessionTimer": "Sitzungs-Timer",
+    "practiceDuration": "Praxis-Dauer",
+    "repetitions": "Wiederholungen",
+    "time": "Zeit",
+    "suggestedRounds": "von {{count}} vorgeschlagenen Runden",
+    "startedAt": "Begonnen um {{time}}",
+    "completePractice": "Praxis Abschließen",
+    "tapToCount": "Tippen zum Zählen",
+    "tapToCountDescription": "Tippen Sie auf den Kreis oben, um jede Wiederholung zu zählen"
+  },
+  "breathingGuide": {
+    "title": "Atem-Anleitung",
+    "breathingPatterns": "Atem-Muster",
+    "breatheIn": "Einatmen",
+    "hold": "Halten",
+    "breatheOut": "Ausatmen",
+    "pause": "Pause",
+    "breathe": "Atmen",
+    "cycleOf": "Zyklus {{current}} von {{total}}",
+    "patterns": {
+      "relaxing": {
+        "name": "4-7-8 Entspannend",
+        "description": "Beruhigender Atem für Angst und Stress"
+      },
+      "box": {
+        "name": "Box-Atmung",
+        "description": "Ausgewogener Atem für Fokus"
+      },
+      "simple": {
+        "name": "Einfach Tief",
+        "description": "Grundlegendes tiefes Atmen"
+      },
+      "energizing": {
+        "name": "Energisierend",
+        "description": "Schneller Atem für Energie"
+      }
+    }
+  },
+  "reflectionModal": {
+    "practiceComplete": "Praxis Abgeschlossen!",
+    "takeMoment": "Nehmen Sie sich einen Moment, um über Ihre Erfahrung nachzudenken",
+    "yourPractice": "Ihre Praxis",
+    "mantra": "Mantra:",
+    "emotion": "Emotion:",
+    "repetitions": "Wiederholungen:",
+    "duration": "Dauer:",
+    "breathingPattern": "Atem-Muster:",
+    "breathingCycles": "Atem-Zyklen:",
+    "breathingDuration": "Atem-Dauer:",
+    "howDoYouFeel": "Wie fühlen Sie sich jetzt?",
+    "shareThoughts": "Teilen Sie Ihre Gedanken, Gefühle oder Einsichten aus dieser Praxis...",
+    "optionalNote": "Optional: Ihre Reflexion ist privat und hilft, Ihre Reise zu verfolgen",
+    "skipReflection": "Reflexion Überspringen",
+    "saveAndContinue": "Speichern und Fortfahren",
+    "greatWork": "Großartige Arbeit! Jede Praxis bringt Sie näher zum inneren Frieden.",
+    "close": "Schließen"
+  },
+  "footer": {
+    "madeWith": "Gemacht mit ❤️ für Ihre spirituelle Reise",
+    "blessingTranslation": "Mögen alle Wesen glücklich sein, mögen alle Wesen frei von Krankheit sein",
+    "copyright": "© {{year}} Sanatan Mantra Sadhana. Alle Rechte vorbehalten.",
+    "sacredSpace": "Ein heiliger Raum für Meditation und inneren Frieden"
+  },
+  "common": {
+    "loading": "Ihre heilige Sadhana wird geladen...",
+    "switchToLight": "Zu hellem Modus wechseln",
+    "switchToDark": "Zu dunklem Modus wechseln",
+    "signOut": "Abmelden",
+    "openProfile": "Profil öffnen",
+    "goBack": "Zurück",
+    "goToHome": "Zur Startseite",
+    "eternalWisdom": "Ewige Weisheit. Göttliche Schwingungen."
+  },
+  "userProfile": {
+    "editGoals": "Ziele Bearbeiten",
+    "cancel": "Abbrechen",
+    "saveGoals": "Ziele Speichern"
+  }
+}

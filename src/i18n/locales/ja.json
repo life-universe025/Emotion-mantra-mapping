@@ -1,0 +1,274 @@
+{
+  "app": {
+    "title": "サナタン・サダナ",
+    "subtitle": "サナタン・マントラ・サダナ"
+  },
+  "landing": {
+    "hero": {
+      "title": "サナタン・マントラ・サダナ",
+      "subtitle": "あなたの精神的旅路のために、神聖なマントラの永遠の知恵を発見してください。古代の振動があなたの内なる変容を導きます。",
+      "quote": "मन्त्रो वै देवता मूर्ति: - マントラは神の化身です",
+      "beginJourney": "旅を始める",
+      "learnMore": "詳しく見る"
+    },
+    "features": {
+      "title": "神聖な機能",
+      "subtitle": "古代の知恵と現代技術を組み合わせた力を体験してください",
+      "emotionMantras": {
+        "title": "感情に基づくマントラ",
+        "description": "現在の感情状態と精神的なニーズに合わせた神聖なマントラを発見してください。"
+      },
+      "trackProgress": {
+        "title": "進歩を追跡",
+        "description": "詳細な分析と実践の洞察で精神的な旅路を監視してください。"
+      },
+      "guidedPractice": {
+        "title": "ガイド付き実践",
+        "description": "構造化された呼吸法とマントラの反復セッションに従ってください。"
+      },
+      "sacredKnowledge": {
+        "title": "神聖な知識",
+        "description": "各マントラの背後にある古代の知恵と意味について学んでください。"
+      },
+      "reflectionGrowth": {
+        "title": "内省と成長",
+        "description": "あなたの経験を記録し、時間の経過とともに精神的な発達を追跡してください。"
+      },
+      "personalizedJourney": {
+        "title": "パーソナライズされた旅路",
+        "description": "お気に入りのマントラと個人設定で実践をカスタマイズしてください。"
+      }
+    },
+    "benefits": {
+      "title": "人生を変える",
+      "subtitle": "何千人もの人々と精神的な旅路を共有してください",
+      "list": [
+        "古代の知恵を通じてストレスと不安を軽減",
+        "一貫した精神的な実践を構築",
+        "神聖な音を通じて内なる自己とつながる",
+        "感情と精神的な成長を追跡",
+        "本物のサナタン・ダルマの教えにアクセス"
+      ],
+      "startPractice": "神聖な実践を始める"
+    },
+    "auth": {
+      "signIn": "サインイン",
+      "welcome": "{{appName}}へようこそ",
+      "subtitle": "神聖な旅路を始め、精神的な実践を追跡してください",
+      "emailLabel": "メールアドレス",
+      "emailPlaceholder": "your@email.com",
+      "sendMagicLink": "マジックリンクを送信",
+      "sending": "送信中...",
+      "orContinueWith": "または続行",
+      "continueWithGoogle": "Googleで続行",
+      "checkEmail": "マジックリンクのメールを確認してください！",
+      "errorSending": "マジックリンクの送信エラー。再試行してください。",
+      "errorGoogle": "Googleでのサインインエラー。再試行してください。",
+      "somethingWrong": "何かが間違っています。再試行してください。"
+    },
+    "footer": {
+      "blessing": "सर्वे भवन्तु सुखिनः सर्वे सन्तु निरामयाः - すべての存在が幸せで病気から解放されますように"
+    }
+  },
+  "emotionSelector": {
+    "title": "今日のあなたの内なる状態は何ですか？",
+    "subtitle": "精神的な実践を導く神聖なマントラを見つけるために、現在の感情状態を選択してください",
+    "emoji": "絵文字",
+    "modern": "モダン",
+    "searchPlaceholder": "内なる状態や感情を検索...",
+    "noResults": "検索に一致する感情が見つかりません",
+    "tryDifferent": "別の検索語を試してください",
+    "clearSearch": "検索をクリア",
+    "searchSuggestions": "または試してください: {{suggestions}}",
+    "footerTip": "💡 正確な気持ちが見つかりませんか？実践を始めるために最も近い感情を選択してください"
+  },
+  "userStats": {
+    "beginSadhana": "サダナを始める",
+    "currentStreak": "現在の連続日数",
+    "totalSessions": "総セッション数",
+    "weeklySessions": "週間セッション",
+    "sessions": "セッション",
+    "repetitions": "反復",
+    "favoriteMantras": "お気に入りのマントラ",
+    "yourSadhana": "あなたのサダナ",
+    "practiceHistory": "実践履歴",
+    "daily": "日別",
+    "weekly": "週別",
+    "startFirstPractice": "愛するマントラをここで見るために、最初のマントラ実践を始めてください",
+    "beginSadhanaShort": "サダナを始める",
+    "mostPracticedMantras": "最も実践したマントラ",
+    "sadhanaStats": "サダナ統計",
+    "spiritualJourney": "あなたの精神的旅路",
+    "dayStreak": "日連続",
+    "thisWeek": "今週",
+    "sessionsCount": "{{count}}セッション"
+  },
+  "emotions": {
+    "ANXIETY": {
+      "name": "不安・恐怖",
+      "description": "心配、緊張、または恐れを感じている"
+    },
+    "STRESS": {
+      "name": "ストレス・精神的な霧",
+      "description": "圧倒され、散らばり、または不明確"
+    },
+    "ANGER": {
+      "name": "怒り・自我",
+      "description": "イライラ、いらだち、またはプライド"
+    },
+    "GROUNDING": {
+      "name": "グラウンディング・落ち着き",
+      "description": "中心を見つけ、安定性を求める"
+    },
+    "SADNESS": {
+      "name": "悲しみ・慈悲",
+      "description": "落ち込んでいる、またはより多くの共感が必要"
+    },
+    "CONFIDENCE": {
+      "name": "自信・新しい始まり",
+      "description": "変化や新しい始まりの準備ができている"
+    },
+    "PEACE": {
+      "name": "平和・睡眠・鎮静",
+      "description": "静寂と休息を求める"
+    },
+    "GRATITUDE": {
+      "name": "感謝・喜び",
+      "description": "感謝と喜びを感じている"
+    },
+    "FOCUS": {
+      "name": "集中・学習",
+      "description": "明晰さと集中力が必要"
+    },
+    "LETTING_GO": {
+      "name": "手放し・受容",
+      "description": "解放と降伏"
+    }
+  },
+  "mantras": {
+    "mahamrityunjaya": {
+      "transliteration": "Om Tryambakam Yajamahe Sugandhim Pushtivardhanam Urvarukamiva Bandhanan Mrityor Mukshiya Maamritat",
+      "meaning": "癒し、保護；恐怖を取り除き、長寿を授ける"
+    },
+    "gayatri": {
+      "transliteration": "Om Bhur Bhuvah Svah Tat-savitur Varenyam Bhargo Devasya Dhimahi Dhiyo Yonah Prachodayat",
+      "meaning": "内なる光と明晰さを目覚めさせる；精神的な霧を払う"
+    },
+    "om-namah-shivaya": {
+      "transliteration": "Om Namah Shivaya",
+      "meaning": "自我の降伏；内なる火を鎮める"
+    },
+    "so-ham": {
+      "transliteration": "So Ham",
+      "meaning": "呼吸に錨を下ろす「私はそれである」；グラウンディングと中心化"
+    },
+    "om-mani-padme-hum": {
+      "transliteration": "Om Mani Padme Hum",
+      "meaning": "慈悲と悲しみの軽減；チベット仏教のマントラ"
+    },
+    "ganesh-mantra": {
+      "transliteration": "Om Gam Ganapataye Namaha",
+      "meaning": "障害を取り除く；新しい始まりと自信"
+    },
+    "om-shanti": {
+      "transliteration": "Om Shanti Shanti Shanti",
+      "meaning": "体、心、精神に平和を呼び起こす"
+    },
+    "lokah-samastah": {
+      "transliteration": "Lokah Samastah Sukhino Bhavantu",
+      "meaning": "すべての存在がどこでも幸せで自由でありますように"
+    },
+    "saraswati-mantra": {
+      "transliteration": "Om Aim Saraswatyai Namah",
+      "meaning": "明晰さと学習；知恵の女神"
+    },
+    "aham-brahmasmi": {
+      "transliteration": "Aham Brahmasmi",
+      "meaning": "非二元の実現；自我との同一視の解放"
+    }
+  },
+  "auth": {
+    "welcomeTitle": "{{appName}}へようこそ",
+    "welcomeSubtitle": "神聖な旅路を始め、精神的な実践を追跡してください"
+  },
+  "mantraPractice": {
+    "practiceCounter": "実践カウンター",
+    "sessionTimer": "セッションタイマー",
+    "practiceDuration": "実践時間",
+    "repetitions": "反復",
+    "time": "時間",
+    "suggestedRounds": "推奨{{count}}ラウンド中",
+    "startedAt": "{{time}}に開始",
+    "completePractice": "実践完了",
+    "tapToCount": "タップしてカウント",
+    "tapToCountDescription": "各反復をカウントするために上の円をタップしてください"
+  },
+  "breathingGuide": {
+    "title": "呼吸ガイド",
+    "breathingPatterns": "呼吸パターン",
+    "breatheIn": "吸う",
+    "hold": "保持",
+    "breatheOut": "吐く",
+    "pause": "一時停止",
+    "breathe": "呼吸",
+    "cycleOf": "サイクル{{current}}/{{total}}",
+    "patterns": {
+      "relaxing": {
+        "name": "4-7-8リラックス",
+        "description": "不安やストレスのための鎮静呼吸"
+      },
+      "box": {
+        "name": "ボックス呼吸",
+        "description": "集中のためのバランス呼吸"
+      },
+      "simple": {
+        "name": "シンプルディープ",
+        "description": "基本的な深呼吸"
+      },
+      "energizing": {
+        "name": "エネルギッシュ",
+        "description": "エネルギーのための速い呼吸"
+      }
+    }
+  },
+  "reflectionModal": {
+    "practiceComplete": "実践完了！",
+    "takeMoment": "あなたの経験について振り返る時間を取ってください",
+    "yourPractice": "あなたの実践",
+    "mantra": "マントラ：",
+    "emotion": "感情：",
+    "repetitions": "反復：",
+    "duration": "時間：",
+    "breathingPattern": "呼吸パターン：",
+    "breathingCycles": "呼吸サイクル：",
+    "breathingDuration": "呼吸時間：",
+    "howDoYouFeel": "今どのように感じていますか？",
+    "shareThoughts": "この実践からのあなたの考え、感情、または洞察を共有してください...",
+    "optionalNote": "オプション：あなたの内省はプライベートで、旅路の追跡に役立ちます",
+    "skipReflection": "内省をスキップ",
+    "saveAndContinue": "保存して続行",
+    "greatWork": "素晴らしい仕事です！すべての実践があなたを内なる平和に近づけます。",
+    "close": "閉じる"
+  },
+  "footer": {
+    "madeWith": "あなたの精神的旅路のために❤️で作られました",
+    "blessingTranslation": "すべての存在が幸せで、すべての存在が病気から解放されますように",
+    "copyright": "© {{year}} サナタン・マントラ・サダナ。すべての権利を保有。",
+    "sacredSpace": "瞑想と内なる平和のための神聖な空間"
+  },
+  "common": {
+    "loading": "あなたの神聖なサダナを読み込み中...",
+    "switchToLight": "ライトモードに切り替え",
+    "switchToDark": "ダークモードに切り替え",
+    "signOut": "サインアウト",
+    "openProfile": "プロフィールを開く",
+    "goBack": "戻る",
+    "goToHome": "ホームに移動",
+    "eternalWisdom": "永遠の知恵。神聖な振動。"
+  },
+  "userProfile": {
+    "editGoals": "目標を編集",
+    "cancel": "キャンセル",
+    "saveGoals": "目標を保存"
+  }
+}

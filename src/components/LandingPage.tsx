@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { IoPlay, IoHeart, IoStatsChart, IoPerson, IoMoon, IoFlower, IoBook, IoTime, IoCheckmarkCircle, IoMail, IoShield, IoArrowForward, IoSunny, IoLanguage } from 'react-icons/io5'
+import { IoPlay, IoHeart, IoStatsChart, IoPerson, IoMoon, IoFlower, IoBook, IoTime, IoCheckmarkCircle, IoMail, IoShield, IoArrowForward, IoSunny } from 'react-icons/io5'
 import { SupabaseService } from '../services/supabase'
 import { useTheme } from '../contexts/ThemeContext'
 import { useTranslation } from 'react-i18next'
+import { LanguageSelector } from './LanguageSelector'
 
 interface LandingPageProps {
   onAuthSuccess: () => void
@@ -14,7 +15,7 @@ export function LandingPage({ onAuthSuccess: _onAuthSuccess }: LandingPageProps)
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState('')
   const { theme, toggleTheme } = useTheme()
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
 
   const features = [
     {
@@ -51,10 +52,6 @@ export function LandingPage({ onAuthSuccess: _onAuthSuccess }: LandingPageProps)
 
   const benefits = t('landing.benefits.list', { returnObjects: true }) as string[]
 
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'en' ? 'hi' : 'en'
-    i18n.changeLanguage(newLang)
-  }
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -126,16 +123,7 @@ export function LandingPage({ onAuthSuccess: _onAuthSuccess }: LandingPageProps)
           </div>
           
           <div className="flex items-center gap-3">
-            <button
-              onClick={toggleLanguage}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 shadow-sm hover:shadow-md text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400"
-              title={`Switch to ${i18n.language === 'en' ? 'Hindi' : 'English'}`}
-            >
-              <IoLanguage className="w-4 h-4" />
-              <span className="text-sm font-medium">
-                {i18n.language === 'en' ? 'हिंदी' : 'English'}
-              </span>
-            </button>
+            <LanguageSelector variant="dropdown" />
             
             <button
               onClick={toggleTheme}

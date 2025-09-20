@@ -1,10 +1,11 @@
-import { IoArrowBack, IoPersonOutline, IoLogOutOutline, IoSunny, IoMoon, IoLanguage } from 'react-icons/io5'
+import { IoArrowBack, IoPersonOutline, IoLogOutOutline, IoSunny, IoMoon } from 'react-icons/io5'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Emotion } from '../types'
 import { SupabaseService } from '../services/supabase'
 import { useTheme } from '../contexts/ThemeContext'
 import { useTranslation } from 'react-i18next'
+import { LanguageSelector } from './LanguageSelector'
 
 interface HeaderProps {
   currentState: string
@@ -19,7 +20,7 @@ export function Header({ currentState, onBack, selectedEmotion, onProfileClick, 
   const [displayName, setDisplayName] = useState<string | null>(null)
   const navigate = useNavigate()
   const { theme, toggleTheme } = useTheme()
-  const { i18n, t } = useTranslation()
+  const { t } = useTranslation()
 
   useEffect(() => {
     const loadUser = async () => {
@@ -43,10 +44,6 @@ export function Header({ currentState, onBack, selectedEmotion, onProfileClick, 
     }
   }
 
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'en' ? 'hi' : 'en'
-    i18n.changeLanguage(newLang)
-  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-transparent">
@@ -116,18 +113,8 @@ export function Header({ currentState, onBack, selectedEmotion, onProfileClick, 
                       </div>
                     )}
 
-                    {/* Language toggle button */}
-                    <button
-                      onClick={toggleLanguage}
-                      className="inline-flex items-center gap-2 px-2.5 py-1.5 h-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 border border-gray-200/50 dark:border-gray-700/50 text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200 rounded-md"
-                      aria-label={`Switch to ${i18n.language === 'en' ? 'Hindi' : 'English'}`}
-                      title={`Switch to ${i18n.language === 'en' ? 'Hindi' : 'English'}`}
-                    >
-                      <IoLanguage className="w-4 h-4" />
-                      <span className="text-sm font-medium hidden sm:inline">
-                        {i18n.language === 'en' ? 'हिंदी' : 'English'}
-                      </span>
-                    </button>
+                    {/* Language selector */}
+                    <LanguageSelector variant="dropdown" />
 
                     {/* Theme toggle button */}
                     <button
