@@ -271,10 +271,10 @@ graph TB
     end
     
     subgraph "Edge Functions"
-        E1[/mantras]
-        E2[/sessions]
-        E3[/user-stats]
-        E4[/profile-analytics]
+        E1[mantras API]
+        E2[sessions API]
+        E3[user-stats API]
+        E4[profile-analytics API]
     end
     
     A1 --> B1
@@ -327,7 +327,7 @@ sequenceDiagram
     Note over U,A: Meditation Practice Flow
     U->>F: Select emotion
     F->>S: Get mantras by emotion
-    S->>E: Call /mantras endpoint
+    S->>E: Call mantras endpoint
     E->>D: Query mantras table
     D->>E: Return mantra data
     E->>S: Return mantras
@@ -335,7 +335,7 @@ sequenceDiagram
     
     U->>F: Start practice session
     F->>S: Create session record
-    S->>E: Call /sessions endpoint
+    S->>E: Call sessions endpoint
     E->>D: Insert session data
     D->>D: Trigger stats update
     D->>E: Confirm insertion
@@ -344,7 +344,7 @@ sequenceDiagram
     
     Note over U,A: Analytics & Stats Flow
     F->>S: Get user statistics
-    S->>E: Call /user-stats endpoint
+    S->>E: Call user-stats endpoint
     E->>D: Query user_stats table
     D->>E: Return user data
     E->>S: Return statistics
