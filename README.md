@@ -187,6 +187,51 @@ The app includes 10 traditional Sanskrit mantras with their emotional correspond
 - **Responsive Design**: Optimized for all device sizes
 - **Accessibility**: Screen reader support and keyboard navigation
 
+## 🌍 Supported Languages
+
+The application supports **16 languages** with complete interface translation, making it accessible to users worldwide:
+
+### **Global Languages**
+| Language | Native Name | Code | Script | Region |
+|----------|-------------|------|--------|---------|
+| English | English | `en` | Latin | Global |
+| Spanish | Español | `es` | Latin | Europe/Americas |
+| French | Français | `fr` | Latin | Europe/Africa |
+| Japanese | 日本語 | `ja` | Hiragana/Katakana/Kanji | Asia |
+| Russian | Русский | `ru` | Cyrillic | Europe/Asia |
+| German | Deutsch | `de` | Latin | Europe |
+
+### **Indian Languages**
+| Language | Native Name | Code | Script | Region |
+|----------|-------------|------|--------|---------|
+| Hindi | हिंदी | `hi` | Devanagari | North India |
+| Bengali | বাংলা | `bn` | Bengali | East India/Bangladesh |
+| Telugu | తెలుగు | `te` | Telugu | South India |
+| Punjabi | ਪੰਜਾਬੀ | `pa` | Gurmukhi | North India/Pakistan |
+| Marathi | मराठी | `mr` | Devanagari | West India |
+| Gujarati | ગુજરાતી | `gu` | Gujarati | West India |
+| Kannada | ಕನ್ನಡ | `kn` | Kannada | South India |
+| Assamese | অসমীয়া | `as` | Assamese | Northeast India |
+| Odia | ଓଡ଼ିଆ | `or` | Odia | East India |
+| Nepali | नेपाली | `ne` | Devanagari | Nepal |
+
+### **Language Features**
+- ✅ **Complete Translation**: All UI elements, emotions, mantras, and instructions
+- ✅ **Native Script Display**: Authentic display in original writing systems
+- ✅ **Searchable Selector**: Easy language switching with search functionality
+- ✅ **Cultural Adaptation**: Respectful translations for spiritual content
+- ✅ **Performance Optimized**: Efficient loading with minimal bundle impact
+- ✅ **RTL Support**: Ready for right-to-left languages (future expansion)
+
+### **Translation Coverage**
+- **App Interface**: 100% translated (buttons, menus, navigation)
+- **Emotion Names**: All 10 emotions with cultural context
+- **Mantra Meanings**: Spiritual concepts properly translated
+- **Instructions**: Meditation and breathing guidance
+- **User Dashboard**: Statistics, analytics, and progress tracking
+- **Error Messages**: User-friendly error handling
+- **Accessibility**: Screen reader support in multiple languages
+
 ## 🏗️ System Architecture
 
 ### High-Level Design (HLD)
