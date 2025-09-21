@@ -248,7 +248,36 @@
     "skipReflection": "Skip Reflection",
     "saveAndContinue": "Save & Continue",
     "greatWork": "Great work! Every practice brings you closer to inner peace.",
-    "close": "Close"
+    "close": "Close",
+    "moodTracking": "Mood Tracking",
+    "beforeMood": "How did you feel before practice?",
+    "afterMood": "How do you feel after practice?",
+    "moodComparison": "Mood Journey"
+  },
+  "moodSelector": {
+    "selected": "Selected"
+  },
+  "moodComparison": {
+    "moodJourney": "Your Mood Journey",
+    "before": "Before",
+    "after": "After",
+    "improved": "Improved",
+    "declined": "Declined",
+    "unchanged": "Same",
+    "points": "points",
+    "encouragement": "Wonderful! Your practice is making a positive difference 🌟"
+  },
+  "moodAnalytics": {
+    "title": "Mood Analytics",
+    "averageImprovement": "Avg. Improvement",
+    "totalImprovements": "Total Improvements",
+    "sessionsTracked": "Sessions Tracked",
+    "withMoodData": "with mood data",
+    "points": "points",
+    "improving": "Improving",
+    "declining": "Declining",
+    "stable": "Stable",
+    "encouragement": "Your meditation practice is consistently improving your mood! 🎉"
   },
   "footer": {
     "madeWith": "Made with ❤️ for your spiritual journey",

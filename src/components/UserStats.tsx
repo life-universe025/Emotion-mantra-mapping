@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react'
 import { IoCalendar, IoBarChart, IoFlame, IoTime, IoLeaf, IoTrophy } from 'react-icons/io5'
 import { FaBullseye, FaChartLine } from 'react-icons/fa'
-import { EdgeFunctionService } from '../services/edgeFunctions'
 import { SupabaseService } from '../services/supabase'
 import { UserStats as UserStatsType } from '../types'
 import { PracticeChart } from './PracticeChart'
 import { StreakAnimation } from './StreakAnimation'
+import { MoodAnalytics } from './MoodAnalytics'
 import { useTranslation } from 'react-i18next'
 
 interface UserStatsProps {
   userId: string
   onMantraSelect?: (mantraId: number) => void
   compact?: boolean // For main page vs full profile view
+  onRecentSessionsLoaded?: (sessions: any[]) => void // Callback to pass recent sessions to parent
 }
 
 interface UserAnalytics {
@@ -41,12 +42,12 @@ type TimeFrame = 'daily' | 'weekly'
 type ChartMetric = 'sessions' | 'repetitions' | 'duration'
 
 
-export function UserStats({ userId, onMantraSelect, compact = false }: UserStatsProps) {
+export function UserStats({ userId, onMantraSelect, compact = false, onRecentSessionsLoaded }: UserStatsProps) {
   const [stats, setStats] = useState<UserStatsType | null>(null)
   const [analytics, setAnalytics] = useState<UserAnalytics | null>(null)
   const [loading, setLoading] = useState(true)
   const [chartData, setChartData] = useState<ChartData[]>([])
-  const [chartLoading, setChartLoading] = useState(false)
+  const [allChartData, setAllChartData] = useState<{ daily: ChartData[], weekly: ChartData[] }>({ daily: [], weekly: [] })
   const [timeFrame, setTimeFrame] = useState<TimeFrame>('daily')
   const [selectedMetric, setSelectedMetric] = useState<ChartMetric>('sessions')
   const { t } = useTranslation()
@@ -58,8 +59,11 @@ export function UserStats({ userId, onMantraSelect, compact = false }: UserStats
   }, [userId])
 
   useEffect(() => {
-    loadChartData()
-  }, [userId, timeFrame])
+    // Update chart data when timeFrame changes (no need for separate API call)
+    if (stats && analytics) {
+      updateChartData()
+    }
+  }, [timeFrame, stats, analytics])
 
   useEffect(() => {
     // Check for streak increase to trigger animation
@@ -80,34 +84,36 @@ export function UserStats({ userId, onMantraSelect, compact = false }: UserStats
 
   const loadStats = async () => {
     try {
-      // Load basic stats
-      try {
-        const { data } = await EdgeFunctionService.getUserStats(userId)
-        setStats(data)
-      } catch (error) {
-        console.error('Error loading stats:', error)
+      // Use consolidated method to reduce API calls
+      const allData = await SupabaseService.getAllUserData(userId)
+      
+      // Set user stats
+      setStats(allData.userStats)
+      
+      // Set analytics
+      setAnalytics({
+        totalSessions: allData.analytics.totalSessions,
+        weeklySessions: allData.analytics.weeklySessions,
+        topMantras: allData.analytics.topMantras.map((item: any) => ({
+          mantraId: item.mantraId,
+          count: item.count,
+          mantra: item.mantra ? {
+            transliteration: item.mantra.transliteration,
+            devanagari: item.mantra.devanagari
+          } : undefined
+        }))
+      })
+
+      // Store all chart data and set initial chart data
+      if (allData.chartData) {
+        setAllChartData(allData.chartData)
+        setChartData(timeFrame === 'daily' ? allData.chartData.daily : allData.chartData.weekly)
       }
 
-      // Load analytics
-      try {
-        const analyticsData = await SupabaseService.getUserAnalytics(userId)
-        // Type cast to match our interface
-        setAnalytics({
-          totalSessions: analyticsData.totalSessions,
-          weeklySessions: analyticsData.weeklySessions,
-          topMantras: analyticsData.topMantras.map((item: any) => ({
-            mantraId: item.mantraId,
-            count: item.count,
-            mantra: item.mantra ? {
-              transliteration: item.mantra.transliteration,
-              devanagari: item.mantra.devanagari
-            } : undefined
-          }))
-        })
-      } catch (error) {
-        console.error('Error loading analytics:', error)
+      // Pass recent sessions to parent component if callback provided
+      if (onRecentSessionsLoaded && allData.recentSessions) {
+        onRecentSessionsLoaded(allData.recentSessions)
       }
-
     } catch (error) {
       console.error('Error loading stats:', error)
     } finally {
@@ -115,23 +121,12 @@ export function UserStats({ userId, onMantraSelect, compact = false }: UserStats
     }
   }
 
-  const loadChartData = async () => {
-    if (!userId) return
-    
-    setChartLoading(true)
-    try {
-      if (timeFrame === 'daily') {
-        const { data } = await SupabaseService.getDailyPracticeHistory(userId, 30)
-        setChartData(data || [])
-      } else {
-        const { data } = await SupabaseService.getWeeklyPracticeHistory(userId, 12)
-        setChartData(data || [])
-      }
-    } catch (error) {
-      console.error('Error loading chart data:', error)
-      setChartData([])
-    } finally {
-      setChartLoading(false)
+  const updateChartData = () => {
+    // Update chart data when timeFrame changes using already loaded data
+    if (timeFrame === 'daily') {
+      setChartData(allChartData.daily)
+    } else {
+      setChartData(allChartData.weekly)
     }
   }
 
@@ -490,23 +485,20 @@ export function UserStats({ userId, onMantraSelect, compact = false }: UserStats
           </div>
 
           {/* Chart */}
-          {chartLoading ? (
-            <div className="h-64 flex items-center justify-center">
-              <div className="text-amber-600 dark:text-amber-400">
-                <div className="animate-spin w-8 h-8 border-2 border-amber-300 border-t-amber-600 rounded-full"></div>
-              </div>
-            </div>
-          ) : (
-            <PracticeChart
-              data={chartData}
-              type="area"
-              metric={selectedMetric}
-              timeframe={timeFrame}
-              height={250}
-            />
-          )}
+          <PracticeChart
+            data={chartData}
+            type="area"
+            metric={selectedMetric}
+            timeframe={timeFrame}
+            height={250}
+          />
         </div>
       </div>
+
+      {/* Mood Analytics Section */}
+      {stats && (
+        <MoodAnalytics userStats={stats} className="mb-6" />
+      )}
 
       {/* Bottom Section: Favorite Mantras */}
       {analytics?.topMantras && analytics.topMantras.length > 0 && (

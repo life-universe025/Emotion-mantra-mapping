@@ -20,6 +20,9 @@ export interface Session {
   breathing_pattern?: string;
   breathing_cycles?: number;
   breathing_duration_seconds?: number;
+  before_mood?: number;
+  after_mood?: number;
+  mood_improvement?: number;
   created_at: string;
 }
 
@@ -31,6 +34,9 @@ export interface UserStats {
   total_breathing_sessions?: number;
   total_breathing_duration?: number;
   favorite_breathing_pattern?: string;
+  total_mood_improvements?: number;
+  average_mood_improvement?: number;
+  sessions_with_mood_tracking?: number;
 }
 
 export interface Emotion {
@@ -60,4 +66,24 @@ export interface BreathingSession {
   duration_seconds: number;
   started_at: Date;
   completed_at?: Date;
+}
+
+export interface MoodEntry {
+  emoji: string;
+  label: string;
+  value: number; // 1-10 scale
+  color: string;
+}
+
+export interface MoodLog {
+  mood: MoodEntry;
+  timestamp: Date;
+  session_id?: number;
+  notes?: string;
+}
+
+export interface SessionMoodData {
+  before_mood?: MoodEntry;
+  after_mood?: MoodEntry;
+  mood_improvement?: number; // difference between before and after
 }

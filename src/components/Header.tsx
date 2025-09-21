@@ -13,9 +13,10 @@ interface HeaderProps {
   selectedEmotion: Emotion | null
   onProfileClick: () => void
   onLogout?: () => void
+  user?: any // Add user prop to avoid redundant API calls
 }
 
-export function Header({ currentState, onBack, selectedEmotion, onProfileClick, onLogout }: HeaderProps) {
+export function Header({ currentState, onBack, selectedEmotion, onProfileClick, onLogout, user }: HeaderProps) {
   const showBackButton = currentState !== 'emotion-selector' && currentState !== 'profile' && currentState !== 'mantra-practice'
   const [displayName, setDisplayName] = useState<string | null>(null)
   const navigate = useNavigate()
@@ -23,17 +24,13 @@ export function Header({ currentState, onBack, selectedEmotion, onProfileClick, 
   const { t } = useTranslation()
 
   useEffect(() => {
-    const loadUser = async () => {
-      const { data: { user } } = await SupabaseService.getCurrentUser()
-      if (user) {
-        const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'User'
-        setDisplayName(name)
-      } else {
-        setDisplayName(null)
-      }
+    if (user) {
+      const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'User'
+      setDisplayName(name)
+    } else {
+      setDisplayName(null)
     }
-    loadUser()
-  }, [])
+  }, [user])
 
   const handleLogout = async () => {
     await SupabaseService.signOut()

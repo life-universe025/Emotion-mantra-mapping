@@ -122,28 +122,13 @@ export class SupabaseService {
     return { data, error }
   }
 
-  // Analytics
+  // Analytics - Consolidated method to reduce API calls
   static async getUserAnalytics(userId: string) {
-    // Get total sessions
-    const { count: totalSessions } = await supabase
-      .from('sessions')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', userId)
-
-    // Get sessions this week
-    const weekAgo = new Date()
-    weekAgo.setDate(weekAgo.getDate() - 7)
-    
-    const { count: weeklySessions } = await supabase
-      .from('sessions')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', userId)
-      .gte('created_at', weekAgo.toISOString())
-
-    // Get most used mantras
-    const { data: mantraUsage } = await supabase
+    // Single query to get all session data with mantra info
+    const { data: sessions, error } = await supabase
       .from('sessions')
       .select(`
+        created_at,
         mantra_id,
         mantras (
           transliteration,
@@ -152,26 +137,225 @@ export class SupabaseService {
       `)
       .eq('user_id', userId)
 
+    if (error) {
+      console.error('Error fetching user analytics:', error)
+      return {
+        totalSessions: 0,
+        weeklySessions: 0,
+        topMantras: []
+      }
+    }
+
+    const totalSessions = sessions?.length || 0
+
+    // Calculate weekly sessions
+    const weekAgo = new Date()
+    weekAgo.setDate(weekAgo.getDate() - 7)
+    const weeklySessions = sessions?.filter(session => 
+      new Date(session.created_at) >= weekAgo
+    ).length || 0
+
     // Count mantra usage
-    const mantraCounts = mantraUsage?.reduce((acc: any, session: any) => {
+    const mantraCounts = sessions?.reduce((acc: any, session: any) => {
       const mantraId = session.mantra_id
       acc[mantraId] = (acc[mantraId] || 0) + 1
       return acc
     }, {})
 
+    // Get top 5 mantras
     const topMantras = Object.entries(mantraCounts || {})
       .sort(([,a], [,b]) => (b as number) - (a as number))
       .slice(0, 5)
       .map(([mantraId, count]) => ({
         mantraId: parseInt(mantraId),
         count: count as number,
-        mantra: mantraUsage?.find((s: any) => s.mantra_id === parseInt(mantraId))?.mantras
+        mantra: sessions?.find((s: any) => s.mantra_id === parseInt(mantraId))?.mantras
       }))
 
     return {
-      totalSessions: totalSessions || 0,
-      weeklySessions: weeklySessions || 0,
+      totalSessions,
+      weeklySessions,
       topMantras
+    }
+  }
+
+  // Consolidated method to get all user data in one go (reduces API calls)
+  static async getAllUserData(userId: string) {
+    try {
+      // Get user stats from user_stats table
+      const { data: userStats, error: statsError } = await supabase
+        .from('user_stats')
+        .select('*')
+        .eq('user_id', userId)
+        .single()
+
+      if (statsError && statsError.code !== 'PGRST116') { // PGRST116 = no rows returned
+        console.error('Error fetching user stats:', statsError)
+      }
+
+      // Get all session data for analytics and charts (last 90 days for comprehensive data)
+      const startDate = new Date()
+      startDate.setDate(startDate.getDate() - 90)
+      
+      const { data: sessions, error: sessionsError } = await supabase
+        .from('sessions')
+        .select(`
+          id,
+          created_at,
+          repetitions,
+          duration_seconds,
+          mantra_id,
+          mantras (
+            transliteration,
+            devanagari,
+            meaning
+          )
+        `)
+        .eq('user_id', userId)
+        .gte('created_at', startDate.toISOString())
+        .order('created_at', { ascending: false })
+
+      if (sessionsError) {
+        console.error('Error fetching sessions:', sessionsError)
+        return {
+          userStats: userStats || null,
+          analytics: {
+            totalSessions: 0,
+            weeklySessions: 0,
+            topMantras: []
+          },
+          recentSessions: [],
+          chartData: {
+            daily: [],
+            weekly: []
+          }
+        }
+      }
+
+      // Calculate analytics from session data
+      const totalSessions = sessions?.length || 0
+      const weekAgo = new Date()
+      weekAgo.setDate(weekAgo.getDate() - 7)
+      const weeklySessions = sessions?.filter(session => 
+        new Date(session.created_at) >= weekAgo
+      ).length || 0
+
+      // Count mantra usage
+      const mantraCounts = sessions?.reduce((acc: any, session: any) => {
+        const mantraId = session.mantra_id
+        acc[mantraId] = (acc[mantraId] || 0) + 1
+        return acc
+      }, {})
+
+      // Get top 5 mantras
+      const topMantras = Object.entries(mantraCounts || {})
+        .sort(([,a], [,b]) => (b as number) - (a as number))
+        .slice(0, 5)
+        .map(([mantraId, count]) => ({
+          mantraId: parseInt(mantraId),
+          count: count as number,
+          mantra: sessions?.find((s: any) => s.mantra_id === parseInt(mantraId))?.mantras
+        }))
+
+      // Get recent sessions (first 10)
+      const recentSessions = sessions?.slice(0, 10) || []
+
+      // Generate chart data from the same session data
+      const chartData = this.generateChartDataFromSessions(sessions || [])
+
+      return {
+        userStats: userStats || null,
+        analytics: {
+          totalSessions,
+          weeklySessions,
+          topMantras
+        },
+        recentSessions,
+        chartData
+      }
+    } catch (error) {
+      console.error('Error in getAllUserData:', error)
+      return {
+        userStats: null,
+        analytics: {
+          totalSessions: 0,
+          weeklySessions: 0,
+          topMantras: []
+        },
+        recentSessions: [],
+        chartData: {
+          daily: [],
+          weekly: []
+        }
+      }
+    }
+  }
+
+  // Helper method to generate chart data from session data
+  private static generateChartDataFromSessions(sessions: any[]) {
+    // Daily chart data (last 30 days)
+    const dailyData: { [key: string]: { sessions: number, repetitions: number, duration: number } } = {}
+    const days = 30
+    
+    // Initialize all dates with zero values
+    for (let i = 0; i < days; i++) {
+      const date = new Date()
+      date.setDate(date.getDate() - days + i + 1)
+      const dateKey = date.toISOString().split('T')[0]
+      dailyData[dateKey] = { sessions: 0, repetitions: 0, duration: 0 }
+    }
+
+    // Populate with actual data
+    sessions.forEach(session => {
+      const dateKey = session.created_at.split('T')[0]
+      if (dailyData[dateKey]) {
+        dailyData[dateKey].sessions += 1
+        dailyData[dateKey].repetitions += session.repetitions
+        dailyData[dateKey].duration += session.duration_seconds
+      }
+    })
+
+    // Convert to array format for charts
+    const dailyChartData = Object.entries(dailyData).map(([date, stats]) => ({
+      date,
+      sessions: stats.sessions,
+      repetitions: stats.repetitions,
+      duration: Math.round(stats.duration / 60), // Convert to minutes
+      dateLabel: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+    }))
+
+    // Weekly chart data (last 12 weeks)
+    const weeklyData: { [key: string]: { sessions: number, repetitions: number, duration: number } } = {}
+    
+    sessions.forEach(session => {
+      const sessionDate = new Date(session.created_at)
+      const weekStart = new Date(sessionDate)
+      weekStart.setDate(sessionDate.getDate() - sessionDate.getDay()) // Start of week (Sunday)
+      const weekKey = weekStart.toISOString().split('T')[0]
+      
+      if (!weeklyData[weekKey]) {
+        weeklyData[weekKey] = { sessions: 0, repetitions: 0, duration: 0 }
+      }
+      
+      weeklyData[weekKey].sessions += 1
+      weeklyData[weekKey].repetitions += session.repetitions
+      weeklyData[weekKey].duration += session.duration_seconds
+    })
+
+    // Convert to array format for charts
+    const weeklyChartData = Object.entries(weeklyData)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([weekStart, stats]) => ({
+        week: weekStart,
+        sessions: stats.sessions,
+        repetitions: stats.repetitions,
+        duration: Math.round(stats.duration / 60), // Convert to minutes
+        weekLabel: `Week of ${new Date(weekStart).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
+      }))
+
+    return {
+      daily: dailyChartData,
+      weekly: weeklyChartData
     }
   }
 

@@ -56,6 +56,9 @@ export class EdgeFunctionService {
     breathing_pattern?: string
     breathing_cycles?: number
     breathing_duration_seconds?: number
+    before_mood?: number
+    after_mood?: number
+    mood_improvement?: number
   }) {
     // Get the current session to include auth token
     const { data: { session } } = await supabase.auth.getSession()

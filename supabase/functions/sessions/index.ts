@@ -39,12 +39,66 @@ serve(async (req) => {
     // POST /sessions
     if (req.method === 'POST') {
       const body = await req.json()
-      const { mantra_id, repetitions, duration_seconds, notes, breathing_pattern, breathing_cycles, breathing_duration_seconds } = body
+      const { 
+        mantra_id, 
+        repetitions, 
+        duration_seconds, 
+        notes, 
+        breathing_pattern, 
+        breathing_cycles, 
+        breathing_duration_seconds,
+        before_mood,
+        after_mood,
+        mood_improvement
+      } = body
 
       // Validate required fields
-      if (!mantra_id || !repetitions || !duration_seconds) {
+      if (!mantra_id) {
         return new Response(
-          JSON.stringify({ error: 'Missing required fields: mantra_id, repetitions, duration_seconds' }),
+          JSON.stringify({ error: 'Missing required field: mantra_id' }),
+          { 
+            status: 400, 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+          }
+        )
+      }
+
+      // Allow mood-only sessions (repetitions and duration can be 0 if mood data is provided)
+      if (repetitions === undefined || duration_seconds === undefined) {
+        return new Response(
+          JSON.stringify({ error: 'Missing required fields: repetitions, duration_seconds' }),
+          { 
+            status: 400, 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+          }
+        )
+      }
+
+      // If no mood data is provided, require at least some practice
+      if (!before_mood && !after_mood && (repetitions === 0 && duration_seconds === 0)) {
+        return new Response(
+          JSON.stringify({ error: 'Either practice data (repetitions/duration) or mood data must be provided' }),
+          { 
+            status: 400, 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+          }
+        )
+      }
+
+      // Validate mood data if provided
+      if (before_mood !== undefined && (before_mood < 1 || before_mood > 10)) {
+        return new Response(
+          JSON.stringify({ error: 'before_mood must be between 1 and 10' }),
+          { 
+            status: 400, 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+          }
+        )
+      }
+
+      if (after_mood !== undefined && (after_mood < 1 || after_mood > 10)) {
+        return new Response(
+          JSON.stringify({ error: 'after_mood must be between 1 and 10' }),
           { 
             status: 400, 
             headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
@@ -63,7 +117,10 @@ serve(async (req) => {
           notes: notes || null,
           breathing_pattern: breathing_pattern || null,
           breathing_cycles: breathing_cycles || null,
-          breathing_duration_seconds: breathing_duration_seconds || null
+          breathing_duration_seconds: breathing_duration_seconds || null,
+          before_mood: before_mood || null,
+          after_mood: after_mood || null,
+          mood_improvement: mood_improvement || null
         }])
         .select()
         .single()

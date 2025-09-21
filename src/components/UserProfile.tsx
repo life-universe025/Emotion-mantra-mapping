@@ -3,6 +3,7 @@ import { IoPersonOutline, IoLogOutOutline, IoCalendar, IoCamera, IoTrophy, IoSta
 import { FaBullseye, FaMedal, FaAward, FaCrown } from 'react-icons/fa'
 import { SupabaseService } from '../services/supabase'
 import { UserStats as UserStatsType } from '../types'
+import { MoodAnalytics } from './MoodAnalytics'
 
 interface UserProfileProps {
   user: any
@@ -299,6 +300,9 @@ export function UserProfile({ user, onLogout, onClose }: UserProfileProps) {
                       <div className="text-sm text-amber-700 dark:text-amber-300">Total Repetitions</div>
                     </div>
                   </div>
+
+                  {/* Mood Analytics */}
+                  <MoodAnalytics userStats={stats} className="mt-6" />
 
                   {stats.last_practice_date && (
                     <div className="mt-4 flex items-center text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">

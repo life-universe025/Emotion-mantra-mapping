@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { IoHeart, IoSend, IoClose } from 'react-icons/io5'
 import { Mantra, Emotion } from '../types'
-import { SupabaseService } from '../services/supabase'
 import { EdgeFunctionService } from '../services/edgeFunctions'
 import { useTranslation } from 'react-i18next'
+import { MoodSelector } from './MoodSelector'
+import { MoodComparison } from './MoodComparison'
+import { useMoodTracking } from '../hooks/useMoodTracking'
 
 interface ReflectionModalProps {
   mantra: Mantra
@@ -19,6 +21,7 @@ interface ReflectionModalProps {
   }
   onComplete: () => void
   onClose?: () => void
+  user?: any // Add user prop to avoid redundant API calls
 }
 
 export function ReflectionModal({ 
@@ -26,22 +29,41 @@ export function ReflectionModal({
   emotion, 
   sessionData, 
   onComplete,
-  onClose 
+  onClose,
+  user
 }: ReflectionModalProps) {
   const [reflection, setReflection] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { t } = useTranslation()
+  
+  // Mood tracking
+  const { 
+    beforeMood, 
+    afterMood, 
+    moodData, 
+    setBeforeMood, 
+    setAfterMood, 
+    clearMoods 
+  } = useMoodTracking()
 
   const handleSubmit = async () => {
     setIsSubmitting(true)
     
     try {
-      // Get current user
-      const { data: { user }, error: userError } = await SupabaseService.getCurrentUser()
-      
-      if (userError || !user) {
-        console.error('User not authenticated:', userError)
+      // Use user from props instead of making API call
+      if (!user) {
+        console.error('User not authenticated')
         // For demo purposes, continue without saving
+        onComplete()
+        return
+      }
+
+      // Check if this is a valid session (either has practice data or mood data)
+      const hasPracticeData = sessionData.repetitions > 0 || sessionData.duration > 0
+      const hasMoodData = beforeMood || afterMood
+      
+      if (!hasPracticeData && !hasMoodData) {
+        console.warn('No practice or mood data to save, skipping session creation')
         onComplete()
         return
       }
@@ -55,7 +77,11 @@ export function ReflectionModal({
           notes: reflection.trim() || undefined,
           breathing_pattern: sessionData.breathingSession?.pattern,
           breathing_cycles: sessionData.breathingSession?.cycles,
-          breathing_duration_seconds: sessionData.breathingSession?.duration_seconds
+          breathing_duration_seconds: sessionData.breathingSession?.duration_seconds,
+          // Mood tracking data
+          before_mood: beforeMood?.value,
+          after_mood: afterMood?.value,
+          mood_improvement: moodData.mood_improvement
         })
         console.log('Session saved successfully')
       } catch (e) {
@@ -72,6 +98,15 @@ export function ReflectionModal({
     }
   }
 
+  const handleClose = () => {
+    clearMoods()
+    if (onClose) {
+      onClose()
+    } else {
+      onComplete()
+    }
+  }
+
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
     const secs = seconds % 60
@@ -83,7 +118,7 @@ export function ReflectionModal({
       <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full max-h-[calc(90vh-5rem)] overflow-y-auto relative">
         {/* Close button */}
         <button
-          onClick={onClose || onComplete}
+          onClick={handleClose}
           className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors duration-200 z-10"
           aria-label={t('reflectionModal.close')}
         >
@@ -96,10 +131,16 @@ export function ReflectionModal({
               <IoHeart className="w-8 h-8 text-green-600 dark:text-green-400" />
             </div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-              {t('reflectionModal.practiceComplete')}
+              {sessionData.repetitions > 0 || sessionData.duration > 0 
+                ? t('reflectionModal.practiceComplete')
+                : 'Mood Check-in'
+              }
             </h2>
             <p className="text-gray-600 dark:text-gray-300">
-              {t('reflectionModal.takeMoment')}
+              {sessionData.repetitions > 0 || sessionData.duration > 0 
+                ? t('reflectionModal.takeMoment')
+                : 'Take a moment to check in with your current mood'
+              }
             </p>
           </div>
 
@@ -117,11 +158,15 @@ export function ReflectionModal({
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600 dark:text-gray-400">{t('reflectionModal.repetitions')}</span>
-                <span className="font-medium text-gray-900 dark:text-gray-100">{sessionData.repetitions}</span>
+                <span className={`font-medium ${sessionData.repetitions > 0 ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500 dark:text-gray-500'}`}>
+                  {sessionData.repetitions > 0 ? sessionData.repetitions : 'No practice'}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600 dark:text-gray-400">{t('reflectionModal.duration')}</span>
-                <span className="font-medium text-gray-900 dark:text-gray-100">{formatTime(sessionData.duration)}</span>
+                <span className={`font-medium ${sessionData.duration > 0 ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500 dark:text-gray-500'}`}>
+                  {sessionData.duration > 0 ? formatTime(sessionData.duration) : 'No practice'}
+                </span>
               </div>
               {sessionData.breathingSession && (
                 <>
@@ -140,6 +185,40 @@ export function ReflectionModal({
                 </>
               )}
             </div>
+          </div>
+
+          {/* Mood Tracking Section */}
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4 text-center">
+              {t('reflectionModal.moodTracking')}
+            </h3>
+            
+            {/* Before Mood Selection */}
+            <div className="mb-4">
+              <MoodSelector
+                selectedMood={beforeMood}
+                onMoodSelect={setBeforeMood}
+                title={t('reflectionModal.beforeMood')}
+                showLabels={false}
+                className="mb-4"
+              />
+            </div>
+
+            {/* After Mood Selection */}
+            <div className="mb-4">
+              <MoodSelector
+                selectedMood={afterMood}
+                onMoodSelect={setAfterMood}
+                title={t('reflectionModal.afterMood')}
+                showLabels={false}
+                className="mb-4"
+              />
+            </div>
+
+            {/* Mood Comparison */}
+            {beforeMood && afterMood && (
+              <MoodComparison moodData={moodData} className="mb-4" />
+            )}
           </div>
 
           {/* Reflection form */}
@@ -167,7 +246,7 @@ export function ReflectionModal({
               className="flex-1 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl hover:bg-white dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 font-medium py-2.5 px-4 rounded-xl border border-gray-200/60 dark:border-gray-600/60 hover:border-gray-300/80 dark:hover:border-gray-500/80 transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 text-sm"
               disabled={isSubmitting}
             >
-{t('reflectionModal.skipReflection')}
+              {t('reflectionModal.skipReflection')}
             </button>
             <button
               onClick={handleSubmit}

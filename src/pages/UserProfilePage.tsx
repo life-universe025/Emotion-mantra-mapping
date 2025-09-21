@@ -58,20 +58,29 @@ export function UserProfilePage({ user, onLogout, onMantraSelect }: UserProfileP
 
   const loadData = async () => {
     try {
-      // Load recent sessions for display
-      const { data: sessions } = await SupabaseService.getUserSessions(user.id, 10)
-      setRecentSessions(sessions || [])
-      setSessionsLoading(false)
-
       // Load analytics from server (includes milestones, insights, challenges, etc.)
+      // Note: Recent sessions data is now handled by UserStats component to avoid duplicate API calls
       const { data: analytics } = await EdgeFunctionService.getProfileAnalytics(user.id)
       setProfileAnalytics(analytics)
       setAnalyticsLoading(false)
     } catch (error) {
       console.error('Error loading profile data:', error)
-      setSessionsLoading(false)
       setAnalyticsLoading(false)
     }
+  }
+
+  const handleRecentSessionsLoaded = (sessions: any[]) => {
+    // Transform sessions to match the expected interface
+    const transformedSessions = sessions.map((session: any) => ({
+      id: session.id,
+      repetitions: session.repetitions,
+      duration_seconds: session.duration_seconds,
+      created_at: session.created_at,
+      notes: session.notes,
+      mantras: session.mantras
+    }))
+    setRecentSessions(transformedSessions)
+    setSessionsLoading(false)
   }
 
   const formatDuration = (seconds: number) => {
@@ -165,7 +174,7 @@ export function UserProfilePage({ user, onLogout, onMantraSelect }: UserProfileP
         </div>
 
         <div className="lg:col-span-2 space-y-6">
-          <UserStats userId={user.id} onMantraSelect={onMantraSelect} />
+          <UserStats userId={user.id} onMantraSelect={onMantraSelect} onRecentSessionsLoaded={handleRecentSessionsLoaded} />
           
           {/* Active Challenges */}
           <div className="card">

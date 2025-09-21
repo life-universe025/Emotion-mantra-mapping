@@ -152,11 +152,9 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
   }
 
   const handleReflectionComplete = () => {
-    // Reset to emotion selector for next practice
-    setSelectedEmotion(null)
-    setSelectedMantra(null)
+    // Clear session data but stay on practice page
     setSessionData(null)
-    setCurrentState('emotion-selector')
+    setCurrentState('mantra-practice')
   }
 
   const handleReflectionClose = () => {
@@ -164,6 +162,7 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
     setSessionData(null)
     setCurrentState('mantra-practice')
   }
+
 
   const handleBackToEmotions = () => {
     setSelectedEmotion(null)
@@ -226,6 +225,7 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
         selectedEmotion={selectedEmotion}
         onProfileClick={handleProfileClick}
         onLogout={handleLogout}
+        user={user}
       />
       
       <main className="relative z-10 w-full px-4 py-6 pt-32">
@@ -264,6 +264,7 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
               sessionData={sessionData}
               onComplete={handleReflectionComplete}
               onClose={handleReflectionClose}
+              user={user}
             />
           </div>
         )}

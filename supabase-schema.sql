@@ -23,6 +23,9 @@ CREATE TABLE sessions (
   repetitions INTEGER NOT NULL,
   duration_seconds INTEGER NOT NULL,
   notes TEXT,
+  before_mood INTEGER CHECK (before_mood >= 1 AND before_mood <= 10),
+  after_mood INTEGER CHECK (after_mood >= 1 AND after_mood <= 10),
+  mood_improvement INTEGER,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -32,6 +35,9 @@ CREATE TABLE user_stats (
   last_practice_date DATE,
   current_streak INTEGER DEFAULT 0,
   total_repetitions INTEGER DEFAULT 0,
+  total_mood_improvements INTEGER DEFAULT 0,
+  average_mood_improvement DECIMAL(3,2) DEFAULT 0.00,
+  sessions_with_mood_tracking INTEGER DEFAULT 0,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -41,6 +47,11 @@ CREATE INDEX idx_sessions_user_id ON sessions(user_id);
 CREATE INDEX idx_sessions_created_at ON sessions(created_at);
 CREATE INDEX idx_sessions_mantra_id ON sessions(mantra_id);
 CREATE INDEX idx_mantras_emotions ON mantras USING GIN(emotions);
+
+-- Mood tracking indexes
+CREATE INDEX idx_sessions_mood_improvement ON sessions(mood_improvement) WHERE mood_improvement IS NOT NULL;
+CREATE INDEX idx_sessions_before_mood ON sessions(before_mood) WHERE before_mood IS NOT NULL;
+CREATE INDEX idx_sessions_after_mood ON sessions(after_mood) WHERE after_mood IS NOT NULL;
 
 -- Create function to update user stats
 CREATE OR REPLACE FUNCTION update_user_stats()
@@ -93,11 +104,53 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Create function to update mood analytics in user stats
+CREATE OR REPLACE FUNCTION update_mood_analytics()
+RETURNS TRIGGER AS $$
+DECLARE
+  user_stats_record user_stats%ROWTYPE;
+  mood_improvement INTEGER;
+BEGIN
+  -- Only process if mood data is present
+  IF NEW.before_mood IS NOT NULL AND NEW.after_mood IS NOT NULL THEN
+    mood_improvement := NEW.after_mood - NEW.before_mood;
+    
+    -- Get current user stats
+    SELECT * INTO user_stats_record 
+    FROM user_stats 
+    WHERE user_id = NEW.user_id;
+    
+    IF FOUND THEN
+      -- Update mood analytics
+      UPDATE user_stats 
+      SET 
+        total_mood_improvements = total_mood_improvements + GREATEST(0, mood_improvement),
+        sessions_with_mood_tracking = sessions_with_mood_tracking + 1,
+        average_mood_improvement = CASE 
+          WHEN sessions_with_mood_tracking + 1 > 0 THEN
+            (total_mood_improvements + GREATEST(0, mood_improvement))::DECIMAL / (sessions_with_mood_tracking + 1)
+          ELSE 0
+        END,
+        updated_at = NOW()
+      WHERE user_id = NEW.user_id;
+    END IF;
+  END IF;
+  
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
 -- Create trigger to automatically update user stats
 CREATE TRIGGER trigger_update_user_stats
   AFTER INSERT ON sessions
   FOR EACH ROW
   EXECUTE FUNCTION update_user_stats();
+
+-- Create trigger to update mood analytics
+CREATE TRIGGER trigger_update_mood_analytics
+  AFTER INSERT ON sessions
+  FOR EACH ROW
+  EXECUTE FUNCTION update_mood_analytics();
 
 -- Enable Row Level Security (RLS)
 ALTER TABLE mantras ENABLE ROW LEVEL SECURITY;
