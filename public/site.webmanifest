@@ -1,0 +1,26 @@
+{
+  "name": "Sanatan Mantra Sadhana",
+  "short_name": "Mantra Practice",
+  "description": "Transform your emotions through ancient mantras and guided sacred practices",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fef3c7",
+  "theme_color": "#f97316",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["lifestyle", "health", "spirituality"],
+  "lang": "en",
+  "dir": "ltr"
+}
