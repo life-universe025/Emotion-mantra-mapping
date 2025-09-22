@@ -49,6 +49,7 @@ export function EmotionSelector({ onEmotionSelect }: EmotionSelectorProps) {
     }
   }
 
+
   return (
     <div className="max-w-6xl mx-auto">
       {/* Simplified hero section - Focus on the core question */}
@@ -136,34 +137,39 @@ export function EmotionSelector({ onEmotionSelect }: EmotionSelectorProps) {
       {/* Enhanced emotion grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         {filteredEmotions.map((emotion, index) => (
-          <button
+          <div
             key={emotion.id}
-            onClick={() => handleEmotionClick(emotion)}
-            className="emotion-card group p-6"
+            className="emotion-card group p-6 relative"
             style={{
               animationDelay: `${index * 30}ms`
             }}
           >
-            <div className="relative z-10 text-center">
-              <div className="flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
-                {showReactIcons && emotion.reactIcon ? (
-                  <div className="w-12 h-12 flex items-center justify-center">
-                    <emotion.reactIcon className="w-8 h-8 text-amber-600 dark:text-amber-400" />
-                  </div>
-                ) : (
-                  <div className="text-4xl">
-                    {emotion.icon}
-                  </div>
-                )}
+            <button
+              onClick={() => handleEmotionClick(emotion)}
+              className="w-full h-full"
+            >
+              <div className="relative z-10 text-center">
+                <div className="flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                  {showReactIcons && emotion.reactIcon ? (
+                    <div className="w-12 h-12 flex items-center justify-center">
+                      <emotion.reactIcon className="w-8 h-8 text-amber-600 dark:text-amber-400" />
+                    </div>
+                  ) : (
+                    <div className="text-4xl">
+                      {emotion.icon}
+                    </div>
+                  )}
+                </div>
+                <h3 className="font-semibold text-base mb-2 text-amber-800 dark:text-amber-200 group-hover:text-amber-900 dark:group-hover:text-amber-100 transition-colors duration-300">
+                  {t(`emotions.${emotion.id}.name`)}
+                </h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors duration-300 line-clamp-2">
+                  {t(`emotions.${emotion.id}.description`)}
+                </p>
               </div>
-              <h3 className="font-semibold text-base mb-2 text-amber-800 dark:text-amber-200 group-hover:text-amber-900 dark:group-hover:text-amber-100 transition-colors duration-300">
-{t(`emotions.${emotion.id}.name`)}
-              </h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors duration-300 line-clamp-2">
-{t(`emotions.${emotion.id}.description`)}
-              </p>
-            </div>
-          </button>
+            </button>
+            
+          </div>
         ))}
       </div>
 

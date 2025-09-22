@@ -3,28 +3,28 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { EmotionSelector } from './components/EmotionSelector'
 import { MantraPractice } from './components/MantraPractice'
 import { ReflectionModal } from './components/ReflectionModal'
+import { AlternativePractices } from './components/AlternativePractices'
 import { Header } from './components/Header'
 import { LandingPage } from './components/LandingPage'
 import { UserStats } from './components/UserStats'
 // import { UserProfile } from './components/UserProfile'
 import { UserProfilePage } from './pages/UserProfilePage'
 import { Footer } from './components/Footer'
-import { Emotion, Mantra, BreathingSession } from './types'
+import { Emotion, Mantra } from './types'
 import { SupabaseService } from './services/supabase'
 import { emotions } from './data/emotions'
 import { mantras } from './data/mantras'
 import { useTranslation } from 'react-i18next'
 
-type AppState = 'auth' | 'emotion-selector' | 'mantra-practice' | 'reflection' | 'profile'
+type AppState = 'auth' | 'emotion-selector' | 'mantra-practice' | 'reflection' | 'profile' | 'alternative-practices'
 
-function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra' } = {}) {
+function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra' | 'alternatives' } = {}) {
   const [currentState, setCurrentState] = useState<AppState>('auth')
   const [selectedEmotion, setSelectedEmotion] = useState<Emotion | null>(null)
   const [selectedMantra, setSelectedMantra] = useState<Mantra | null>(null)
   const [sessionData, setSessionData] = useState<{
     repetitions: number
     duration: number
-    breathingSession?: BreathingSession
   } | null>(null)
   const [user, setUser] = useState<any>(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -39,6 +39,7 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
   useEffect(() => {
     checkAuth()
   }, [])
+
 
   // Scroll to top when state changes
   useEffect(() => {
@@ -90,6 +91,15 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
             } else {
               setCurrentState('emotion-selector')
             }
+          } else {
+            setCurrentState('emotion-selector')
+          }
+        } else if (initialRoute === 'alternatives' && params.emotionId) {
+          // Direct alternatives access from URL
+          const emotion = emotions.find(e => e.id === params.emotionId)
+          if (emotion) {
+            setSelectedEmotion(emotion)
+            setCurrentState('alternative-practices')
           } else {
             setCurrentState('emotion-selector')
           }
@@ -146,8 +156,8 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
     }
   }
 
-  const handlePracticeComplete = (repetitions: number, duration: number, breathingSession?: BreathingSession) => {
-    setSessionData({ repetitions, duration, breathingSession })
+  const handlePracticeComplete = (repetitions: number, duration: number) => {
+    setSessionData({ repetitions, duration })
     setCurrentState('reflection')
   }
 
@@ -164,11 +174,10 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
   }
 
 
-  const handleBackToEmotions = () => {
-    setSelectedEmotion(null)
-    setSelectedMantra(null)
-    setSessionData(null)
-    setCurrentState('emotion-selector')
+
+  const handleAlternativePractices = (emotion: Emotion, tab?: 'breathing' | 'affirmations') => {
+    const tabParam = tab ? `/${tab}` : '/breathing'
+    navigate(`/alternatives/${emotion.id}${tabParam}`)
   }
 
   const handleProfileClick = () => {
@@ -220,8 +229,6 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
       </div>
 
       <Header 
-        currentState={currentState}
-        onBack={handleBackToEmotions}
         selectedEmotion={selectedEmotion}
         onProfileClick={handleProfileClick}
         onLogout={handleLogout}
@@ -233,7 +240,9 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
           <div className="max-w-7xl mx-auto">
             {/* Main Emotion Selector - Now the primary focus */}
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-              <EmotionSelector onEmotionSelect={handleEmotionSelect} />
+              <EmotionSelector 
+                onEmotionSelect={handleEmotionSelect} 
+              />
             </div>
 
             {/* Stats Section - Moved below and made more subtle */}
@@ -251,7 +260,8 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
               mantra={selectedMantra}
               emotion={selectedEmotion!}
               onComplete={handlePracticeComplete}
-              onBack={handleBackToEmotions}
+              onAlternativePractices={handleAlternativePractices}
+              userId={user?.id}
             />
           </div>
         )}
@@ -271,9 +281,19 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
 
         {currentState === 'profile' && user && (
           <div className="animate-in fade-in slide-in-from-left-4 duration-700">
-            <UserProfilePage user={user} onLogout={handleLogout} onMantraSelect={handleFavoriteMantraSelect} />
+            <UserProfilePage user={user} onMantraSelect={handleFavoriteMantraSelect} />
           </div>
         )}
+
+        {currentState === 'alternative-practices' && selectedEmotion && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <AlternativePractices
+              emotion={selectedEmotion}
+            />
+          </div>
+        )}
+
+
       </main>
 
       {/* Only show footer on main page (emotion selector) */}

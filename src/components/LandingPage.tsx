@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { IoPlay, IoHeart, IoStatsChart, IoPerson, IoMoon, IoFlower, IoBook, IoTime, IoCheckmarkCircle, IoMail, IoShield, IoArrowForward, IoSunny } from 'react-icons/io5'
+import { IoPlay, IoHeart, IoStatsChart, IoPerson, IoMoon, IoFlower, IoBook, IoTime, IoCheckmarkCircle, IoMail, IoShield, IoArrowForward, IoSunny, IoShareSocial } from 'react-icons/io5'
 import { SupabaseService } from '../services/supabase'
 import { useTheme } from '../contexts/ThemeContext'
 import { useTranslation } from 'react-i18next'
 import { LanguageSelector } from './LanguageSelector'
+import { LegalModal } from './LegalModal'
 
 interface LandingPageProps {
   onAuthSuccess: () => void
@@ -14,6 +15,7 @@ export function LandingPage({ onAuthSuccess: _onAuthSuccess }: LandingPageProps)
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [showLegalModal, setShowLegalModal] = useState<'terms' | 'privacy' | null>(null)
   const { theme, toggleTheme } = useTheme()
   const { t } = useTranslation()
 
@@ -95,6 +97,36 @@ export function LandingPage({ onAuthSuccess: _onAuthSuccess }: LandingPageProps)
     }
   }
 
+  const handleShare = async () => {
+    const shareData = {
+      title: t('app.title'),
+      text: t('landing.share.text'),
+      url: window.location.origin
+    }
+
+    try {
+      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        await navigator.share(shareData)
+      } else {
+        // Fallback: copy to clipboard
+        await navigator.clipboard.writeText(`${shareData.title} - ${shareData.text}\n${shareData.url}`)
+        setMessage(t('landing.share.copiedToClipboard'))
+        setTimeout(() => setMessage(''), 3000)
+      }
+    } catch (error) {
+      console.error('Error sharing:', error)
+      // Fallback: copy to clipboard
+      try {
+        await navigator.clipboard.writeText(`${shareData.title} - ${shareData.text}\n${shareData.url}`)
+        setMessage(t('landing.share.copiedToClipboard'))
+        setTimeout(() => setMessage(''), 3000)
+      } catch (clipboardError) {
+        setMessage(t('landing.share.error'))
+        setTimeout(() => setMessage(''), 3000)
+      }
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50/40 to-yellow-50/60 dark:from-gray-900 dark:via-slate-900/90 dark:to-gray-800 relative overflow-hidden">
       {/* Background Elements */}
@@ -111,7 +143,7 @@ export function LandingPage({ onAuthSuccess: _onAuthSuccess }: LandingPageProps)
       </div>
 
       {/* Header */}
-      <header className="relative z-10 px-4 py-6">
+      <header className="relative z-30 px-4 py-6">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-gradient-to-br from-orange-500 via-amber-600 to-yellow-600 dark:from-orange-400 dark:via-amber-500 dark:to-yellow-500 rounded-lg flex items-center justify-center shadow-lg">
@@ -124,6 +156,15 @@ export function LandingPage({ onAuthSuccess: _onAuthSuccess }: LandingPageProps)
           
           <div className="flex items-center gap-3">
             <LanguageSelector variant="dropdown" />
+            
+            <button
+              onClick={handleShare}
+              className="inline-flex items-center gap-2 px-3 py-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 shadow-sm hover:shadow-md text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400"
+              title={t('landing.share.title')}
+            >
+              <IoShareSocial className="w-4 h-4" />
+              <span className="hidden sm:inline text-xs font-medium">{t('landing.share.button')}</span>
+            </button>
             
             <button
               onClick={toggleTheme}
@@ -139,10 +180,14 @@ export function LandingPage({ onAuthSuccess: _onAuthSuccess }: LandingPageProps)
             
             <button
               onClick={() => setShowAuth(true)}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 hover:from-orange-700 hover:via-amber-700 hover:to-yellow-700 dark:from-orange-500 dark:via-amber-500 dark:to-yellow-500 dark:hover:from-orange-600 dark:hover:via-amber-600 dark:hover:to-yellow-600 text-white font-medium py-2 px-4 rounded-md transition-all duration-200 shadow-sm hover:shadow-md text-sm"
+              className="group relative overflow-hidden rounded-lg bg-gradient-to-br from-orange-500 via-amber-500 to-yellow-500 p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(217,119,6,0.3)] active:scale-[0.98]"
             >
-              <IoPerson className="w-4 h-4" />
-              {t('landing.auth.signIn')}
+              <div className="relative flex h-8 items-center justify-center gap-1.5 rounded-lg bg-gradient-to-br from-orange-600 via-amber-600 to-yellow-600 px-2 sm:px-3 text-white backdrop-blur-sm transition-all duration-300 group-hover:from-orange-500 group-hover:via-amber-500 group-hover:to-yellow-500">
+                <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-white/15 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                <IoPerson className="relative z-10 w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110 hidden sm:block" />
+                <span className="relative z-10 text-[10px] sm:text-xs font-semibold tracking-wide whitespace-nowrap">{t('landing.auth.signIn')}</span>
+                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-transparent via-white/8 to-transparent -translate-x-full transition-transform duration-500 group-hover:translate-x-full"></div>
+              </div>
             </button>
           </div>
         </div>
@@ -171,9 +216,9 @@ export function LandingPage({ onAuthSuccess: _onAuthSuccess }: LandingPageProps)
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <button
                 onClick={() => setShowAuth(true)}
-                className="inline-flex items-center gap-3 bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 hover:from-orange-700 hover:via-amber-700 hover:to-yellow-700 dark:from-orange-500 dark:via-amber-500 dark:to-yellow-500 dark:hover:from-orange-600 dark:hover:via-amber-600 dark:hover:to-yellow-600 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl  text-lg"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 hover:from-orange-700 hover:via-amber-700 hover:to-yellow-700 dark:from-orange-500 dark:via-amber-500 dark:to-yellow-500 dark:hover:from-orange-600 dark:hover:via-amber-600 dark:hover:to-yellow-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl text-base"
               >
-                <IoPlay className="w-5 h-5" />
+                <IoPlay className="w-4 h-4" />
                 {t('landing.hero.beginJourney')}
               </button>
               
@@ -185,7 +230,6 @@ export function LandingPage({ onAuthSuccess: _onAuthSuccess }: LandingPageProps)
                 className="inline-flex items-center gap-2 text-amber-700 dark:text-amber-300 hover:text-amber-900 dark:hover:text-amber-100 font-medium py-2 px-4 rounded-xl transition-all duration-200 hover:bg-amber-100/50 dark:hover:bg-amber-900/20"
               >
                 {t('landing.hero.learnMore')}
-                <IoMoon className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -245,9 +289,9 @@ export function LandingPage({ onAuthSuccess: _onAuthSuccess }: LandingPageProps)
               <div className="text-center">
                 <button
                   onClick={() => setShowAuth(true)}
-                  className="inline-flex items-center gap-3 bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 hover:from-orange-700 hover:via-amber-700 hover:to-yellow-700 dark:from-orange-500 dark:via-amber-500 dark:to-yellow-500 dark:hover:from-orange-600 dark:hover:via-amber-600 dark:hover:to-yellow-600 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl  text-lg"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 hover:from-orange-700 hover:via-amber-700 hover:to-yellow-700 dark:from-orange-500 dark:via-amber-500 dark:to-yellow-500 dark:hover:from-orange-600 dark:hover:via-amber-600 dark:hover:to-yellow-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl text-base"
                 >
-                  <IoFlower className="w-5 h-5" />
+                  <IoFlower className="w-4 h-4" />
                   {t('landing.benefits.startPractice')}
                 </button>
               </div>
@@ -267,6 +311,25 @@ export function LandingPage({ onAuthSuccess: _onAuthSuccess }: LandingPageProps)
               {t('app.title')}
             </span>
           </div>
+          
+          {/* Legal Links */}
+          <div className="mb-4">
+            <div className="flex justify-center gap-6 text-xs">
+              <button
+                onClick={() => setShowLegalModal('terms')}
+                className="text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition-colors underline decoration-amber-300 dark:decoration-amber-500 hover:decoration-amber-400 dark:hover:decoration-amber-400"
+              >
+                {t('footer.termsAndConditions')}
+              </button>
+              <button
+                onClick={() => setShowLegalModal('privacy')}
+                className="text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition-colors underline decoration-amber-300 dark:decoration-amber-500 hover:decoration-amber-400 dark:hover:decoration-amber-400"
+              >
+                {t('footer.privacyPolicy')}
+              </button>
+            </div>
+          </div>
+          
           <p className="text-amber-600 dark:text-amber-400 text-sm">
             {t('landing.footer.blessing')}
           </p>
@@ -283,7 +346,7 @@ export function LandingPage({ onAuthSuccess: _onAuthSuccess }: LandingPageProps)
             >
               <span className="text-gray-600 dark:text-gray-300 text-xl">×</span>
             </button>
-            <div className="text-center relative bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg p-8 shadow-xl border border-white/20 dark:border-gray-700/20">
+            <div className="text-center relative bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg p-8 shadow-xl border-2 border-amber-200/60 dark:border-amber-700/60">
               {/* Enhanced logo section */}
               <div className="flex items-center justify-center gap-2 mb-6">
                 <div className="w-16 h-16 bg-gradient-to-br from-orange-500 via-amber-600 to-yellow-600 dark:from-orange-400 dark:via-amber-500 dark:to-yellow-500 rounded-lg flex items-center justify-center shadow-xl floating border border-amber-400/30 dark:border-amber-500/40">
@@ -391,6 +454,13 @@ export function LandingPage({ onAuthSuccess: _onAuthSuccess }: LandingPageProps)
           </div>
         </div>
       )}
+
+      {/* Legal Modal */}
+      <LegalModal
+        type={showLegalModal || 'terms'}
+        isOpen={showLegalModal !== null}
+        onClose={() => setShowLegalModal(null)}
+      />
     </div>
   )
 }

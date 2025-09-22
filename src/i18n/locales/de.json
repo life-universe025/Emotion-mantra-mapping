@@ -143,6 +143,54 @@
     "LETTING_GO": {
       "name": "Loslassen / Akzeptanz",
       "description": "Befreiung und Hingabe"
+    },
+    "LONELINESS": {
+      "name": "Einsamkeit / Isolation",
+      "description": "Sich getrennt oder allein fühlen"
+    },
+    "RESTLESSNESS": {
+      "name": "Unruhe / Erregung",
+      "description": "Nicht in der Lage zu sein, sich zu beruhigen oder Frieden zu finden"
+    },
+    "ENERGY": {
+      "name": "Energie / Vitalität",
+      "description": "Bedarf an körperlicher oder geistiger Energie"
+    },
+    "CREATIVITY": {
+      "name": "Kreativität / Inspiration",
+      "description": "Kreativen Fluss und Inspiration suchen"
+    },
+    "CLARITY": {
+      "name": "Klarheit / Einsicht",
+      "description": "Bedarf an klarer Vision und Verständnis"
+    },
+    "PROTECTION": {
+      "name": "Schutz / Sicherheit",
+      "description": "Sicherheit und Schutz suchen"
+    },
+    "MOTIVATION": {
+      "name": "Motivation / Antrieb",
+      "description": "Bedarf an Motivation und Vorwärtsdrang"
+    },
+    "PATIENCE": {
+      "name": "Geduld / Timing",
+      "description": "Lernen zu warten und dem Prozess zu vertrauen"
+    },
+    "RENEWAL": {
+      "name": "Erneuerung / Wiedergeburt",
+      "description": "Neuanfang und Transformation suchen"
+    },
+    "SELF_LOVE": {
+      "name": "Selbstliebe / Wert",
+      "description": "Selbstmitgefühl und Wert kultivieren"
+    },
+    "WISDOM": {
+      "name": "Weisheit / Verständnis",
+      "description": "Tieferes Wissen und Einsicht suchen"
+    },
+    "HEALING": {
+      "name": "Heilung / Genesung",
+      "description": "Körperliche, emotionale oder spirituelle Heilung"
     }
   },
   "mantras": {
@@ -185,6 +233,54 @@
     "aham-brahmasmi": {
       "transliteration": "Aham Brahmasmi",
       "meaning": "Nicht-duale Verwirklichung; Befreiung von Ego-Identifikation"
+    },
+    "om-namah-shivaya-loneliness": {
+      "transliteration": "Om Namah Shivaya",
+      "meaning": "Verbindung zum inneren Göttlichen; Isolation überwinden"
+    },
+    "om-shanti-restlessness": {
+      "transliteration": "Om Shanti Shanti Shanti",
+      "meaning": "Frieden in Körper, Geist und Seele; Unruhe beruhigend"
+    },
+    "om-surya-namaha": {
+      "transliteration": "Om Surya Namaha",
+      "meaning": "Sonnenenergie und Vitalität beschwören"
+    },
+    "om-saraswati-namaha": {
+      "transliteration": "Om Saraswati Namaha",
+      "meaning": "Göttin der Kreativität, Kunst und Inspiration"
+    },
+    "om-aim-hrim-klim-chamundaye-viche": {
+      "transliteration": "Om Aim Hrim Klim Chamundaye Viche",
+      "meaning": "Göttin der Klarheit und Hindernisse zur Weisheit entfernen"
+    },
+    "om-hanuman-namaha": {
+      "transliteration": "Om Hanuman Namaha",
+      "meaning": "Göttlicher Schutz und Stärke"
+    },
+    "om-gam-ganapataye-namaha": {
+      "transliteration": "Om Gam Ganapataye Namaha",
+      "meaning": "Hindernisse beseitigen; Motivation und neue Anfänge"
+    },
+    "om-kali-namaha": {
+      "transliteration": "Om Kali Namaha",
+      "meaning": "Göttin der Zeit und Transformation; Geduld mit dem Prozess"
+    },
+    "om-ram-ramaya-namaha": {
+      "transliteration": "Om Ram Ramaya Namaha",
+      "meaning": "Göttliche Erneuerung und neue Anfänge"
+    },
+    "om-kamala-namaha": {
+      "transliteration": "Om Kamala Namaha",
+      "meaning": "Göttin der Selbstliebe und inneren Schönheit"
+    },
+    "om-gayatri-wisdom": {
+      "transliteration": "Om Bhur Bhuvah Svah Tat-savitur Varenyam Bhargo Devasya Dhimahi Dhiyo Yonah Prachodayat",
+      "meaning": "Inneres Wissen und göttliches Wissen erwecken"
+    },
+    "om-dhanvantre-namaha": {
+      "transliteration": "Om Dhanvantre Namaha",
+      "meaning": "Göttlicher Arzt; Heilung und Genesung"
     }
   },
   "auth": {
@@ -254,7 +350,7 @@
     "madeWith": "Gemacht mit ❤️ für Ihre spirituelle Reise",
     "blessingTranslation": "Mögen alle Wesen glücklich sein, mögen alle Wesen frei von Krankheit sein",
     "copyright": "© {{year}} Sanatan Mantra Sadhana. Alle Rechte vorbehalten.",
-    "sacredSpace": "Ein heiliger Raum für Meditation und inneren Frieden"
+    "sacredSpace": "Ein heiliger Raum für Mantra-Praxis und inneren Frieden"
   },
   "common": {
     "loading": "Ihre heilige Sadhana wird geladen...",
@@ -270,5 +366,202 @@
     "editGoals": "Ziele Bearbeiten",
     "cancel": "Abbrechen",
     "saveGoals": "Ziele Speichern"
+  },
+  "alternativePractices": {
+    "breathingExercises": "Atemübungen",
+    "affirmations": "Affirmationen",
+    "breathingExercisesFor": "Atemübungen für {{emotion}}",
+    "affirmationsFor": "Affirmationen für {{emotion}}",
+    "pattern": "Muster:",
+    "startExercise": "Übung Starten",
+    "startBreathing": "Atmung Starten",
+    "stopExercise": "Übung Stoppen",
+    "backToExercises": "Zurück zu Übungen",
+    "nextAffirmation": "Nächste Affirmation",
+    "noAffirmationsAvailable": "Noch keine Affirmationen für diese Emotion verfügbar.",
+    "min": "Min",
+    "cycles": "Zyklen",
+    "inhale": "EINATMEN",
+    "hold": "HALTEN",
+    "exhale": "AUSATMEN",
+    "pause": "PAUSE",
+    "of": "von",
+    "intensity": {
+      "gentle": "Sanft",
+      "moderate": "Mäßig",
+      "strong": "Stark"
+    },
+    "category": {
+      "Safety": "Sicherheit",
+      "Confidence": "Vertrauen",
+      "Peace": "Frieden",
+      "Healing": "Heilung",
+      "Growth": "Wachstum",
+      "Love": "Liebe",
+      "Wisdom": "Weisheit",
+      "Strength": "Stärke",
+      "Gratitude": "Dankbarkeit",
+      "Clarity": "Klarheit"
+    }
+  },
+  "breathingExercises": {
+    "box-breathing": {
+      "name": "Box-Atmung",
+      "description": "Gleichmäßige Zählatmung für Erdung und Ruhe",
+      "instructions": [
+        "Setzen Sie sich bequem mit gerader Wirbelsäule hin",
+        "Atmen Sie 4 Zählzeiten ein",
+        "Halten Sie den Atem 4 Zählzeiten an",
+        "Atmen Sie 4 Zählzeiten aus",
+        "Halten Sie 4 Zählzeiten leer",
+        "Wiederholen Sie den Zyklus"
+      ],
+      "benefits": ["Reduziert Stress", "Verbessert den Fokus", "Beruhigt das Nervensystem"]
+    },
+    "4-7-8-breathing": {
+      "name": "4-7-8 Atmung",
+      "description": "Entspannende Atmung für Angst und Schlaf",
+      "instructions": [
+        "Platzieren Sie die Zungenspitze hinter den oberen Zähnen",
+        "Atmen Sie vollständig durch den Mund aus",
+        "Atmen Sie 4 Zählzeiten durch die Nase ein",
+        "Halten Sie den Atem 7 Zählzeiten an",
+        "Atmen Sie 8 Zählzeiten durch den Mund aus",
+        "Wiederholen Sie den Zyklus"
+      ],
+      "benefits": ["Reduziert Angst", "Fördert den Schlaf", "Aktiviert das parasympathische Nervensystem"]
+    },
+    "energizing-breath": {
+      "name": "Energieatmung",
+      "description": "Schnelle Atmung zur Steigerung von Energie und Wachsamkeit",
+      "instructions": [
+        "Setzen Sie sich aufrecht mit zurückgezogenen Schultern hin",
+        "Schnelle Einatmung für 2 Zählzeiten",
+        "Kurze Anhaltung für 1 Zählzeit",
+        "Schnelle Ausatmung für 2 Zählzeiten",
+        "Kurze Pause für 1 Zählzeit",
+        "Halten Sie einen gleichmäßigen Rhythmus"
+      ],
+      "benefits": ["Erhöht die Energie", "Verbessert die Wachsamkeit", "Fördert die Durchblutung"]
+    },
+    "heart-coherence": {
+      "name": "Herz-Kohärenz-Atmung",
+      "description": "Rhythmische Atmung für emotionales Gleichgewicht",
+      "instructions": [
+        "Konzentrieren Sie sich auf das Herz-Zentrum",
+        "Atmen Sie 6 Zählzeiten ein",
+        "Atmen Sie 6 Zählzeiten aus",
+        "Halten Sie einen sanften, gleichmäßigen Rhythmus",
+        "Visualisieren Sie das Atmen durch das Herz",
+        "Spüren Sie Dankbarkeit und Liebe"
+      ],
+      "benefits": ["Emotionales Gleichgewicht", "Reduziert Stress", "Verbessert die Herzfrequenzvariabilität"]
+    },
+    "alternate-nostril": {
+      "name": "Wechselatmung durch die Nasenlöcher",
+      "description": "Ausgewogene Atmung für mentale Klarheit und Fokus",
+      "instructions": [
+        "Setzen Sie sich in eine bequeme Position",
+        "Verwenden Sie den rechten Daumen, um das rechte Nasenloch zu schließen",
+        "Atmen Sie 4 Zählzeiten durch das linke Nasenloch ein",
+        "Schließen Sie beide Nasenlöcher, halten Sie 4 Zählzeiten an",
+        "Lösen Sie den Daumen, schließen Sie das linke mit dem Ringfinger",
+        "Atmen Sie 4 Zählzeiten durch das rechte Nasenloch aus",
+        "Atmen Sie 4 Zählzeiten durch das rechte Nasenloch ein",
+        "Wiederholen Sie den Zyklus, wechseln Sie die Nasenlöcher"
+      ],
+      "benefits": ["Balanciert das Nervensystem", "Verbessert den Fokus", "Reduziert mentale Trübung"]
+    },
+    "lion-breath": {
+      "name": "Löwen-Atmung",
+      "description": "Kraftvolle Atmung zur Freisetzung von Spannung und Wut",
+      "instructions": [
+        "Knien Sie oder setzen Sie sich bequem hin",
+        "Atmen Sie tief durch die Nase für 3 Zählzeiten ein",
+        "Halten Sie den Atem für 1 Zählzeit an",
+        "Öffnen Sie den Mund weit, strecken Sie die Zunge heraus",
+        "Atmen Sie mit \"HA\" Laut für 3 Zählzeiten aus",
+        "Entspannen Sie das Gesicht und wiederholen Sie"
+      ],
+      "benefits": ["Löst Spannung", "Reduziert Wut", "Stärkt die Stimme"]
+    },
+    "ocean-breath": {
+      "name": "Ozean-Atmung (Ujjayi)",
+      "description": "Beruhigende Atmung für spirituelle Praxis und Frieden",
+      "instructions": [
+        "Setzen Sie sich in spirituelle Praxis-Haltung",
+        "Verengen Sie den Hals leicht",
+        "Atmen Sie 5 Zählzeiten durch die Nase ein",
+        "Erzeugen Sie einen sanften ozeanähnlichen Klang",
+        "Atmen Sie 5 Zählzeiten durch die Nase aus",
+        "Halten Sie einen gleichmäßigen Rhythmus"
+      ],
+      "benefits": ["Beruhigt den Geist", "Verbessert die Konzentration", "Reduziert Stress"]
+    },
+    "cooling-breath": {
+      "name": "Kühlende Atmung (Sitali)",
+      "description": "Kühlende Atmung für emotionale Hitze und Unruhe",
+      "instructions": [
+        "Setzen Sie sich bequem hin",
+        "Rollen Sie die Zunge zu einer Röhrenform",
+        "Atmen Sie 4 Zählzeiten durch die gerollte Zunge ein",
+        "Schließen Sie den Mund, halten Sie 4 Zählzeiten an",
+        "Atmen Sie 6 Zählzeiten durch die Nase aus",
+        "Spüren Sie die kühlende Empfindung"
+      ],
+      "benefits": ["Kühlt die Körpertemperatur", "Reduziert Unruhe", "Beruhigt Emotionen"]
+    },
+    "victory-breath": {
+      "name": "Sieg-Atmung (Ujjayi)",
+      "description": "Stärkende Atmung für Vertrauen und Schutz",
+      "instructions": [
+        "Setzen Sie sich mit aufrechter Wirbelsäule hin",
+        "Atmen Sie 6 Zählzeiten durch die Nase ein",
+        "Halten Sie den Atem 3 Zählzeiten an",
+        "Atmen Sie 6 Zählzeiten durch die Nase aus",
+        "Erzeugen Sie eine sanfte Halsverengung",
+        "Spüren Sie, wie sich innere Stärke aufbaut"
+      ],
+      "benefits": ["Baut Vertrauen auf", "Erhöht innere Stärke", "Verbessert den Fokus"]
+    },
+    "compassion-breath": {
+      "name": "Mitgefühl-Atmung",
+      "description": "Liebevolle Atmung für Selbstmitgefühl und Heilung",
+      "instructions": [
+        "Legen Sie die Hände auf das Herz-Zentrum",
+        "Atmen Sie 4 Zählzeiten Liebe ein",
+        "Halten Sie die Liebe 4 Zählzeiten im Herzen",
+        "Atmen Sie 6 Zählzeiten Mitgefühl aus",
+        "Ruhen Sie 2 Zählzeiten in der Stille",
+        "Wiederholen Sie mit liebevoller Absicht"
+      ],
+      "benefits": ["Kultiviert Selbstliebe", "Fördert Heilung", "Reduziert Einsamkeit"]
+    },
+    "creative-breath": {
+      "name": "Kreativer Fluss-Atmung",
+      "description": "Inspirierende Atmung für Kreativität und Inspiration",
+      "instructions": [
+        "Setzen Sie sich in eine bequeme Position",
+        "Atmen Sie 3 Zählzeiten Inspiration ein",
+        "Halten Sie die kreative Energie 2 Zählzeiten an",
+        "Atmen Sie 5 Zählzeiten Ausdruck aus",
+        "Pausieren Sie 2 Zählzeiten im kreativen Raum",
+        "Lassen Sie Ideen frei fließen"
+      ],
+      "benefits": ["Stimuliert Kreativität", "Öffnet die Vorstellungskraft", "Verbessert Inspiration"]
+    },
+    "renewal-breath": {
+      "name": "Erneuerungs-Atmung",
+      "description": "Transformierende Atmung für neue Anfänge",
+      "instructions": [
+        "Stehen Sie oder setzen Sie sich mit offenen Armen hin",
+        "Atmen Sie 5 Zählzeiten neue Möglichkeiten ein",
+        "Halten Sie die Transformation 4 Zählzeiten an",
+        "Atmen Sie 7 Zählzeiten alte Muster aus",
+        "Ruhen Sie 3 Zählzeiten in der Erneuerung",
+        "Spüren Sie, wie frische Energie eintritt"
+      ],
+      "benefits": ["Fördert Erneuerung", "Löst alte Muster", "Lädt zu neuen Anfängen ein"]
+    }
   }
 }

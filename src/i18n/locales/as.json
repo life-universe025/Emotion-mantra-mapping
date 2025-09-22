@@ -270,5 +270,42 @@
     "editGoals": "লক্ষ্য সম্পাদনা কৰক",
     "cancel": "বাতিল কৰক",
     "saveGoals": "লক্ষ্য সংৰক্ষণ কৰক"
+  },
+  "alternativePractices": {
+    "breathingExercises": "শ্বাস-প্ৰশ্বাসৰ ব্যায়াম",
+    "affirmations": "ইতিবাচক চিন্তা",
+    "breathingExercisesFor": "{{emotion}} ৰ বাবে শ্বাস-প্ৰশ্বাসৰ ব্যায়াম",
+    "affirmationsFor": "{{emotion}} ৰ বাবে ইতিবাচক চিন্তা",
+    "pattern": "পেটাৰ্ণ:",
+    "startExercise": "ব্যায়াম আৰম্ভ কৰক",
+    "startBreathing": "শ্বাস-প্ৰশ্বাস আৰম্ভ কৰক",
+    "stopExercise": "ব্যায়াম বন্ধ কৰক",
+    "backToExercises": "ব্যায়ামলৈ উভতি যাওক",
+    "nextAffirmation": "পৰৱৰ্তী ইতিবাচক চিন্তা",
+    "noAffirmationsAvailable": "এই অনুভূতিৰ বাবে এতিয়াও কোনো ইতিবাচক চিন্তা উপলব্ধ নাই।",
+    "min": "মিনিট",
+    "cycles": "চক্ৰ",
+    "inhale": "শ্বাস ভিতৰলৈ",
+    "hold": "ৰখক",
+    "exhale": "শ্বাস বাহিৰলৈ",
+    "pause": "বিৰাম",
+    "of": "ৰ",
+    "intensity": {
+      "gentle": "কোমল",
+      "moderate": "মধ্যম",
+      "strong": "শক্তিশালী"
+    },
+    "category": {
+      "Safety": "নিরাপত্তা",
+      "Confidence": "আত্মবিশ্বাস",
+      "Peace": "শান্তি",
+      "Healing": "আরোগ্য",
+      "Growth": "বৃদ্ধি",
+      "Love": "প্রেম",
+      "Wisdom": "জ্ঞান",
+      "Strength": "শক্তি",
+      "Gratitude": "কৃতজ্ঞতা",
+      "Clarity": "স্পষ্টতা"
+    }
   }
 }

@@ -1,9 +1,11 @@
 import { Emotion } from '../types'
 import { 
   IoThunderstorm, IoFlame, IoLeaf, IoHeart, 
-  IoSparkles, IoBed, IoHappy, IoWater 
+  IoSparkles, IoBed, IoHappy, IoWater, IoPerson,
+  IoFlash, IoFitness, IoMusicalNotes,
+  IoEye, IoShield, IoRocket, IoTime, IoRefresh
 } from 'react-icons/io5'
-import { FaBrain, FaBullseye } from 'react-icons/fa'
+import { FaBrain, FaBullseye, FaHeart, FaLightbulb, FaLeaf } from 'react-icons/fa'
 
 export const emotions: Emotion[] = [
   {
@@ -36,7 +38,7 @@ export const emotions: Emotion[] = [
     icon: '🌱',
     reactIcon: IoLeaf,
     description: 'Need to center and find stability',
-    color: 'bg-green-100 text-green-700 border-green-200'
+    color: 'bg-amber-100 text-amber-700 border-amber-200'
   },
   {
     id: 'SADNESS',
@@ -60,7 +62,7 @@ export const emotions: Emotion[] = [
     icon: '🕊️',
     reactIcon: IoBed,
     description: 'Seeking tranquility and rest',
-    color: 'bg-indigo-100 text-indigo-700 border-indigo-200'
+    color: 'bg-yellow-100 text-yellow-700 border-yellow-200'
   },
   {
     id: 'GRATITUDE',
@@ -76,7 +78,7 @@ export const emotions: Emotion[] = [
     icon: '🎯',
     reactIcon: FaBullseye,
     description: 'Need clarity and concentration',
-    color: 'bg-teal-100 text-teal-700 border-teal-200'
+    color: 'bg-orange-100 text-orange-700 border-orange-200'
   },
   {
     id: 'LETTING_GO',
@@ -84,6 +86,102 @@ export const emotions: Emotion[] = [
     icon: '🍃',
     reactIcon: IoWater,
     description: 'Release and surrender',
-    color: 'bg-emerald-100 text-emerald-700 border-emerald-200'
+    color: 'bg-amber-100 text-amber-700 border-amber-200'
+  },
+  {
+    id: 'LONELINESS',
+    name: 'Loneliness / Isolation',
+    icon: '🏠',
+    reactIcon: IoPerson,
+    description: 'Feeling disconnected or alone',
+    color: 'bg-orange-100 text-orange-700 border-orange-200'
+  },
+  {
+    id: 'RESTLESSNESS',
+    name: 'Restlessness / Agitation',
+    icon: '⚡',
+    reactIcon: IoFlash,
+    description: 'Unable to settle or find calm',
+    color: 'bg-yellow-100 text-yellow-700 border-yellow-200'
+  },
+  {
+    id: 'ENERGY',
+    name: 'Energy / Vitality',
+    icon: '💪',
+    reactIcon: IoFitness,
+    description: 'Need for physical or mental energy',
+    color: 'bg-orange-100 text-orange-700 border-orange-200'
+  },
+  {
+    id: 'CREATIVITY',
+    name: 'Creativity / Inspiration',
+    icon: '🎨',
+    reactIcon: IoMusicalNotes,
+    description: 'Seeking creative flow and inspiration',
+    color: 'bg-orange-100 text-orange-700 border-orange-200'
+  },
+  {
+    id: 'CLARITY',
+    name: 'Clarity / Insight',
+    icon: '👁️',
+    reactIcon: IoEye,
+    description: 'Need for clear vision and understanding',
+    color: 'bg-yellow-100 text-yellow-700 border-yellow-200'
+  },
+  {
+    id: 'PROTECTION',
+    name: 'Protection / Safety',
+    icon: '🛡️',
+    reactIcon: IoShield,
+    description: 'Seeking security and protection',
+    color: 'bg-amber-100 text-amber-700 border-amber-200'
+  },
+  {
+    id: 'MOTIVATION',
+    name: 'Motivation / Drive',
+    icon: '🚀',
+    reactIcon: IoRocket,
+    description: 'Need for motivation and forward momentum',
+    color: 'bg-red-100 text-red-700 border-red-200'
+  },
+  {
+    id: 'PATIENCE',
+    name: 'Patience / Timing',
+    icon: '⏰',
+    reactIcon: IoTime,
+    description: 'Learning to wait and trust the process',
+    color: 'bg-amber-100 text-amber-700 border-amber-200'
+  },
+  {
+    id: 'RENEWAL',
+    name: 'Renewal / Rebirth',
+    icon: '🔄',
+    reactIcon: IoRefresh,
+    description: 'Seeking fresh start and transformation',
+    color: 'bg-yellow-100 text-yellow-700 border-yellow-200'
+  },
+  {
+    id: 'SELF_LOVE',
+    name: 'Self-Love / Worth',
+    icon: '💖',
+    reactIcon: FaHeart,
+    description: 'Cultivating self-compassion and worth',
+    color: 'bg-orange-100 text-orange-700 border-orange-200'
+  },
+  {
+    id: 'WISDOM',
+    name: 'Wisdom / Understanding',
+    icon: '💡',
+    reactIcon: FaLightbulb,
+    description: 'Seeking deeper knowledge and insight',
+    color: 'bg-yellow-100 text-yellow-700 border-yellow-200'
+  },
+  {
+    id: 'HEALING',
+    name: 'Healing / Recovery',
+    icon: '🌿',
+    reactIcon: FaLeaf,
+    description: 'Physical, emotional, or spiritual healing',
+    color: 'bg-amber-100 text-amber-700 border-amber-200'
   }
 ]

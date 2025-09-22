@@ -270,5 +270,42 @@
     "editGoals": "ଲକ୍ଷ୍ୟ ସମ୍ପାଦନ କରନ୍ତୁ",
     "cancel": "ବାତିଲ୍ କରନ୍ତୁ",
     "saveGoals": "ଲକ୍ଷ୍ୟ ସେଭ୍ କରନ୍ତୁ"
+  },
+  "alternativePractices": {
+    "breathingExercises": "ଶ୍ୱାସ ବ୍ୟାୟାମ",
+    "affirmations": "ସକାରାତ୍ମକ ଚିନ୍ତା",
+    "breathingExercisesFor": "{{emotion}} ପାଇଁ ଶ୍ୱାସ ବ୍ୟାୟାମ",
+    "affirmationsFor": "{{emotion}} ପାଇଁ ସକାରାତ୍ମକ ଚିନ୍ତା",
+    "pattern": "ପ୍ୟାଟର୍ନ:",
+    "startExercise": "ବ୍ୟାୟାମ ଆରମ୍ଭ କରନ୍ତୁ",
+    "startBreathing": "ଶ୍ୱାସ ଆରମ୍ଭ କରନ୍ତୁ",
+    "stopExercise": "ବ୍ୟାୟାମ ବନ୍ଦ କରନ୍ତୁ",
+    "backToExercises": "ବ୍ୟାୟାମକୁ ଫେରନ୍ତୁ",
+    "nextAffirmation": "ପରବର୍ତ୍ତୀ ସକାରାତ୍ମକ ଚିନ୍ତା",
+    "noAffirmationsAvailable": "ଏହି ଭାବନା ପାଇଁ ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ସକାରାତ୍ମକ ଚିନ୍ତା ଉପଲବ୍ଧ ନାହିଁ।",
+    "min": "ମିନିଟ",
+    "cycles": "ଚକ୍ର",
+    "inhale": "ଶ୍ୱାସ ଭିତର",
+    "hold": "ରଖନ୍ତୁ",
+    "exhale": "ଶ୍ୱାସ ବାହାର",
+    "pause": "ବିରାମ",
+    "of": "ରୁ",
+    "intensity": {
+      "gentle": "କୋମଳ",
+      "moderate": "ମଧ୍ୟମ",
+      "strong": "ଶକ୍ତିଶାଳୀ"
+    },
+    "category": {
+      "Safety": "ସୁରକ୍ଷା",
+      "Confidence": "ଆତ୍ମବିଶ୍ୱାସ",
+      "Peace": "ଶାନ୍ତି",
+      "Healing": "ଉପଚାର",
+      "Growth": "ବୃଦ୍ଧି",
+      "Love": "ପ୍ରେମ",
+      "Wisdom": "ଜ୍ଞାନ",
+      "Strength": "ଶକ୍ତି",
+      "Gratitude": "କୃତଜ୍ଞତା",
+      "Clarity": "ସ୍ପଷ୍ଟତା"
+    }
   }
 }

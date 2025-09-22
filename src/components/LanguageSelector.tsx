@@ -71,12 +71,12 @@ export function LanguageSelector({ variant = 'button', className = '' }: Languag
     <div className={`relative ${className}`}>
       <button
         onClick={handleDropdownToggle}
-        className="inline-flex items-center gap-2 px-3 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 border border-gray-200/50 dark:border-gray-700/50 text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200 rounded-md shadow-sm hover:shadow-md"
+        className="inline-flex items-center gap-1 px-2 py-1.5 h-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 border border-gray-200/50 dark:border-gray-700/50 text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200 rounded-md shadow-sm hover:shadow-md"
         aria-label="Select language"
         aria-expanded={isOpen}
       >
-        <IoLanguage className="w-4 h-4" />
-        <span className="text-sm font-medium">
+        <IoLanguage className="w-3.5 h-3.5" />
+        <span className="text-xs font-medium hidden sm:inline">
           {currentLanguage.nativeName}
         </span>
         <IoChevronDown className={`w-3 h-3 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
@@ -86,12 +86,12 @@ export function LanguageSelector({ variant = 'button', className = '' }: Languag
         <>
           {/* Backdrop */}
           <div 
-            className="fixed inset-0 z-10" 
+            className="fixed inset-0 z-40" 
             onClick={() => setIsOpen(false)}
           />
           
           {/* Dropdown */}
-          <div className="absolute right-0 top-full mt-1 w-44 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-20 overflow-hidden max-h-72 flex flex-col">
+          <div className="absolute right-0 top-full mt-1 w-44 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 overflow-hidden max-h-72 flex flex-col">
             {/* Search Input */}
             <div className="p-1.5 border-b border-gray-200 dark:border-gray-700">
               <div className="relative">

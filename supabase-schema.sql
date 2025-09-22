@@ -38,6 +38,8 @@ CREATE TABLE user_stats (
   total_mood_improvements INTEGER DEFAULT 0,
   average_mood_improvement DECIMAL(3,2) DEFAULT 0.00,
   sessions_with_mood_tracking INTEGER DEFAULT 0,
+  custom_repetition_goal INTEGER DEFAULT NULL,
+  goal_set_at TIMESTAMPTZ DEFAULT NULL,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -52,6 +54,9 @@ CREATE INDEX idx_mantras_emotions ON mantras USING GIN(emotions);
 CREATE INDEX idx_sessions_mood_improvement ON sessions(mood_improvement) WHERE mood_improvement IS NOT NULL;
 CREATE INDEX idx_sessions_before_mood ON sessions(before_mood) WHERE before_mood IS NOT NULL;
 CREATE INDEX idx_sessions_after_mood ON sessions(after_mood) WHERE after_mood IS NOT NULL;
+
+-- Custom goals index
+CREATE INDEX idx_user_stats_custom_goal ON user_stats(custom_repetition_goal) WHERE custom_repetition_goal IS NOT NULL;
 
 -- Create function to update user stats
 CREATE OR REPLACE FUNCTION update_user_stats()

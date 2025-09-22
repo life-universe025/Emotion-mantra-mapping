@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { IoCalendar, IoBarChart, IoFlame, IoTime, IoLeaf, IoTrophy } from 'react-icons/io5'
+import { IoCalendar, IoBarChart, IoFlame, IoTime, IoTrophy } from 'react-icons/io5'
 import { FaBullseye, FaChartLine } from 'react-icons/fa'
 import { SupabaseService } from '../services/supabase'
 import { UserStats as UserStatsType } from '../types'
@@ -385,24 +385,6 @@ export function UserStats({ userId, onMantraSelect, compact = false, onRecentSes
           </div>
         </div>
 
-        {/* Breathing Sessions */}
-        <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-white/40 dark:border-gray-700/40 rounded-2xl p-4 shadow-sm relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-50/20 via-blue-50/20 to-indigo-50/20 dark:from-cyan-900/10 dark:via-blue-900/10 dark:to-indigo-900/10 opacity-50"></div>
-          <div className="relative text-center">
-            <div className="w-10 h-10 rounded-xl bg-cyan-100 dark:bg-cyan-900/50 text-cyan-600 dark:text-cyan-400 flex items-center justify-center mx-auto mb-2">
-              <IoLeaf className="w-5 h-5" />
-            </div>
-            <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-400">
-              {stats?.total_breathing_sessions || 0}
-            </div>
-            <div className="text-sm text-cyan-700 dark:text-cyan-300">Breathing</div>
-            {stats?.favorite_breathing_pattern && (
-              <div className="text-xs text-cyan-600 dark:text-cyan-400 mt-1">
-                {stats.favorite_breathing_pattern}
-              </div>
-            )}
-          </div>
-        </div>
       </div>
 
       {/* Practice Trends Chart */}

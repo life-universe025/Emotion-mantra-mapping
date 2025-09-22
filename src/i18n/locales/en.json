@@ -68,6 +68,13 @@
     },
     "footer": {
       "blessing": "सर्वे भवन्तु सुखिनः सर्वे सन्तु निरामयाः - May all beings be happy and free from illness"
+    },
+    "share": {
+      "title": "Share this app with others",
+      "button": "Share",
+      "text": "Discover the power of mantra practice and spiritual awareness with this beautiful app. Transform your emotions through ancient mantras and guided sacred practices.",
+      "copiedToClipboard": "App link copied to clipboard!",
+      "error": "Unable to share. Please copy the link manually."
     }
   },
   "emotionSelector": {
@@ -143,6 +150,54 @@
     "LETTING_GO": {
       "name": "Letting Go / Acceptance",
       "description": "Release and surrender"
+    },
+    "LONELINESS": {
+      "name": "Loneliness / Isolation",
+      "description": "Feeling disconnected or alone"
+    },
+    "RESTLESSNESS": {
+      "name": "Restlessness / Agitation",
+      "description": "Unable to settle or find calm"
+    },
+    "ENERGY": {
+      "name": "Energy / Vitality",
+      "description": "Need for physical or mental energy"
+    },
+    "CREATIVITY": {
+      "name": "Creativity / Inspiration",
+      "description": "Seeking creative flow and inspiration"
+    },
+    "CLARITY": {
+      "name": "Clarity / Insight",
+      "description": "Need for clear vision and understanding"
+    },
+    "PROTECTION": {
+      "name": "Protection / Safety",
+      "description": "Seeking security and protection"
+    },
+    "MOTIVATION": {
+      "name": "Motivation / Drive",
+      "description": "Need for motivation and forward momentum"
+    },
+    "PATIENCE": {
+      "name": "Patience / Timing",
+      "description": "Learning to wait and trust the process"
+    },
+    "RENEWAL": {
+      "name": "Renewal / Rebirth",
+      "description": "Seeking fresh start and transformation"
+    },
+    "SELF_LOVE": {
+      "name": "Self-Love / Worth",
+      "description": "Cultivating self-compassion and worth"
+    },
+    "WISDOM": {
+      "name": "Wisdom / Understanding",
+      "description": "Seeking deeper knowledge and insight"
+    },
+    "HEALING": {
+      "name": "Healing / Recovery",
+      "description": "Physical, emotional, or spiritual healing"
     }
   },
   "mantras": {
@@ -185,6 +240,54 @@
     "aham-brahmasmi": {
       "transliteration": "Aham Brahmasmi",
       "meaning": "Non-dual realization; release identification with ego"
+    },
+    "om-namah-shivaya-loneliness": {
+      "transliteration": "Om Namah Shivaya",
+      "meaning": "Connection to the divine within; overcoming isolation"
+    },
+    "om-shanti-restlessness": {
+      "transliteration": "Om Shanti Shanti Shanti",
+      "meaning": "Peace in body, mind, and spirit; calming restlessness"
+    },
+    "om-surya-namaha": {
+      "transliteration": "Om Surya Namaha",
+      "meaning": "Invoking solar energy and vitality"
+    },
+    "om-saraswati-namaha": {
+      "transliteration": "Om Saraswati Namaha",
+      "meaning": "Goddess of creativity, arts, and inspiration"
+    },
+    "om-aim-hrim-klim-chamundaye-viche": {
+      "transliteration": "Om Aim Hrim Klim Chamundaye Viche",
+      "meaning": "Goddess of clarity and removing obstacles to wisdom"
+    },
+    "om-hanuman-namaha": {
+      "transliteration": "Om Hanuman Namaha",
+      "meaning": "Divine protection and strength"
+    },
+    "om-gam-ganapataye-namaha": {
+      "transliteration": "Om Gam Ganapataye Namaha",
+      "meaning": "Remover of obstacles; motivation and new beginnings"
+    },
+    "om-kali-namaha": {
+      "transliteration": "Om Kali Namaha",
+      "meaning": "Goddess of time and transformation; patience with process"
+    },
+    "om-ram-ramaya-namaha": {
+      "transliteration": "Om Ram Ramaya Namaha",
+      "meaning": "Divine renewal and fresh beginnings"
+    },
+    "om-kamala-namaha": {
+      "transliteration": "Om Kamala Namaha",
+      "meaning": "Goddess of self-love and inner beauty"
+    },
+    "om-gayatri-wisdom": {
+      "transliteration": "Om Bhur Bhuvah Svah Tat-savitur Varenyam Bhargo Devasya Dhimahi Dhiyo Yonah Prachodayat",
+      "meaning": "Awakening inner wisdom and divine knowledge"
+    },
+    "om-dhanvantre-namaha": {
+      "transliteration": "Om Dhanvantre Namaha",
+      "meaning": "Divine physician; healing and recovery"
     }
   },
   "auth": {
@@ -201,7 +304,17 @@
     "startedAt": "Started at {{time}}",
     "completePractice": "Complete Practice",
     "tapToCount": "Tap to Count",
-    "tapToCountDescription": "Tap the circle above to count each repetition"
+    "tapToCountDescription": "Tap the circle above to count each repetition",
+    "customGoal": "Custom Goal",
+    "setGoal": "Set Goal",
+    "goalOf": "of {{count}} goal",
+    "goalReached": "Goal Reached!",
+    "setCustomGoal": "Set Custom Goal",
+    "enterGoal": "Enter your repetition goal",
+    "goalPlaceholder": "e.g., 21, 54, 108",
+    "saveGoal": "Save Goal",
+    "clearGoal": "Clear Goal",
+    "useSuggested": "Use Suggested"
   },
   "breathingGuide": {
     "title": "Breathing Guide",
@@ -277,13 +390,15 @@
     "improving": "Improving",
     "declining": "Declining",
     "stable": "Stable",
-    "encouragement": "Your meditation practice is consistently improving your mood! 🎉"
+    "encouragement": "Your mantra practice is consistently improving your mood! 🎉"
   },
   "footer": {
     "madeWith": "Made with ❤️ for your spiritual journey",
     "blessingTranslation": "May all beings be happy, may all beings be free from illness",
     "copyright": "© {{year}} Sanatan Mantra Sadhana. All rights reserved.",
-    "sacredSpace": "A sacred space for meditation and inner peace"
+    "sacredSpace": "A sacred space for mantra practice and inner peace",
+    "termsAndConditions": "Terms & Conditions",
+    "privacyPolicy": "Privacy Policy"
   },
   "common": {
     "loading": "Loading your sacred sadhana...",
@@ -299,5 +414,595 @@
     "editGoals": "Edit Goals",
     "cancel": "Cancel",
     "saveGoals": "Save Goals"
+  },
+  "alternativePractices": {
+    "breathingExercises": "Breathing Exercises",
+    "affirmations": "Affirmations",
+    "breathingExercisesFor": "Breathing Exercises for {{emotion}}",
+    "affirmationsFor": "Affirmations for {{emotion}}",
+    "pattern": "Pattern:",
+    "startExercise": "Start Exercise",
+    "startBreathing": "Start Breathing",
+    "stopExercise": "Stop Exercise",
+    "backToExercises": "Back to Exercises",
+    "nextAffirmation": "Next Affirmation",
+    "noAffirmationsAvailable": "No affirmations available for this emotion yet.",
+    "min": "min",
+    "cycles": "cycles",
+    "inhale": "INHALE",
+    "hold": "HOLD",
+    "exhale": "EXHALE",
+    "pause": "PAUSE",
+    "of": "of",
+    "intensity": {
+      "gentle": "Gentle",
+      "moderate": "Moderate", 
+      "strong": "Strong"
+    },
+    "category": {
+      "Safety": "Safety",
+      "Confidence": "Confidence",
+      "Peace": "Peace",
+      "Healing": "Healing",
+      "Growth": "Growth",
+      "Love": "Love",
+      "Wisdom": "Wisdom",
+      "Strength": "Strength",
+      "Gratitude": "Gratitude",
+      "Clarity": "Clarity",
+      "Calm": "Calm",
+      "Trust": "Trust",
+      "Release": "Release",
+      "Capability": "Capability",
+      "Compassion": "Compassion",
+      "Mastery": "Mastery",
+      "Stability": "Stability",
+      "Balance": "Balance",
+      "Transformation": "Transformation",
+      "Worth": "Worth",
+      "Courage": "Courage",
+      "Power": "Power",
+      "Relaxation": "Relaxation",
+      "Surrender": "Surrender",
+      "Joy": "Joy",
+      "Abundance": "Abundance",
+      "Attention": "Attention",
+      "Learning": "Learning",
+      "Acceptance": "Acceptance",
+      "Freedom": "Freedom",
+      "Connection": "Connection",
+      "Unity": "Unity",
+      "Wholeness": "Wholeness",
+      "Present": "Present",
+      "Stillness": "Stillness",
+      "Vitality": "Vitality",
+      "Flow": "Flow",
+      "Channel": "Channel",
+      "Inspiration": "Inspiration",
+      "Expression": "Expression",
+      "Vision": "Vision",
+      "Truth": "Truth",
+      "Divine": "Divine",
+      "Security": "Security",
+      "Fortress": "Fortress",
+      "Purpose": "Purpose",
+      "Determination": "Determination",
+      "Action": "Action",
+      "Timing": "Timing",
+      "Process": "Process",
+      "Rebirth": "Rebirth",
+      "Phoenix": "Phoenix",
+      "Magnificence": "Magnificence",
+      "Reception": "Reception",
+      "Understanding": "Understanding",
+      "Vessel": "Vessel",
+      "Harmony": "Harmony",
+      "Restoration": "Restoration"
+    }
+  },
+  "breathingExercises": {
+    "box-breathing": {
+      "name": "Box Breathing",
+      "description": "Equal count breathing for grounding and calm",
+      "instructions": [
+        "Sit comfortably with spine straight",
+        "Inhale for 4 counts",
+        "Hold breath for 4 counts",
+        "Exhale for 4 counts",
+        "Hold empty for 4 counts",
+        "Repeat the cycle"
+      ],
+      "benefits": ["Reduces stress", "Improves focus", "Calms nervous system"]
+    },
+    "4-7-8-breathing": {
+      "name": "4-7-8 Breathing",
+      "description": "Relaxing breath for anxiety and sleep",
+      "instructions": [
+        "Place tongue tip behind upper teeth",
+        "Exhale completely through mouth",
+        "Inhale through nose for 4 counts",
+        "Hold breath for 7 counts",
+        "Exhale through mouth for 8 counts",
+        "Repeat cycle"
+      ],
+      "benefits": ["Reduces anxiety", "Promotes sleep", "Activates parasympathetic nervous system"]
+    },
+    "energizing-breath": {
+      "name": "Energizing Breath",
+      "description": "Quick breathing to increase energy and alertness",
+      "instructions": [
+        "Sit upright with shoulders back",
+        "Quick inhale for 2 counts",
+        "Brief hold for 1 count",
+        "Quick exhale for 2 counts",
+        "Brief pause for 1 count",
+        "Maintain steady rhythm"
+      ],
+      "benefits": ["Increases energy", "Improves alertness", "Boosts circulation"]
+    },
+    "heart-coherence": {
+      "name": "Heart Coherence Breathing",
+      "description": "Rhythmic breathing for emotional balance",
+      "instructions": [
+        "Focus on heart center",
+        "Inhale for 6 counts",
+        "Exhale for 6 counts",
+        "Maintain smooth, even rhythm",
+        "Visualize breathing through heart",
+        "Feel gratitude and love"
+      ],
+      "benefits": ["Emotional balance", "Reduces stress", "Improves heart rate variability"]
+    },
+    "alternate-nostril": {
+      "name": "Alternate Nostril Breathing",
+      "description": "Balancing breath for mental clarity and focus",
+      "instructions": [
+        "Sit in comfortable position",
+        "Use right thumb to close right nostril",
+        "Inhale through left nostril for 4 counts",
+        "Close both nostrils, hold for 4 counts",
+        "Release thumb, close left with ring finger",
+        "Exhale through right nostril for 4 counts",
+        "Inhale through right nostril for 4 counts",
+        "Repeat cycle, alternating nostrils"
+      ],
+      "benefits": ["Balances nervous system", "Improves focus", "Reduces mental fog"]
+    },
+    "lion-breath": {
+      "name": "Lion Breath",
+      "description": "Powerful breath for releasing tension and anger",
+      "instructions": [
+        "Kneel or sit comfortably",
+        "Inhale deeply through nose for 3 counts",
+        "Hold breath for 1 count",
+        "Open mouth wide, stick out tongue",
+        "Exhale with \"HA\" sound for 3 counts",
+        "Relax face and repeat"
+      ],
+      "benefits": ["Releases tension", "Reduces anger", "Strengthens voice"]
+    },
+    "ocean-breath": {
+      "name": "Ocean Breath (Ujjayi)",
+      "description": "Soothing breath for sacred practice and peace",
+      "instructions": [
+        "Sit in sacred practice posture",
+        "Slightly constrict throat",
+        "Inhale through nose for 5 counts",
+        "Create soft ocean-like sound",
+        "Exhale through nose for 5 counts",
+        "Maintain steady rhythm"
+      ],
+      "benefits": ["Calms mind", "Improves concentration", "Reduces stress"]
+    },
+    "cooling-breath": {
+      "name": "Cooling Breath (Sitali)",
+      "description": "Cooling breath for emotional heat and agitation",
+      "instructions": [
+        "Sit comfortably",
+        "Curl tongue into tube shape",
+        "Inhale through curled tongue for 4 counts",
+        "Close mouth, hold for 4 counts",
+        "Exhale through nose for 6 counts",
+        "Feel cooling sensation"
+      ],
+      "benefits": ["Cools body temperature", "Reduces agitation", "Calms emotions"]
+    },
+    "victory-breath": {
+      "name": "Victory Breath (Ujjayi)",
+      "description": "Strengthening breath for confidence and protection",
+      "instructions": [
+        "Sit with spine erect",
+        "Inhale through nose for 6 counts",
+        "Hold breath for 3 counts",
+        "Exhale through nose for 6 counts",
+        "Create gentle throat constriction",
+        "Feel inner strength building"
+      ],
+      "benefits": ["Builds confidence", "Increases inner strength", "Improves focus"]
+    },
+    "compassion-breath": {
+      "name": "Compassion Breath",
+      "description": "Loving breath for self-compassion and healing",
+      "instructions": [
+        "Place hands on heart center",
+        "Inhale love for 4 counts",
+        "Hold love in heart for 4 counts",
+        "Exhale compassion for 6 counts",
+        "Rest in stillness for 2 counts",
+        "Repeat with loving intention"
+      ],
+      "benefits": ["Cultivates self-love", "Promotes healing", "Reduces loneliness"]
+    },
+    "creative-breath": {
+      "name": "Creative Flow Breath",
+      "description": "Inspiring breath for creativity and inspiration",
+      "instructions": [
+        "Sit in comfortable position",
+        "Inhale inspiration for 3 counts",
+        "Hold creative energy for 2 counts",
+        "Exhale expression for 5 counts",
+        "Pause in creative space for 2 counts",
+        "Allow ideas to flow freely"
+      ],
+      "benefits": ["Stimulates creativity", "Opens imagination", "Enhances inspiration"]
+    },
+    "renewal-breath": {
+      "name": "Renewal Breath",
+      "description": "Transforming breath for new beginnings",
+      "instructions": [
+        "Stand or sit with arms open",
+        "Inhale new possibilities for 5 counts",
+        "Hold transformation for 4 counts",
+        "Exhale old patterns for 7 counts",
+        "Rest in renewal for 3 counts",
+        "Feel fresh energy entering"
+      ],
+      "benefits": ["Promotes renewal", "Releases old patterns", "Invites new beginnings"]
+    }
+  },
+  "affirmations": {
+    "anxiety-1": {
+      "text": "I am safe and protected in this moment."
+    },
+    "anxiety-2": {
+      "text": "I breathe in peace and exhale fear."
+    },
+    "anxiety-3": {
+      "text": "I trust in my ability to handle whatever comes my way."
+    },
+    "stress-1": {
+      "text": "My mind is clear and focused."
+    },
+    "stress-2": {
+      "text": "I release all tension and embrace peace."
+    },
+    "stress-3": {
+      "text": "I am capable of handling any challenge with grace."
+    },
+    "anger-1": {
+      "text": "I choose peace over conflict."
+    },
+    "anger-2": {
+      "text": "I release anger and embrace compassion."
+    },
+    "anger-3": {
+      "text": "I am the master of my emotions, not their slave."
+    },
+    "grounding-1": {
+      "text": "I am rooted and stable like a tree."
+    },
+    "grounding-2": {
+      "text": "I am centered and balanced in all aspects of my life."
+    },
+    "grounding-3": {
+      "text": "I am unshakeable in my inner strength and peace."
+    },
+    "sadness-1": {
+      "text": "I allow myself to feel and heal."
+    },
+    "sadness-2": {
+      "text": "My heart is open to love and compassion."
+    },
+    "sadness-3": {
+      "text": "I transform pain into wisdom and strength."
+    },
+    "confidence-1": {
+      "text": "I am worthy of all good things."
+    },
+    "confidence-2": {
+      "text": "I embrace new opportunities with courage."
+    },
+    "confidence-3": {
+      "text": "I am unstoppable in pursuing my dreams."
+    },
+    "peace-1": {
+      "text": "I am at peace with myself and the world."
+    },
+    "peace-2": {
+      "text": "My mind and body are relaxed and calm."
+    },
+    "peace-3": {
+      "text": "I surrender to the flow of life with complete trust."
+    },
+    "gratitude-1": {
+      "text": "I am grateful for all the blessings in my life."
+    },
+    "gratitude-2": {
+      "text": "Joy flows through me and radiates to others."
+    },
+    "gratitude-3": {
+      "text": "I am a magnet for abundance and happiness."
+    },
+    "focus-1": {
+      "text": "My attention is sharp and unwavering."
+    },
+    "focus-2": {
+      "text": "I absorb knowledge with ease and clarity."
+    },
+    "focus-3": {
+      "text": "I am a master of concentration and focus."
+    },
+    "letting-go-1": {
+      "text": "I release what no longer serves me."
+    },
+    "letting-go-2": {
+      "text": "I accept what is and flow with life."
+    },
+    "letting-go-3": {
+      "text": "I am free from all attachments and limitations."
+    },
+    "loneliness-1": {
+      "text": "I am connected to all beings through love."
+    },
+    "loneliness-2": {
+      "text": "I am never truly alone; I am one with the universe."
+    },
+    "loneliness-3": {
+      "text": "I am complete and whole within myself."
+    },
+    "restlessness-1": {
+      "text": "I find peace in the present moment."
+    },
+    "restlessness-2": {
+      "text": "I am calm and centered despite external chaos."
+    },
+    "restlessness-3": {
+      "text": "I am the eye of the storm, peaceful and still."
+    },
+    "energy-1": {
+      "text": "I am filled with vibrant, positive energy."
+    },
+    "energy-2": {
+      "text": "My energy flows freely and powerfully."
+    },
+    "energy-3": {
+      "text": "I am an unstoppable force of positive energy."
+    },
+    "creativity-1": {
+      "text": "I am a channel for divine creativity."
+    },
+    "creativity-2": {
+      "text": "Inspiration flows through me effortlessly."
+    },
+    "creativity-3": {
+      "text": "I am a limitless source of creative expression."
+    },
+    "clarity-1": {
+      "text": "My vision is clear and my path is illuminated."
+    },
+    "clarity-2": {
+      "text": "I see through all illusions to the truth."
+    },
+    "clarity-3": {
+      "text": "I am a beacon of clarity and wisdom."
+    },
+    "protection-1": {
+      "text": "I am surrounded by divine protection."
+    },
+    "protection-2": {
+      "text": "I am safe and secure in all situations."
+    },
+    "protection-3": {
+      "text": "I am an impenetrable fortress of light and love."
+    },
+    "motivation-1": {
+      "text": "I am motivated by my highest purpose."
+    },
+    "motivation-2": {
+      "text": "I move forward with determination and passion."
+    },
+    "motivation-3": {
+      "text": "I am an unstoppable force of positive action."
+    },
+    "patience-1": {
+      "text": "I trust in divine timing."
+    },
+    "patience-2": {
+      "text": "I am patient with myself and the process."
+    },
+    "patience-3": {
+      "text": "I am the master of patience and divine timing."
+    },
+    "renewal-1": {
+      "text": "I am reborn with each new day."
+    },
+    "renewal-2": {
+      "text": "I embrace transformation and renewal."
+    },
+    "renewal-3": {
+      "text": "I am a phoenix rising from the ashes of the old."
+    },
+    "self-love-1": {
+      "text": "I love and accept myself completely."
+    },
+    "self-love-2": {
+      "text": "I am worthy of love, respect, and happiness."
+    },
+    "self-love-3": {
+      "text": "I am a magnificent being of infinite worth."
+    },
+    "wisdom-1": {
+      "text": "I am open to receiving divine wisdom."
+    },
+    "wisdom-2": {
+      "text": "I understand the deeper meaning of all experiences."
+    },
+    "wisdom-3": {
+      "text": "I am a vessel of infinite wisdom and knowledge."
+    },
+    "healing-1": {
+      "text": "I am healing on all levels of my being."
+    },
+    "healing-2": {
+      "text": "My body, mind, and spirit are in perfect harmony."
+    },
+    "healing-3": {
+      "text": "I am a powerful force of healing and restoration."
+    }
+  },
+  "legal": {
+    "termsAndConditions": {
+      "title": "Terms & Conditions",
+      "subtitle": "Please read these terms carefully before using our service",
+      "lastUpdated": "Last updated: January 2025",
+      "acceptance": {
+        "title": "1. Acceptance of Terms",
+        "content": "By accessing and using the Emotion Mantra Mapping application, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service."
+      },
+      "serviceDescription": {
+        "title": "2. Service Description",
+        "content": "Emotion Mantra Mapping is a mantra practice and spiritual awareness application that provides:",
+        "features": {
+          "mantras": "Traditional Sanskrit mantras for emotional healing and spiritual growth",
+          "breathing": "Guided breathing exercises for relaxation and focus",
+          "affirmations": "Positive affirmations to support mental well-being",
+          "tracking": "Session tracking and progress monitoring"
+        }
+      },
+      "userAccounts": {
+        "title": "3. User Accounts",
+        "content": "When you create an account with us, you must provide information that is accurate, complete, and current at all times. You are responsible for:",
+        "responsibilities": {
+          "accuracy": "Maintaining the accuracy of your account information",
+          "security": "Safeguarding your password and account security",
+          "notify": "Notifying us immediately of any unauthorized use of your account"
+        }
+      },
+      "privacy": {
+        "title": "4. Privacy",
+        "content": "Your privacy is important to us. Please review our Privacy Policy, which also governs your use of the service, to understand our practices."
+      },
+      "disclaimers": {
+        "title": "5. Disclaimers",
+        "content": "The information on this application is provided on an 'as is' basis. To the fullest extent permitted by law, we exclude:",
+        "notMedical": "This application is not intended to replace professional medical advice, diagnosis, or treatment",
+        "noGuarantee": "We make no guarantees about the effectiveness of mantra practice or spiritual awareness practices",
+        "userResponsibility": "Users are responsible for their own mental and physical well-being"
+      },
+      "limitation": {
+        "title": "6. Limitation of Liability",
+        "content": "In no event shall Emotion Mantra Mapping, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your use of the service."
+      },
+      "termination": {
+        "title": "7. Termination",
+        "content": "We may terminate or suspend your account and bar access to the service immediately, without prior notice or liability, under our sole discretion, for any reason whatsoever and without limitation, including but not limited to a breach of the Terms."
+      },
+      "changes": {
+        "title": "8. Changes to Terms",
+        "content": "We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will provide at least 30 days notice prior to any new terms taking effect."
+      },
+      "contact": {
+        "title": "9. Contact Information",
+        "content": "If you have any questions about these Terms & Conditions, please contact us through the application or at our support email."
+      }
+    },
+    "privacyPolicy": {
+      "title": "Privacy Policy",
+      "subtitle": "How we collect, use, and protect your personal information",
+      "lastUpdated": "Last updated: January 2025",
+      "introduction": {
+        "title": "1. Introduction",
+        "content": "This Privacy Policy describes how Emotion Mantra Mapping collects, uses, and protects your personal information when you use our mantra practice and spiritual awareness application. We are committed to protecting your privacy and ensuring the security of your personal data."
+      },
+      "informationWeCollect": {
+        "title": "2. Information We Collect",
+        "content": "We collect information you provide directly to us and information we obtain automatically when you use our service.",
+        "personalInfo": {
+          "title": "Personal Information",
+          "email": "Email address for account creation and communication",
+          "name": "Display name and profile information",
+          "avatar": "Profile picture (optional)"
+        },
+        "usageData": {
+          "title": "Usage Data",
+          "sessions": "Mantra practice session data (duration, repetitions, notes)",
+          "preferences": "App preferences and settings",
+          "device": "Device information and technical data",
+          "analytics": "Usage patterns and app performance data"
+        }
+      },
+      "howWeUse": {
+        "title": "3. How We Use Your Information",
+        "content": "We use the information we collect to:",
+        "purposes": {
+          "service": "Provide and maintain our mantra practice services",
+          "personalization": "Personalize your experience and recommendations",
+          "analytics": "Analyze usage patterns to improve our service",
+          "communication": "Send important updates and notifications",
+          "improvement": "Develop new features and enhance existing ones"
+        }
+      },
+      "dataSharing": {
+        "title": "4. Information Sharing",
+        "content": "We do not sell, trade, or otherwise transfer your personal information to third parties except in the following circumstances:",
+        "scenarios": {
+          "service": "With service providers who assist us in operating our application",
+          "legal": "When required by law or to protect our rights and safety",
+          "consent": "With your explicit consent for specific purposes"
+        }
+      },
+      "dataSecurity": {
+        "title": "5. Data Security",
+        "content": "We implement appropriate security measures to protect your personal information:",
+        "measures": {
+          "encryption": "Data encryption in transit and at rest",
+          "access": "Limited access to personal information on a need-to-know basis",
+          "monitoring": "Regular security monitoring and updates",
+          "backup": "Secure data backup and recovery procedures"
+        }
+      },
+      "yourRights": {
+        "title": "6. Your Rights",
+        "content": "You have the following rights regarding your personal information:",
+        "rights": {
+          "access": "Access your personal data we hold",
+          "correction": "Correct inaccurate or incomplete information",
+          "deletion": "Request deletion of your personal data",
+          "portability": "Receive a copy of your data in a portable format",
+          "restriction": "Restrict processing of your personal data",
+          "objection": "Object to processing of your personal data"
+        }
+      },
+      "cookies": {
+        "title": "7. Cookies and Tracking",
+        "content": "We use cookies and similar technologies to enhance your experience, analyze usage, and provide personalized content. You can control cookie settings through your browser preferences."
+      },
+      "dataRetention": {
+        "title": "8. Data Retention",
+        "content": "We retain your personal information only for as long as necessary to provide our services and fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required by law."
+      },
+      "children": {
+        "title": "9. Children's Privacy",
+        "content": "Our service is not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us."
+      },
+      "changes": {
+        "title": "10. Changes to Privacy Policy",
+        "content": "We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the 'Last updated' date."
+      },
+      "contact": {
+        "title": "11. Contact Us",
+        "content": "If you have any questions about this Privacy Policy or our data practices, please contact us through the application or at our support email."
+      }
+    }
   }
 }

@@ -12,6 +12,8 @@ const router = createBrowserRouter([
   { path: '/profile', element: <UserProfilePageWrapper /> },
   { path: '/practice/:emotionId', element: <PracticePageWrapper /> },
   { path: '/mantra/:mantraSlug', element: <MantraPageWrapper /> },
+  { path: '/alternatives/:emotionId', element: <AlternativesPageWrapper /> },
+  { path: '/alternatives/:emotionId/:tab', element: <AlternativesPageWrapper /> },
 ], {
   future: {
     v7_startTransition: true,
@@ -32,7 +34,11 @@ function MantraPageWrapper() {
   return <AppRouteProxy to="mantra" />
 }
 
-function AppRouteProxy({ to }: { to: 'profile' | 'practice' | 'mantra' }) {
+function AlternativesPageWrapper() {
+  return <AppRouteProxy to="alternatives" />
+}
+
+function AppRouteProxy({ to }: { to: 'profile' | 'practice' | 'mantra' | 'alternatives' }) {
   // Render App; App will read initial state from URL
   return <App initialRoute={to} /> as any
 }

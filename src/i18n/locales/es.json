@@ -143,6 +143,54 @@
     "LETTING_GO": {
       "name": "Dejar Ir / Aceptación",
       "description": "Liberación y rendición"
+    },
+    "LONELINESS": {
+      "name": "Soledad / Aislamiento",
+      "description": "Sintiéndose desconectado o solo"
+    },
+    "RESTLESSNESS": {
+      "name": "Inquietud / Agitación",
+      "description": "Incapaz de asentarse o encontrar calma"
+    },
+    "ENERGY": {
+      "name": "Energía / Vitalidad",
+      "description": "Necesidad de energía física o mental"
+    },
+    "CREATIVITY": {
+      "name": "Creatividad / Inspiración",
+      "description": "Buscando flujo creativo e inspiración"
+    },
+    "CLARITY": {
+      "name": "Claridad / Perspicacia",
+      "description": "Necesidad de visión clara y comprensión"
+    },
+    "PROTECTION": {
+      "name": "Protección / Seguridad",
+      "description": "Buscando seguridad y protección"
+    },
+    "MOTIVATION": {
+      "name": "Motivación / Impulso",
+      "description": "Necesidad de motivación y impulso hacia adelante"
+    },
+    "PATIENCE": {
+      "name": "Paciencia / Tiempo",
+      "description": "Aprendiendo a esperar y confiar en el proceso"
+    },
+    "RENEWAL": {
+      "name": "Renovación / Renacimiento",
+      "description": "Buscando un nuevo comienzo y transformación"
+    },
+    "SELF_LOVE": {
+      "name": "Amor Propio / Valor",
+      "description": "Cultivando autocompasión y valor"
+    },
+    "WISDOM": {
+      "name": "Sabiduría / Comprensión",
+      "description": "Buscando conocimiento más profundo e introspección"
+    },
+    "HEALING": {
+      "name": "Sanación / Recuperación",
+      "description": "Sanación física, emocional o espiritual"
     }
   },
   "mantras": {
@@ -185,6 +233,54 @@
     "aham-brahmasmi": {
       "transliteration": "Aham Brahmasmi",
       "meaning": "Realización no-dual; liberar identificación con el ego"
+    },
+    "om-namah-shivaya-loneliness": {
+      "transliteration": "Om Namah Shivaya",
+      "meaning": "Conexión con lo divino interior; superar el aislamiento"
+    },
+    "om-shanti-restlessness": {
+      "transliteration": "Om Shanti Shanti Shanti",
+      "meaning": "Paz en cuerpo, mente y espíritu; calmando la inquietud"
+    },
+    "om-surya-namaha": {
+      "transliteration": "Om Surya Namaha",
+      "meaning": "Invocando energía solar y vitalidad"
+    },
+    "om-saraswati-namaha": {
+      "transliteration": "Om Saraswati Namaha",
+      "meaning": "Diosa de la creatividad, artes e inspiración"
+    },
+    "om-aim-hrim-klim-chamundaye-viche": {
+      "transliteration": "Om Aim Hrim Klim Chamundaye Viche",
+      "meaning": "Diosa de la claridad y remover obstáculos a la sabiduría"
+    },
+    "om-hanuman-namaha": {
+      "transliteration": "Om Hanuman Namaha",
+      "meaning": "Protección divina y fuerza"
+    },
+    "om-gam-ganapataye-namaha": {
+      "transliteration": "Om Gam Ganapataye Namaha",
+      "meaning": "Removedor de obstáculos; motivación y nuevos comienzos"
+    },
+    "om-kali-namaha": {
+      "transliteration": "Om Kali Namaha",
+      "meaning": "Diosa del tiempo y transformación; paciencia con el proceso"
+    },
+    "om-ram-ramaya-namaha": {
+      "transliteration": "Om Ram Ramaya Namaha",
+      "meaning": "Renovación divina y nuevos comienzos"
+    },
+    "om-kamala-namaha": {
+      "transliteration": "Om Kamala Namaha",
+      "meaning": "Diosa del amor propio y belleza interior"
+    },
+    "om-gayatri-wisdom": {
+      "transliteration": "Om Bhur Bhuvah Svah Tat-savitur Varenyam Bhargo Devasya Dhimahi Dhiyo Yonah Prachodayat",
+      "meaning": "Despertando sabiduría interior y conocimiento divino"
+    },
+    "om-dhanvantre-namaha": {
+      "transliteration": "Om Dhanvantre Namaha",
+      "meaning": "Médico divino; sanación y recuperación"
     }
   },
   "auth": {
@@ -270,5 +366,202 @@
     "editGoals": "Editar Objetivos",
     "cancel": "Cancelar",
     "saveGoals": "Guardar Objetivos"
+  },
+  "alternativePractices": {
+    "breathingExercises": "Ejercicios de Respiración",
+    "affirmations": "Afirmaciones",
+    "breathingExercisesFor": "Ejercicios de Respiración para {{emotion}}",
+    "affirmationsFor": "Afirmaciones para {{emotion}}",
+    "pattern": "Patrón:",
+    "startExercise": "Iniciar Ejercicio",
+    "startBreathing": "Iniciar Respiración",
+    "stopExercise": "Detener Ejercicio",
+    "backToExercises": "Volver a Ejercicios",
+    "nextAffirmation": "Siguiente Afirmación",
+    "noAffirmationsAvailable": "No hay afirmaciones disponibles para esta emoción aún.",
+    "min": "min",
+    "cycles": "ciclos",
+    "inhale": "INHALAR",
+    "hold": "MANTENER",
+    "exhale": "EXHALAR",
+    "pause": "PAUSA",
+    "of": "de",
+    "intensity": {
+      "gentle": "Suave",
+      "moderate": "Moderado",
+      "strong": "Fuerte"
+    },
+    "category": {
+      "Safety": "Seguridad",
+      "Confidence": "Confianza",
+      "Peace": "Paz",
+      "Healing": "Sanación",
+      "Growth": "Crecimiento",
+      "Love": "Amor",
+      "Wisdom": "Sabiduría",
+      "Strength": "Fuerza",
+      "Gratitude": "Gratitud",
+      "Clarity": "Claridad"
+    }
+  },
+  "breathingExercises": {
+    "box-breathing": {
+      "name": "Respiración en Caja",
+      "description": "Respiración de conteo igual para estabilidad y calma",
+      "instructions": [
+        "Siéntate cómodamente con la columna recta",
+        "Inhala por 4 conteos",
+        "Mantén la respiración por 4 conteos",
+        "Exhala por 4 conteos",
+        "Mantén vacío por 4 conteos",
+        "Repite el ciclo"
+      ],
+      "benefits": ["Reduce el estrés", "Mejora el enfoque", "Calma el sistema nervioso"]
+    },
+    "4-7-8-breathing": {
+      "name": "Respiración 4-7-8",
+      "description": "Respiración relajante para ansiedad y sueño",
+      "instructions": [
+        "Coloca la punta de la lengua detrás de los dientes superiores",
+        "Exhala completamente por la boca",
+        "Inhala por la nariz por 4 conteos",
+        "Mantén la respiración por 7 conteos",
+        "Exhala por la boca por 8 conteos",
+        "Repite el ciclo"
+      ],
+      "benefits": ["Reduce la ansiedad", "Promueve el sueño", "Activa el sistema nervioso parasimpático"]
+    },
+    "energizing-breath": {
+      "name": "Respiración Energizante",
+      "description": "Respiración rápida para aumentar energía y alerta",
+      "instructions": [
+        "Siéntate erguido con los hombros hacia atrás",
+        "Inhalación rápida por 2 conteos",
+        "Mantén brevemente por 1 conteo",
+        "Exhalación rápida por 2 conteos",
+        "Pausa breve por 1 conteo",
+        "Mantén un ritmo constante"
+      ],
+      "benefits": ["Aumenta la energía", "Mejora la alerta", "Impulsa la circulación"]
+    },
+    "heart-coherence": {
+      "name": "Respiración de Coherencia Cardíaca",
+      "description": "Respiración rítmica para equilibrio emocional",
+      "instructions": [
+        "Enfócate en el centro del corazón",
+        "Inhala por 6 conteos",
+        "Exhala por 6 conteos",
+        "Mantén un ritmo suave y uniforme",
+        "Visualiza respirando a través del corazón",
+        "Siente gratitud y amor"
+      ],
+      "benefits": ["Equilibrio emocional", "Reduce el estrés", "Mejora la variabilidad del ritmo cardíaco"]
+    },
+    "alternate-nostril": {
+      "name": "Respiración Alternada por Fosas Nasales",
+      "description": "Respiración equilibrada para claridad mental y enfoque",
+      "instructions": [
+        "Siéntate en posición cómoda",
+        "Usa el pulgar derecho para cerrar la fosa nasal derecha",
+        "Inhala por la fosa nasal izquierda por 4 conteos",
+        "Cierra ambas fosas nasales, mantén por 4 conteos",
+        "Suelta el pulgar, cierra la izquierda con el anular",
+        "Exhala por la fosa nasal derecha por 4 conteos",
+        "Inhala por la fosa nasal derecha por 4 conteos",
+        "Repite el ciclo, alternando fosas nasales"
+      ],
+      "benefits": ["Equilibra el sistema nervioso", "Mejora el enfoque", "Reduce la niebla mental"]
+    },
+    "lion-breath": {
+      "name": "Respiración del León",
+      "description": "Respiración poderosa para liberar tensión y ira",
+      "instructions": [
+        "Arrodíllate o siéntate cómodamente",
+        "Inhala profundamente por la nariz por 3 conteos",
+        "Mantén la respiración por 1 conteo",
+        "Abre la boca ampliamente, saca la lengua",
+        "Exhala con sonido \"HA\" por 3 conteos",
+        "Relaja el rostro y repite"
+      ],
+      "benefits": ["Libera tensión", "Reduce la ira", "Fortalece la voz"]
+    },
+    "ocean-breath": {
+      "name": "Respiración del Océano (Ujjayi)",
+      "description": "Respiración calmante para meditación y paz",
+      "instructions": [
+        "Siéntate en postura de meditación",
+        "Constriñe ligeramente la garganta",
+        "Inhala por la nariz por 5 conteos",
+        "Crea un sonido suave como el océano",
+        "Exhala por la nariz por 5 conteos",
+        "Mantén un ritmo constante"
+      ],
+      "benefits": ["Calma la mente", "Mejora la concentración", "Reduce el estrés"]
+    },
+    "cooling-breath": {
+      "name": "Respiración Refrescante (Sitali)",
+      "description": "Respiración refrescante para calor emocional y agitación",
+      "instructions": [
+        "Siéntate cómodamente",
+        "Enrolla la lengua en forma de tubo",
+        "Inhala por la lengua enrollada por 4 conteos",
+        "Cierra la boca, mantén por 4 conteos",
+        "Exhala por la nariz por 6 conteos",
+        "Siente la sensación refrescante"
+      ],
+      "benefits": ["Enfría la temperatura corporal", "Reduce la agitación", "Calma las emociones"]
+    },
+    "victory-breath": {
+      "name": "Respiración de Victoria (Ujjayi)",
+      "description": "Respiración fortalecedora para confianza y protección",
+      "instructions": [
+        "Siéntate con la columna erguida",
+        "Inhala por la nariz por 6 conteos",
+        "Mantén la respiración por 3 conteos",
+        "Exhala por la nariz por 6 conteos",
+        "Crea una constricción suave de garganta",
+        "Siente la fuerza interior construyéndose"
+      ],
+      "benefits": ["Construye confianza", "Aumenta la fuerza interior", "Mejora el enfoque"]
+    },
+    "compassion-breath": {
+      "name": "Respiración de Compasión",
+      "description": "Respiración amorosa para autocompasión y sanación",
+      "instructions": [
+        "Coloca las manos en el centro del corazón",
+        "Inhala amor por 4 conteos",
+        "Mantén el amor en el corazón por 4 conteos",
+        "Exhala compasión por 6 conteos",
+        "Descansa en quietud por 2 conteos",
+        "Repite con intención amorosa"
+      ],
+      "benefits": ["Cultiva el amor propio", "Promueve la sanación", "Reduce la soledad"]
+    },
+    "creative-breath": {
+      "name": "Respiración de Flujo Creativo",
+      "description": "Respiración inspiradora para creatividad e inspiración",
+      "instructions": [
+        "Siéntate en posición cómoda",
+        "Inhala inspiración por 3 conteos",
+        "Mantén la energía creativa por 2 conteos",
+        "Exhala expresión por 5 conteos",
+        "Pausa en el espacio creativo por 2 conteos",
+        "Permite que las ideas fluyan libremente"
+      ],
+      "benefits": ["Estimula la creatividad", "Abre la imaginación", "Mejora la inspiración"]
+    },
+    "renewal-breath": {
+      "name": "Respiración de Renovación",
+      "description": "Respiración transformadora para nuevos comienzos",
+      "instructions": [
+        "Párate o siéntate con los brazos abiertos",
+        "Inhala nuevas posibilidades por 5 conteos",
+        "Mantén la transformación por 4 conteos",
+        "Exhala patrones antiguos por 7 conteos",
+        "Descansa en renovación por 3 conteos",
+        "Siente la energía fresca entrando"
+      ],
+      "benefits": ["Promueve la renovación", "Libera patrones antiguos", "Invita nuevos comienzos"]
+    }
   }
 }

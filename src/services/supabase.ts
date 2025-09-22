@@ -515,4 +515,81 @@ export class SupabaseService {
       error: null
     }
   }
+
+  // Custom repetition goals
+  static async setCustomRepetitionGoal(userId: string, goal: number) {
+    try {
+      const { data, error } = await supabase
+        .from('user_stats')
+        .upsert({
+          user_id: userId,
+          custom_repetition_goal: goal,
+          goal_set_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }, {
+          onConflict: 'user_id'
+        })
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Error setting custom repetition goal:', error)
+        return { success: false, error: error.message }
+      }
+
+      return { success: true, data }
+    } catch (error) {
+      console.error('Error setting custom repetition goal:', error)
+      return { success: false, error: 'Failed to set custom repetition goal' }
+    }
+  }
+
+  static async getCustomRepetitionGoal(userId: string) {
+    try {
+      const { data, error } = await supabase
+        .from('user_stats')
+        .select('custom_repetition_goal, goal_set_at')
+        .eq('user_id', userId)
+        .single()
+
+      if (error && error.code !== 'PGRST116') { // PGRST116 = no rows returned
+        console.error('Error fetching custom repetition goal:', error)
+        return { success: false, error: error.message }
+      }
+
+      return { 
+        success: true, 
+        goal: data?.custom_repetition_goal || null,
+        goalSetAt: data?.goal_set_at || null
+      }
+    } catch (error) {
+      console.error('Error fetching custom repetition goal:', error)
+      return { success: false, error: 'Failed to fetch custom repetition goal' }
+    }
+  }
+
+  static async clearCustomRepetitionGoal(userId: string) {
+    try {
+      const { data, error } = await supabase
+        .from('user_stats')
+        .update({
+          custom_repetition_goal: null,
+          goal_set_at: null,
+          updated_at: new Date().toISOString()
+        })
+        .eq('user_id', userId)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Error clearing custom repetition goal:', error)
+        return { success: false, error: error.message }
+      }
+
+      return { success: true, data }
+    } catch (error) {
+      console.error('Error clearing custom repetition goal:', error)
+      return { success: false, error: 'Failed to clear custom repetition goal' }
+    }
+  }
 }

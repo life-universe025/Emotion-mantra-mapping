@@ -1,10 +1,10 @@
 # Sanatan Mantra Sadhana
 
-A beautiful, modern web application that helps users find the perfect mantra for their current emotional state and track their meditation practice. Experience the eternal wisdom of sacred mantras combined with cutting-edge technology for your spiritual journey.
+A beautiful, modern web application that helps users find the perfect mantra for their current emotional state and track their mantra practice. Experience the eternal wisdom of sacred mantras combined with cutting-edge technology for your spiritual journey.
 
 ## ✨ Features
 
-### 🧘‍♀️ **Core Meditation Experience**
+### 🧘‍♀️ **Core Mantra Practice Experience**
 - **Emotion-Based Mantra Selection**: Choose from 10 core emotions to find the perfect mantra
 - **Interactive Practice Session**: Audio playback, repetition counter, and progress tracking
 - **Guided Breathing Exercises**: 4 different breathing patterns (4-7-8, Box Breathing, Simple Deep, Energizing)
@@ -17,7 +17,7 @@ A beautiful, modern web application that helps users find the perfect mantra for
 - **Practice Trends**: Interactive charts showing daily/weekly progress over time
 - **Favorite Mantras**: Track your most practiced mantras with quick access
 - **Milestone System**: Achievements and badges for consistent practice
-- **Goal Setting**: Customizable daily and weekly meditation goals
+- **Goal Setting**: Customizable daily and weekly mantra practice goals
 
 ### 🎨 **Beautiful User Experience**
 - **Modern UI**: Responsive design with glassmorphism effects and smooth animations
@@ -165,7 +165,7 @@ The app includes 10 traditional Sanskrit mantras with their emotional correspond
 ### **Advanced Analytics**
 - **Practice Trends**: Interactive charts showing progress over time
 - **Milestone System**: Achievements for consistent practice
-- **Goal Tracking**: Daily and weekly meditation goals
+- **Goal Tracking**: Daily and weekly mantra practice goals
 - **Insights**: Personalized recommendations based on practice patterns
 
 ### **Streak Animations**
@@ -227,7 +227,7 @@ The application supports **16 languages** with complete interface translation, m
 - **App Interface**: 100% translated (buttons, menus, navigation)
 - **Emotion Names**: All 10 emotions with cultural context
 - **Mantra Meanings**: Spiritual concepts properly translated
-- **Instructions**: Meditation and breathing guidance
+- **Instructions**: Mantra practice and breathing guidance
 - **User Dashboard**: Statistics, analytics, and progress tracking
 - **Error Messages**: User-friendly error handling
 - **Accessibility**: Screen reader support in multiple languages
@@ -242,7 +242,7 @@ graph TB
         A[React Frontend]
         B[Language Selector]
         C[Authentication UI]
-        D[Meditation Interface]
+        D[Mantra Practice Interface]
         E[Analytics Dashboard]
     end
     
@@ -369,7 +369,7 @@ sequenceDiagram
     A->>F: Return JWT token
     F->>S: Store auth session
     
-    Note over U,A: Meditation Practice Flow
+    Note over U,A: Mantra Practice Flow
     U->>F: Select emotion
     F->>S: Get mantras by emotion
     S->>E: Call mantras endpoint
@@ -464,7 +464,7 @@ graph TD
         E[Header]
     end
     
-    subgraph "Core Meditation Flow"
+    subgraph "Core Mantra Practice Flow"
         F[EmotionSelector]
         G[MantraPractice]
         H[BreathingGuide]
@@ -626,7 +626,7 @@ src/
 - **Authentication**: Secure access with user verification
 
 ### **Sessions** (`/supabase/functions/sessions/`)
-- **Session Creation**: Record meditation practice sessions
+- **Session Creation**: Record mantra practice sessions
 - **Breathing Data**: Store breathing exercise information
 - **Automatic Stats Update**: Triggers user statistics updates
 - **Session Validation**: Ensures data integrity and completeness
@@ -745,8 +745,8 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 - **Community Features**: Sharing and social aspects
 - **Mobile App**: Native iOS and Android apps
 - **Voice Recognition**: Mantra pronunciation feedback
-- **Meditation Timer**: Customizable session timers
-- **Guided Meditations**: Audio-guided meditation sessions
+- **Mantra Practice Timer**: Customizable session timers
+- **Guided Mantra Practice**: Audio-guided mantra practice sessions
 
 ---
 

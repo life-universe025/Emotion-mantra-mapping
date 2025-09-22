@@ -270,5 +270,42 @@
     "editGoals": "लक्ष्य सम्पादन गर्नुहोस्",
     "cancel": "रद्द गर्नुहोस्",
     "saveGoals": "लक्ष्य बचत गर्नुहोस्"
+  },
+  "alternativePractices": {
+    "breathingExercises": "श्वास व्यायाम",
+    "affirmations": "सकारात्मक विचार",
+    "breathingExercisesFor": "{{emotion}} का लागि श्वास व्यायाम",
+    "affirmationsFor": "{{emotion}} का लागि सकारात्मक विचार",
+    "pattern": "ढाँचा:",
+    "startExercise": "व्यायाम सुरु गर्नुहोस्",
+    "startBreathing": "श्वास सुरु गर्नुहोस्",
+    "stopExercise": "व्यायाम रोक्नुहोस्",
+    "backToExercises": "व्यायामहरूमा फर्कनुहोस्",
+    "nextAffirmation": "अर्को सकारात्मक विचार",
+    "noAffirmationsAvailable": "यो भावनाका लागि अहिलेसम्म कुनै सकारात्मक विचार उपलब्ध छैन।",
+    "min": "मिनेट",
+    "cycles": "चक्र",
+    "inhale": "श्वास भित्र",
+    "hold": "राख्नुहोस्",
+    "exhale": "श्वास बाहिर",
+    "pause": "विराम",
+    "of": "मध्ये",
+    "intensity": {
+      "gentle": "कोमल",
+      "moderate": "मध्यम",
+      "strong": "बलियो"
+    },
+    "category": {
+      "Safety": "सुरक्षा",
+      "Confidence": "आत्मविश्वास",
+      "Peace": "शान्ति",
+      "Healing": "उपचार",
+      "Growth": "वृद्धि",
+      "Love": "प्रेम",
+      "Wisdom": "ज्ञान",
+      "Strength": "शक्ति",
+      "Gratitude": "कृतज्ञता",
+      "Clarity": "स्पष्टता"
+    }
   }
 }

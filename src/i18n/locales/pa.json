@@ -270,5 +270,42 @@
     "editGoals": "ਲਕਸ਼ਾਂ ਸੰਪਾਦਨ ਕਰੋ",
     "cancel": "ਰੱਦ ਕਰੋ",
     "saveGoals": "ਲਕਸ਼ਾਂ ਸੇਵ ਕਰੋ"
+  },
+  "alternativePractices": {
+    "breathingExercises": "ਸਾਹ ਦੇ ਅਭਿਆਸ",
+    "affirmations": "ਸਕਾਰਾਤਮਕ ਵਿਚਾਰ",
+    "breathingExercisesFor": "{{emotion}} ਲਈ ਸਾਹ ਦੇ ਅਭਿਆਸ",
+    "affirmationsFor": "{{emotion}} ਲਈ ਸਕਾਰਾਤਮਕ ਵਿਚਾਰ",
+    "pattern": "ਪੈਟਰਨ:",
+    "startExercise": "ਅਭਿਆਸ ਸ਼ੁਰੂ ਕਰੋ",
+    "startBreathing": "ਸਾਹ ਸ਼ੁਰੂ ਕਰੋ",
+    "stopExercise": "ਅਭਿਆਸ ਰੋਕੋ",
+    "backToExercises": "ਅਭਿਆਸਾਂ 'ਤੇ ਵਾਪਸ ਜਾਓ",
+    "nextAffirmation": "ਅਗਲਾ ਸਕਾਰਾਤਮਕ ਵਿਚਾਰ",
+    "noAffirmationsAvailable": "ਇਸ ਭਾਵਨਾ ਲਈ ਅਜੇ ਤੱਕ ਕੋਈ ਸਕਾਰਾਤਮਕ ਵਿਚਾਰ ਉਪਲਬਧ ਨਹੀਂ ਹੈ।",
+    "min": "ਮਿੰਟ",
+    "cycles": "ਚੱਕਰ",
+    "inhale": "ਸਾਹ ਅੰਦਰ",
+    "hold": "ਰੋਕੋ",
+    "exhale": "ਸਾਹ ਬਾਹਰ",
+    "pause": "ਵਿਰਾਮ",
+    "of": "ਵਿੱਚੋਂ",
+    "intensity": {
+      "gentle": "ਨਰਮ",
+      "moderate": "ਦਰਮਿਆਨਾ",
+      "strong": "ਮਜ਼ਬੂਤ"
+    },
+    "category": {
+      "Safety": "ਸੁਰੱਖਿਆ",
+      "Confidence": "ਆਤਮ-ਵਿਸ਼ਵਾਸ",
+      "Peace": "ਸ਼ਾਂਤੀ",
+      "Healing": "ਇਲਾਜ",
+      "Growth": "ਵਿਕਾਸ",
+      "Love": "ਪਿਆਰ",
+      "Wisdom": "ਗਿਆਨ",
+      "Strength": "ਤਾਕਤ",
+      "Gratitude": "ਕ੍ਰਿਤਗਿਆਤਾ",
+      "Clarity": "ਸਪਸ਼ਟਤਾ"
+    }
   }
 }

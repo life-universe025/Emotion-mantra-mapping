@@ -1,9 +1,12 @@
 
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { LegalModal } from './LegalModal'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
   const { t } = useTranslation()
+  const [showLegalModal, setShowLegalModal] = useState<'terms' | 'privacy' | null>(null)
 
   return (
     <footer className="relative mt-16 py-8 bg-gradient-to-r from-orange-50/80 via-amber-50/80 to-yellow-50/80 dark:from-gray-900/80 dark:via-slate-900/80 dark:to-gray-800/80 border-t border-amber-200/30 dark:border-gray-700/30">
@@ -32,6 +35,24 @@ export function Footer() {
             </p>
           </div>
 
+          {/* Legal Links */}
+          <div className="mb-4">
+            <div className="flex justify-center gap-6 text-xs">
+              <button
+                onClick={() => setShowLegalModal('terms')}
+                className="text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition-colors underline decoration-amber-300 dark:decoration-amber-500 hover:decoration-amber-400 dark:hover:decoration-amber-400"
+              >
+                {t('footer.termsAndConditions')}
+              </button>
+              <button
+                onClick={() => setShowLegalModal('privacy')}
+                className="text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition-colors underline decoration-amber-300 dark:decoration-amber-500 hover:decoration-amber-400 dark:hover:decoration-amber-400"
+              >
+                {t('footer.privacyPolicy')}
+              </button>
+            </div>
+          </div>
+
           {/* Copyright */}
           <div className="text-xs text-gray-500 dark:text-gray-400">
             <p>{t('footer.copyright', { year: currentYear })}</p>
@@ -39,6 +60,13 @@ export function Footer() {
           </div>
         </div>
       </div>
+
+      {/* Legal Modal */}
+      <LegalModal
+        type={showLegalModal || 'terms'}
+        isOpen={showLegalModal !== null}
+        onClose={() => setShowLegalModal(null)}
+      />
     </footer>
   )
 }

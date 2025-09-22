@@ -107,7 +107,7 @@ export function UserProfile({ user, onLogout, onClose }: UserProfileProps) {
       achievements.push({
         id: 'week_streak',
         title: 'Week Warrior',
-        description: '7-day meditation streak',
+        description: '7-day mantra practice streak',
         icon: IoFlame,
         color: 'text-orange-500',
         bgColor: 'bg-orange-100 dark:bg-orange-900/30',
@@ -119,7 +119,7 @@ export function UserProfile({ user, onLogout, onClose }: UserProfileProps) {
       achievements.push({
         id: 'month_streak',
         title: 'Monthly Master',
-        description: '30-day meditation streak',
+        description: '30-day mantra practice streak',
         icon: FaCrown,
         color: 'text-purple-500',
         bgColor: 'bg-purple-100 dark:bg-purple-900/30',
@@ -152,18 +152,18 @@ export function UserProfile({ user, onLogout, onClose }: UserProfileProps) {
       })
     }
     
-    // Breathing achievements
-    if (stats.total_breathing_sessions && stats.total_breathing_sessions >= 50) {
-      achievements.push({
-        id: 'breathing_master',
-        title: 'Breathing Master',
-        description: '50 breathing sessions',
-        icon: IoTrophy,
-        color: 'text-cyan-500',
-        bgColor: 'bg-cyan-100 dark:bg-cyan-900/30',
-        earned: true
-      })
-    }
+    // Breathing achievements - TODO: Add total_breathing_sessions to UserStats type
+    // if (stats.total_breathing_sessions && stats.total_breathing_sessions >= 50) {
+    //   achievements.push({
+    //     id: 'breathing_master',
+    //     title: 'Breathing Master',
+    //     description: '50 breathing sessions',
+    //     icon: IoTrophy,
+    //     color: 'text-cyan-500',
+    //     bgColor: 'bg-cyan-100 dark:bg-cyan-900/30',
+    //     earned: true
+    //   })
+    // }
     
     return achievements
   }
@@ -384,7 +384,7 @@ export function UserProfile({ user, onLogout, onClose }: UserProfileProps) {
                 <div className="space-y-4">
                   <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
                     <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Notifications</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Manage your meditation reminders and updates</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Manage your mantra practice reminders and updates</p>
                     <button className="mt-2 text-sm text-primary-600 dark:text-primary-400 hover:underline">
                       Configure notifications
                     </button>
@@ -400,7 +400,7 @@ export function UserProfile({ user, onLogout, onClose }: UserProfileProps) {
                   
                   <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
                     <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Export Data</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Download your meditation data</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Download your mantra practice data</p>
                     <button className="mt-2 text-sm text-primary-600 dark:text-primary-400 hover:underline">
                       Export my data
                     </button>

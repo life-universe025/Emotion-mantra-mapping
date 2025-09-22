@@ -143,6 +143,54 @@
     "LETTING_GO": {
       "name": "手放し・受容",
       "description": "解放と降伏"
+    },
+    "LONELINESS": {
+      "name": "孤独・孤立",
+      "description": "つながりを失ったり、一人でいる感覚"
+    },
+    "RESTLESSNESS": {
+      "name": "落ち着かない・焦燥",
+      "description": "落ち着くことができず、平静を見つけられない"
+    },
+    "ENERGY": {
+      "name": "エネルギー・活力",
+      "description": "身体的または精神的なエネルギーが必要"
+    },
+    "CREATIVITY": {
+      "name": "創造性・インスピレーション",
+      "description": "創造的な流れとインスピレーションを求める"
+    },
+    "CLARITY": {
+      "name": "明晰さ・洞察",
+      "description": "明確な視野と理解が必要"
+    },
+    "PROTECTION": {
+      "name": "保護・安全",
+      "description": "安全と保護を求める"
+    },
+    "MOTIVATION": {
+      "name": "動機・推進力",
+      "description": "動機と前進の推進力が必要"
+    },
+    "PATIENCE": {
+      "name": "忍耐・タイミング",
+      "description": "待つこととプロセスを信頼することを学ぶ"
+    },
+    "RENEWAL": {
+      "name": "更新・再生",
+      "description": "新しい始まりと変容を求める"
+    },
+    "SELF_LOVE": {
+      "name": "自己愛・価値",
+      "description": "自己慈悲と価値を育む"
+    },
+    "WISDOM": {
+      "name": "知恵・理解",
+      "description": "より深い知識と洞察を求める"
+    },
+    "HEALING": {
+      "name": "癒し・回復",
+      "description": "身体的、感情的、または精神的な癒し"
     }
   },
   "mantras": {
@@ -185,6 +233,54 @@
     "aham-brahmasmi": {
       "transliteration": "Aham Brahmasmi",
       "meaning": "非二元の実現；自我との同一視の解放"
+    },
+    "om-namah-shivaya-loneliness": {
+      "transliteration": "Om Namah Shivaya",
+      "meaning": "内なる神聖とのつながり；孤立を克服する"
+    },
+    "om-shanti-restlessness": {
+      "transliteration": "Om Shanti Shanti Shanti",
+      "meaning": "身体、心、魂の平和；落ち着かない気持ちを鎮める"
+    },
+    "om-surya-namaha": {
+      "transliteration": "Om Surya Namaha",
+      "meaning": "太陽エネルギーと活力を呼び起こす"
+    },
+    "om-saraswati-namaha": {
+      "transliteration": "Om Saraswati Namaha",
+      "meaning": "創造性、芸術、インスピレーションの女神"
+    },
+    "om-aim-hrim-klim-chamundaye-viche": {
+      "transliteration": "Om Aim Hrim Klim Chamundaye Viche",
+      "meaning": "明晰さの女神；知恵への障害を取り除く"
+    },
+    "om-hanuman-namaha": {
+      "transliteration": "Om Hanuman Namaha",
+      "meaning": "神聖な保護と力"
+    },
+    "om-gam-ganapataye-namaha": {
+      "transliteration": "Om Gam Ganapataye Namaha",
+      "meaning": "障害を取り除く者；動機と新しい始まり"
+    },
+    "om-kali-namaha": {
+      "transliteration": "Om Kali Namaha",
+      "meaning": "時間と変容の女神；プロセスへの忍耐"
+    },
+    "om-ram-ramaya-namaha": {
+      "transliteration": "Om Ram Ramaya Namaha",
+      "meaning": "神聖な更新と新しい始まり"
+    },
+    "om-kamala-namaha": {
+      "transliteration": "Om Kamala Namaha",
+      "meaning": "自己愛と内なる美しさの女神"
+    },
+    "om-gayatri-wisdom": {
+      "transliteration": "Om Bhur Bhuvah Svah Tat-savitur Varenyam Bhargo Devasya Dhimahi Dhiyo Yonah Prachodayat",
+      "meaning": "内なる知恵と神聖な知識を目覚めさせる"
+    },
+    "om-dhanvantre-namaha": {
+      "transliteration": "Om Dhanvantre Namaha",
+      "meaning": "神聖な医師；癒しと回復"
     }
   },
   "auth": {
@@ -270,5 +366,202 @@
     "editGoals": "目標を編集",
     "cancel": "キャンセル",
     "saveGoals": "目標を保存"
+  },
+  "alternativePractices": {
+    "breathingExercises": "呼吸法",
+    "affirmations": "アファメーション",
+    "breathingExercisesFor": "{{emotion}}のための呼吸法",
+    "affirmationsFor": "{{emotion}}のためのアファメーション",
+    "pattern": "パターン:",
+    "startExercise": "エクササイズ開始",
+    "startBreathing": "呼吸開始",
+    "stopExercise": "エクササイズ停止",
+    "backToExercises": "エクササイズに戻る",
+    "nextAffirmation": "次のアファメーション",
+    "noAffirmationsAvailable": "この感情に対するアファメーションはまだ利用できません。",
+    "min": "分",
+    "cycles": "サイクル",
+    "inhale": "吸気",
+    "hold": "保持",
+    "exhale": "呼気",
+    "pause": "休止",
+    "of": "の",
+    "intensity": {
+      "gentle": "穏やか",
+      "moderate": "中程度",
+      "strong": "強い"
+    },
+    "category": {
+      "Safety": "安全",
+      "Confidence": "自信",
+      "Peace": "平和",
+      "Healing": "癒し",
+      "Growth": "成長",
+      "Love": "愛",
+      "Wisdom": "知恵",
+      "Strength": "強さ",
+      "Gratitude": "感謝",
+      "Clarity": "明確さ"
+    }
+  },
+  "breathingExercises": {
+    "box-breathing": {
+      "name": "ボックス呼吸",
+      "description": "安定と落ち着きのための等間隔カウント呼吸",
+      "instructions": [
+        "背骨をまっすぐにして快適に座る",
+        "4カウントで息を吸う",
+        "4カウント息を止める",
+        "4カウントで息を吐く",
+        "4カウント空の状態を保つ",
+        "サイクルを繰り返す"
+      ],
+      "benefits": ["ストレスを軽減", "集中力を向上", "神経系を落ち着かせる"]
+    },
+    "4-7-8-breathing": {
+      "name": "4-7-8呼吸",
+      "description": "不安と睡眠のためのリラックス呼吸",
+      "instructions": [
+        "舌先を上の歯の後ろに置く",
+        "口から完全に息を吐く",
+        "鼻から4カウントで息を吸う",
+        "7カウント息を止める",
+        "口から8カウントで息を吐く",
+        "サイクルを繰り返す"
+      ],
+      "benefits": ["不安を軽減", "睡眠を促進", "副交感神経系を活性化"]
+    },
+    "energizing-breath": {
+      "name": "エネルギッシュ呼吸",
+      "description": "エネルギーと覚醒を高めるための速い呼吸",
+      "instructions": [
+        "肩を後ろに引いてまっすぐ座る",
+        "2カウントで素早く息を吸う",
+        "1カウント短く止める",
+        "2カウントで素早く息を吐く",
+        "1カウント短く休む",
+        "安定したリズムを保つ"
+      ],
+      "benefits": ["エネルギーを増加", "覚醒を向上", "循環を促進"]
+    },
+    "heart-coherence": {
+      "name": "ハートコヒーレンス呼吸",
+      "description": "感情的バランスのためのリズミカルな呼吸",
+      "instructions": [
+        "ハートセンターに集中する",
+        "6カウントで息を吸う",
+        "6カウントで息を吐く",
+        "滑らかで均等なリズムを保つ",
+        "ハートを通して呼吸することを視覚化する",
+        "感謝と愛を感じる"
+      ],
+      "benefits": ["感情的バランス", "ストレスを軽減", "心拍変動を改善"]
+    },
+    "alternate-nostril": {
+      "name": "片鼻呼吸",
+      "description": "精神的明晰さと集中のためのバランス呼吸",
+      "instructions": [
+        "快適な姿勢で座る",
+        "右手の親指で右の鼻を閉じる",
+        "左の鼻から4カウントで息を吸う",
+        "両方の鼻を閉じ、4カウント止める",
+        "親指を離し、薬指で左を閉じる",
+        "右の鼻から4カウントで息を吐く",
+        "右の鼻から4カウントで息を吸う",
+        "鼻を交互に変えてサイクルを繰り返す"
+      ],
+      "benefits": ["神経系をバランス", "集中力を向上", "精神的霧を軽減"]
+    },
+    "lion-breath": {
+      "name": "ライオン呼吸",
+      "description": "緊張と怒りを解放するための強力な呼吸",
+      "instructions": [
+        "ひざまずくか快適に座る",
+        "鼻から3カウントで深く息を吸う",
+        "1カウント息を止める",
+        "口を大きく開け、舌を出す",
+        "「ハ」の音で3カウント息を吐く",
+        "顔をリラックスさせて繰り返す"
+      ],
+      "benefits": ["緊張を解放", "怒りを軽減", "声を強化"]
+    },
+    "ocean-breath": {
+      "name": "オーシャン呼吸（ウジャイ）",
+      "description": "瞑想と平和のための鎮静呼吸",
+      "instructions": [
+        "瞑想の姿勢で座る",
+        "喉を軽く収縮させる",
+        "鼻から5カウントで息を吸う",
+        "柔らかい海のような音を作る",
+        "鼻から5カウントで息を吐く",
+        "安定したリズムを保つ"
+      ],
+      "benefits": ["心を落ち着かせる", "集中力を向上", "ストレスを軽減"]
+    },
+    "cooling-breath": {
+      "name": "冷却呼吸（シータリー）",
+      "description": "感情的熱と興奮のための冷却呼吸",
+      "instructions": [
+        "快適に座る",
+        "舌をチューブ状に巻く",
+        "巻いた舌から4カウントで息を吸う",
+        "口を閉じ、4カウント止める",
+        "鼻から6カウントで息を吐く",
+        "冷却感を感じる"
+      ],
+      "benefits": ["体温を下げる", "興奮を軽減", "感情を落ち着かせる"]
+    },
+    "victory-breath": {
+      "name": "勝利呼吸（ウジャイ）",
+      "description": "自信と保護のための強化呼吸",
+      "instructions": [
+        "背骨をまっすぐにして座る",
+        "鼻から6カウントで息を吸う",
+        "3カウント息を止める",
+        "鼻から6カウントで息を吐く",
+        "柔らかい喉の収縮を作る",
+        "内なる強さが構築されるのを感じる"
+      ],
+      "benefits": ["自信を構築", "内なる強さを増加", "集中力を向上"]
+    },
+    "compassion-breath": {
+      "name": "慈悲呼吸",
+      "description": "自己慈悲と癒しのための愛の呼吸",
+      "instructions": [
+        "手をハートセンターに置く",
+        "4カウント愛を吸う",
+        "4カウントハートに愛を保つ",
+        "6カウント慈悲を吐く",
+        "2カウント静寂に休む",
+        "愛の意図で繰り返す"
+      ],
+      "benefits": ["自己愛を育む", "癒しを促進", "孤独を軽減"]
+    },
+    "creative-breath": {
+      "name": "創造的フロー呼吸",
+      "description": "創造性とインスピレーションのための鼓舞呼吸",
+      "instructions": [
+        "快適な姿勢で座る",
+        "3カウントインスピレーションを吸う",
+        "2カウント創造的エネルギーを保つ",
+        "5カウント表現を吐く",
+        "2カウント創造的空間で休む",
+        "アイデアが自由に流れるのを許す"
+      ],
+      "benefits": ["創造性を刺激", "想像力を開く", "インスピレーションを向上"]
+    },
+    "renewal-breath": {
+      "name": "再生呼吸",
+      "description": "新しい始まりのための変容呼吸",
+      "instructions": [
+        "腕を開いて立つか座る",
+        "5カウント新しい可能性を吸う",
+        "4カウント変容を保つ",
+        "7カウント古いパターンを吐く",
+        "3カウント再生に休む",
+        "新鮮なエネルギーが入るのを感じる"
+      ],
+      "benefits": ["再生を促進", "古いパターンを解放", "新しい始まりを招く"]
+    }
   }
 }
