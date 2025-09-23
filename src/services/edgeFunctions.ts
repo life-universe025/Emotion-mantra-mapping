@@ -53,9 +53,6 @@ export class EdgeFunctionService {
     repetitions: number
     duration_seconds: number
     notes?: string
-    breathing_pattern?: string
-    breathing_cycles?: number
-    breathing_duration_seconds?: number
     before_mood?: number
     after_mood?: number
     mood_improvement?: number

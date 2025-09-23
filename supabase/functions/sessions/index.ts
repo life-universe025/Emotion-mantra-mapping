@@ -44,9 +44,6 @@ serve(async (req) => {
         repetitions, 
         duration_seconds, 
         notes, 
-        breathing_pattern, 
-        breathing_cycles, 
-        breathing_duration_seconds,
         before_mood,
         after_mood,
         mood_improvement
@@ -115,9 +112,6 @@ serve(async (req) => {
           repetitions,
           duration_seconds,
           notes: notes || null,
-          breathing_pattern: breathing_pattern || null,
-          breathing_cycles: breathing_cycles || null,
-          breathing_duration_seconds: breathing_duration_seconds || null,
           before_mood: before_mood || null,
           after_mood: after_mood || null,
           mood_improvement: mood_improvement || null
