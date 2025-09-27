@@ -1,10 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { emotions } from '../data/emotions'
-import { mantras } from '../data/mantras'
 import { Emotion, Mantra } from '../types'
 import { IoSearch, IoSparkles, IoHappy, IoFlash } from 'react-icons/io5'
 import { useTranslation } from 'react-i18next'
+import { SupabaseService } from '../services/supabase'
 
 interface EmotionSelectorProps {
   onEmotionSelect: (emotion: Emotion, mantra: Mantra) => void
@@ -13,8 +12,64 @@ interface EmotionSelectorProps {
 export function EmotionSelector({ onEmotionSelect }: EmotionSelectorProps) {
   const [searchQuery, setSearchQuery] = useState('')
   const [showReactIcons, setShowReactIcons] = useState(false)
+  const [mantras, setMantras] = useState<Mantra[]>([])
+  const [emotions, setEmotions] = useState<Emotion[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate()
   const { t, i18n } = useTranslation()
+
+
+  // Load mantras from database on component mount
+  useEffect(() => {
+    const loadMantras = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+        
+        // Fetch mantras with emotion relationships
+        const result = await SupabaseService.getMantras()
+        
+        if (result.error) {
+          setError('Failed to load mantras')
+          console.error('Error loading mantras:', result.error)
+          return
+        }
+        
+        console.log('API Response:', result)
+        console.log('Mantras data:', result.data)
+        setMantras(result.data || [])
+        
+        // Extract unique emotions from mantras - ONLY from emotion_mantra array
+        const uniqueEmotions = new Map()
+        result.data?.forEach((mantra: any) => {
+          console.log('Processing mantra:', mantra.slug, 'with relationships:', mantra.emotion_mantra)
+          
+          // ONLY handle new relationship structure (emotion_mantra)
+          if (mantra.emotion_mantra && mantra.emotion_mantra.length > 0) {
+            mantra.emotion_mantra.forEach((rel: any) => {
+              console.log('Emotion relationship:', rel)
+              if (rel.emotions && !uniqueEmotions.has(rel.emotions.id)) {
+                uniqueEmotions.set(rel.emotions.id, rel.emotions)
+              }
+            })
+          } else {
+            console.warn(`Mantra ${mantra.slug} has no emotion_mantra data!`)
+          }
+        })
+        
+        console.log('Extracted emotions:', Array.from(uniqueEmotions.values()))
+        setEmotions(Array.from(uniqueEmotions.values()))
+      } catch (error) {
+        setError('Failed to load data')
+        console.error('Error loading data:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadMantras()
+  }, [])
 
   const filteredEmotions = emotions.filter(emotion => {
     if (!searchQuery.trim()) return true
@@ -30,17 +85,20 @@ export function EmotionSelector({ onEmotionSelect }: EmotionSelectorProps) {
 
   const handleEmotionClick = (emotion: Emotion) => {
     // Find the first mantra that matches this emotion
-    const matchingMantra = mantras.find(mantra => 
-      mantra.emotions.includes(emotion.id)
-    )
+    const matchingMantra = mantras.find(mantra => {
+      // Check new relationship structure (emotion_mantra)
+      if (mantra.emotion_mantra && mantra.emotion_mantra.length > 0) {
+        return mantra.emotion_mantra.some((rel: any) => rel.emotion_id === emotion.id)
+      }
+      // Check old structure (emotions array)
+      else if (mantra.emotions && mantra.emotions.length > 0) {
+        return mantra.emotions.includes(emotion.id)
+      }
+      return false
+    })
 
     if (matchingMantra) {
-      // Convert to full Mantra object with ID
-      const fullMantra: Mantra = {
-        id: mantras.indexOf(matchingMantra) + 1,
-        ...matchingMantra
-      }
-      onEmotionSelect(emotion, fullMantra)
+      onEmotionSelect(emotion, matchingMantra)
       
       // Scroll to top before navigating
       window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -49,6 +107,46 @@ export function EmotionSelector({ onEmotionSelect }: EmotionSelectorProps) {
     }
   }
 
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center py-16">
+          <div className="w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-amber-600 dark:text-amber-400 font-medium">
+            {t('emotionSelector.loading')}
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center py-16">
+          <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="text-red-500 text-2xl">⚠️</span>
+          </div>
+          <h3 className="text-xl font-semibold text-red-700 dark:text-red-300 mb-3">
+            {t('emotionSelector.error')}
+          </h3>
+          <p className="text-red-600 dark:text-red-400 mb-6">
+            {error}
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-medium py-2.5 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-95"
+          >
+            <IoSparkles className="w-4 h-4" />
+            {t('emotionSelector.retry')}
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -119,6 +217,7 @@ export function EmotionSelector({ onEmotionSelect }: EmotionSelectorProps) {
               </button>
             </div>
           </div>
+          
         </div>
       </div>
 
@@ -174,7 +273,7 @@ export function EmotionSelector({ onEmotionSelect }: EmotionSelectorProps) {
       </div>
 
       {/* Enhanced empty state */}
-      {filteredEmotions.length === 0 && searchQuery && (
+      {filteredEmotions.length === 0 && !loading && (
         <div className="text-center py-16">
           <div className="relative mb-8">
             <div className="w-24 h-24 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 rounded-3xl flex items-center justify-center mx-auto shadow-lg">
@@ -186,20 +285,30 @@ export function EmotionSelector({ onEmotionSelect }: EmotionSelectorProps) {
           </div>
           
           <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-3">
-            {t('emotionSelector.noResults')}
+            {searchQuery ? t('emotionSelector.noResults') : 'No emotions loaded'}
           </h3>
           <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto leading-relaxed">
-            {t('emotionSelector.tryDifferent')}
+            {searchQuery ? t('emotionSelector.tryDifferent') : 'Unable to load emotions from the database. Please check your connection and try again.'}
           </p>
           
           <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
-            <button
-              onClick={() => setSearchQuery('')}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-medium py-2.5 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-95"
-            >
-              <IoSparkles className="w-4 h-4" />
-              {t('emotionSelector.clearSearch')}
-            </button>
+            {searchQuery ? (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-medium py-2.5 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-95"
+              >
+                <IoSparkles className="w-4 h-4" />
+                {t('emotionSelector.clearSearch')}
+              </button>
+            ) : (
+              <button
+                onClick={() => window.location.reload()}
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-medium py-2.5 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-95"
+              >
+                <IoSparkles className="w-4 h-4" />
+                Retry
+              </button>
+            )}
             
             <div className="text-sm text-gray-400 dark:text-gray-500">
               {t('emotionSelector.searchSuggestions', { 

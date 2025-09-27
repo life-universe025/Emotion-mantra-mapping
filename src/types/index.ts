@@ -8,6 +8,10 @@ export interface Mantra {
   audio_url?: string;
   suggested_rounds: number;
   emotions: string[];
+  emotion_mantra?: Array<{
+    emotion_id: string;
+    emotions: Emotion;
+  }>;
 }
 
 export interface Session {

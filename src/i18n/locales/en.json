@@ -87,7 +87,10 @@
     "tryDifferent": "Try a different search term",
     "clearSearch": "Clear search",
     "searchSuggestions": "or try: {{suggestions}}",
-    "footerTip": "💡 Can't find your exact feeling? Choose the closest emotion to begin your practice"
+    "footerTip": "💡 Can't find your exact feeling? Choose the closest emotion to begin your practice",
+    "loading": "Loading mantras...",
+    "error": "Failed to load mantras",
+    "retry": "Try Again"
   },
   "userStats": {
     "beginSadhana": "Begin Your Sadhana",

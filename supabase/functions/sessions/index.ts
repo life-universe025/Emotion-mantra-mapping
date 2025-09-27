@@ -13,6 +13,10 @@ serve(async (req) => {
   }
 
   try {
+    const url = new URL(req.url)
+    const path = url.pathname
+    const searchParams = url.searchParams
+
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_ANON_KEY') ?? '',
@@ -31,6 +35,66 @@ serve(async (req) => {
         JSON.stringify({ error: 'Unauthorized' }),
         { 
           status: 401, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      )
+    }
+
+    // GET /sessions/users/:id/sessions
+    if (path.startsWith('/sessions/users/') && path.endsWith('/sessions') && req.method === 'GET') {
+      const userId = path.split('/')[3]
+      
+      if (!userId) {
+        return new Response(
+          JSON.stringify({ error: 'User ID is required' }),
+          { 
+            status: 400, 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+          }
+        )
+      }
+
+      // Verify user access
+      if (user.id !== userId) {
+        return new Response(
+          JSON.stringify({ error: 'Unauthorized' }),
+          { 
+            status: 401, 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+          }
+        )
+      }
+
+      const limit = parseInt(searchParams.get('limit') || '50')
+      
+      const { data: sessions, error: sessionsError } = await supabaseClient
+        .from('sessions')
+        .select(`
+          *,
+          mantras (
+            transliteration,
+            devanagari,
+            meaning
+          )
+        `)
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+        .limit(limit)
+
+      if (sessionsError) {
+        return new Response(
+          JSON.stringify({ error: sessionsError.message }),
+          { 
+            status: 400, 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+          }
+        )
+      }
+
+      return new Response(
+        JSON.stringify({ data: sessions }),
+        { 
+          status: 200, 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
         }
       )
