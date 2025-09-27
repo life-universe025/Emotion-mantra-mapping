@@ -175,9 +175,8 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
 
 
 
-  const handleAlternativePractices = (emotion: Emotion, tab?: 'breathing' | 'affirmations') => {
-    const tabParam = tab ? `/${tab}` : '/breathing'
-    navigate(`/alternatives/${emotion.id}${tabParam}`)
+  const handleAlternativePractices = (emotion: Emotion) => {
+    navigate(`/alternatives/${emotion.id}`)
   }
 
   const handleProfileClick = () => {

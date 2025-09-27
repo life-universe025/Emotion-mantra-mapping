@@ -152,14 +152,6 @@ export function UserProfile({ user, onLogout, onClose }: UserProfileProps) {
       })
     }
     
-    // Breathing achievements - TODO: Add total_breathing_sessions to UserStats type
-    // if (stats.total_breathing_sessions && stats.total_breathing_sessions >= 50) {
-    //   achievements.push({
-    //     id: 'breathing_master',
-    //     title: 'Breathing Master',
-    //     description: '50 breathing sessions',
-    //     icon: IoTrophy,
-    //     color: 'text-cyan-500',
     //     bgColor: 'bg-cyan-100 dark:bg-cyan-900/30',
     //     earned: true
     //   })

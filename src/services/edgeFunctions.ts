@@ -83,6 +83,57 @@ export class EdgeFunctionService {
     return await response.json()
   }
 
+  // Affirmations methods
+  static async getAffirmations(emotion?: string, intensity?: string, category?: string) {
+    // Add cache-busting parameter to force fresh API call
+    const cacheBuster = `t=${Date.now()}`
+    const params = new URLSearchParams()
+    if (emotion) params.append('emotion', emotion)
+    if (intensity) params.append('intensity', intensity)
+    if (category) params.append('category', category)
+    params.append('cache', cacheBuster)
+    
+    const url = `${FUNCTIONS_URL}/affirmations?${params.toString()}`
+
+    const { data: { session } } = await supabase.auth.getSession()
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(session ? { 'Authorization': `Bearer ${session.access_token}` } : {}),
+      },
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+
+    return await response.json()
+  }
+
+  static async getAffirmationsByEmotion(emotion: string) {
+    return this.getAffirmations(emotion)
+  }
+
+  static async getAffirmationById(id: number) {
+    const { data: { session } } = await supabase.auth.getSession()
+
+    const response = await fetch(`${FUNCTIONS_URL}/affirmations/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(session ? { 'Authorization': `Bearer ${session.access_token}` } : {}),
+      },
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+
+    return await response.json()
+  }
+
 
   // Session methods
   static async createSession(sessionData: {
