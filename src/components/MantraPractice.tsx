@@ -107,7 +107,7 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
     if (audioRef.current && mantraData?.audio_url) {
       // Use pre-rendered audio
       audioRef.current.play()
-    } else {
+    } else if (mantraData) {
       // Fallback to TTS
       if (speechSynthesisRef.current) {
         speechSynthesis.cancel()

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { IoHeart, IoRefresh } from 'react-icons/io5'
+import { IoRefresh } from 'react-icons/io5'
 import { Emotion, Affirmation } from '../types'
 import { EdgeFunctionService } from '../services/edgeFunctions'
 import { useTranslation } from 'react-i18next'

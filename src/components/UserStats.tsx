@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { IoCalendar, IoBarChart, IoFlame, IoTime, IoTrophy } from 'react-icons/io5'
-import { FaBullseye, FaChartLine, FaAward } from 'react-icons/fa'
+import { FaBullseye, FaChartLine } from 'react-icons/fa'
 import { SupabaseService } from '../services/supabase'
 import { UserStats as UserStatsType } from '../types'
 import { PracticeChart } from './PracticeChart'
