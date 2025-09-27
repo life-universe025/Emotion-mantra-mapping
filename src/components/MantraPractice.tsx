@@ -23,11 +23,41 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
   const [showGoalModal, setShowGoalModal] = useState(false)
   const [goalInput, setGoalInput] = useState('')
   const [isLoadingGoal, setIsLoadingGoal] = useState(false)
+  const [mantraData, setMantraData] = useState<Mantra | null>(mantra)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const { t } = useTranslation()
   
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Load mantra data from API on component mount
+  useEffect(() => {
+    const loadMantraData = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+        
+        // Fetch mantra data from API
+        const result = await SupabaseService.getMantraById(mantra.id)
+        
+        if (result.error) {
+          setError('Failed to load mantra data')
+          console.error('Error loading mantra:', result.error)
+        } else {
+          setMantraData(result.data)
+        }
+      } catch (error) {
+        setError('Failed to load mantra data')
+        console.error('Error loading mantra:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadMantraData()
+  }, [mantra.id])
 
   // Load custom goal on component mount
   useEffect(() => {
@@ -38,8 +68,8 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
 
   // Initialize audio
   useEffect(() => {
-    if (mantra.audio_url) {
-      audioRef.current = new Audio(mantra.audio_url)
+    if (mantraData?.audio_url) {
+      audioRef.current = new Audio(mantraData.audio_url)
     }
     return () => {
       if (audioRef.current) {
@@ -52,7 +82,7 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
         clearInterval(intervalRef.current)
       }
     }
-  }, [mantra.audio_url])
+  }, [mantraData?.audio_url])
 
   // Update duration timer
   useEffect(() => {
@@ -74,16 +104,16 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
   }, [startTime, isCompleted])
 
   const playAudio = () => {
-    if (audioRef.current && mantra.audio_url) {
+    if (audioRef.current && mantraData?.audio_url) {
       // Use pre-rendered audio
       audioRef.current.play()
-    } else {
+    } else if (mantraData) {
       // Fallback to TTS
       if (speechSynthesisRef.current) {
         speechSynthesis.cancel()
       }
       
-      speechSynthesisRef.current = new SpeechSynthesisUtterance(mantra.transliteration)
+      speechSynthesisRef.current = new SpeechSynthesisUtterance(mantraData.transliteration)
       speechSynthesisRef.current.rate = 0.7
       speechSynthesisRef.current.pitch = 1
       speechSynthesisRef.current.volume = 0.8
@@ -201,8 +231,47 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
     setGoalInput('')
   }
 
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center py-16">
+          <div className="w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-amber-600 dark:text-amber-400 font-medium">
+            Loading mantra data...
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  // Show error state
+  if (error || !mantraData) {
+    return (
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center py-16">
+          <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="text-red-500 text-2xl">⚠️</span>
+          </div>
+          <h3 className="text-xl font-semibold text-red-700 dark:text-red-300 mb-3">
+            Failed to load mantra
+          </h3>
+          <p className="text-red-600 dark:text-red-400 mb-6">
+            {error || 'Mantra data not available'}
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-medium py-2.5 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-95"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   // Determine which goal to use for progress calculation
-  const currentGoal = customGoal || mantra.suggested_rounds
+  const currentGoal = customGoal || mantraData.suggested_rounds
   const progressPercentage = currentGoal > 0 
     ? Math.min((count / currentGoal) * 100, 100)
     : 0
@@ -231,16 +300,16 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
           <div className="flex items-center justify-center gap-2 mb-4">
             <IoVolumeHigh className="w-4 h-4 text-amber-600 dark:text-amber-400" />
             <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">
-              {t(`mantras.${mantra.slug}.transliteration`)}
+              {mantraData.transliteration}
             </h3>
           </div>
           
           <div className="mantra-text font-sanskrit text-center text-2xl mb-3">
-            {mantra.devanagari}
+            {mantraData.devanagari}
           </div>
           
           <div className="meaning text-center max-w-2xl mx-auto text-sm">
-{t(`mantras.${mantra.slug}.meaning`)}
+            {mantraData.meaning}
           </div>
 
           {/* Enhanced audio controls */}
@@ -300,8 +369,8 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
               <p className="text-sm text-gray-600 dark:text-gray-300 font-medium">
                   {customGoal 
                     ? t('mantraPractice.goalOf', { count: customGoal })
-                    : mantra.suggested_rounds > 0 
-                  ? t('mantraPractice.suggestedRounds', { count: mantra.suggested_rounds })
+                    : mantraData.suggested_rounds > 0 
+                  ? t('mantraPractice.suggestedRounds', { count: mantraData.suggested_rounds })
                   : t('mantraPractice.repetitions')
                 }
               </p>

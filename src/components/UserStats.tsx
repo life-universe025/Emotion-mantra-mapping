@@ -85,16 +85,26 @@ export function UserStats({ userId, onMantraSelect, compact = false, onRecentSes
   const loadStats = async () => {
     try {
       // Use consolidated method to reduce API calls
-      const allData = await SupabaseService.getAllUserData(userId)
+      const { data: allData, error } = await SupabaseService.getAllUserData(userId)
+      
+      if (error) {
+        console.error('Error loading stats:', error)
+        return
+      }
+      
+      if (!allData) {
+        console.error('No data received')
+        return
+      }
       
       // Set user stats
       setStats(allData.userStats)
       
       // Set analytics
       setAnalytics({
-        totalSessions: allData.analytics.totalSessions,
-        weeklySessions: allData.analytics.weeklySessions,
-        topMantras: allData.analytics.topMantras.map((item: any) => ({
+        totalSessions: allData.analytics?.totalSessions || 0,
+        weeklySessions: allData.analytics?.weeklySessions || 0,
+        topMantras: (allData.analytics?.topMantras || []).map((item: any) => ({
           mantraId: item.mantraId,
           count: item.count,
           mantra: item.mantra ? {

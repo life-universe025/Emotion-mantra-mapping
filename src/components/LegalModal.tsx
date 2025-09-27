@@ -79,7 +79,6 @@ export function LegalModal({ type, isOpen, onClose }: LegalModalProps) {
                   </p>
                   <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2 ml-4">
                     <li>{t('legal.termsAndConditions.serviceDescription.features.mantras')}</li>
-                    <li>{t('legal.termsAndConditions.serviceDescription.features.breathing')}</li>
                     <li>{t('legal.termsAndConditions.serviceDescription.features.affirmations')}</li>
                     <li>{t('legal.termsAndConditions.serviceDescription.features.tracking')}</li>
                   </ul>

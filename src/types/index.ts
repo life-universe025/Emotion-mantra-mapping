@@ -8,6 +8,10 @@ export interface Mantra {
   audio_url?: string;
   suggested_rounds: number;
   emotions: string[];
+  emotion_mantra?: Array<{
+    emotion_id: string;
+    emotions: Emotion;
+  }>;
 }
 
 export interface Session {
@@ -68,13 +72,6 @@ export type EmotionType =
   | 'WISDOM'
   | 'HEALING';
 
-export interface BreathingSession {
-  pattern: string;
-  cycles: number;
-  duration_seconds: number;
-  started_at: Date;
-  completed_at?: Date;
-}
 
 export interface MoodEntry {
   emoji: string;
@@ -96,22 +93,15 @@ export interface SessionMoodData {
   mood_improvement?: number; // difference between before and after
 }
 
-export interface BreathingExercise {
-  id: string;
-  name: string;
-  description: string;
-  pattern: string; // e.g., "4-4-4-4" for inhale-hold-exhale-hold
-  duration: number; // in seconds
-  cycles: number;
-  instructions: string[];
-  benefits: string[];
-  emotions: EmotionType[];
-}
 
 export interface Affirmation {
-  id: string;
+  id: number;
+  slug: string;
   text: string;
   category: string;
-  emotions: EmotionType[];
   intensity: 'gentle' | 'moderate' | 'strong';
+  emotion_id: string;
+  emotions: Emotion;
+  created_at: string;
+  updated_at: string;
 }
