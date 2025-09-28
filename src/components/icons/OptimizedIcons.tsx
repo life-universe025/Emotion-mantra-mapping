@@ -1,4 +1,5 @@
 // Optimized SVG icon components - lightweight replacements for React Icons
+import React from 'react'
 
 interface IconProps {
   className?: string
@@ -6,7 +7,7 @@ interface IconProps {
 }
 
 // Play Icon
-export const PlayIcon = ({ className = "w-5 h-5", size }: IconProps) => (
+export const PlayIcon = ({ className = "w-5 h-5", size }: IconProps): React.JSX.Element => (
   <svg 
     viewBox="0 0 24 24" 
     fill="currentColor" 

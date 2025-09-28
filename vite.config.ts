@@ -27,16 +27,10 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // More aggressive chunking
+          // Simplified chunking strategy
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
               return 'react-vendor'
-            }
-            if (id.includes('react-router')) {
-              return 'router'
-            }
-            if (id.includes('react-icons') || id.includes('@heroicons') || id.includes('lucide-react')) {
-              return 'ui-icons'
             }
             if (id.includes('recharts')) {
               return 'charts'
@@ -47,23 +41,11 @@ export default defineConfig({
             if (id.includes('@supabase')) {
               return 'supabase'
             }
-            if (id.includes('clsx')) {
-              return 'utils'
-            }
             return 'vendor'
           }
-          // Split app code by feature - ensure icons are bundled with React
-          if (id.includes('components/icons/OptimizedIcons')) {
-            return 'react-vendor' // Bundle icons with React
-          }
-          if (id.includes('components/MantraPractice')) {
-            return 'mantra-practice'
-          }
-          if (id.includes('components/EmotionSelector')) {
-            return 'emotion-selector'
-          }
-          if (id.includes('pages/UserProfilePage')) {
-            return 'user-profile'
+          // Bundle all React components together to ensure React context
+          if (id.includes('components/') || id.includes('pages/')) {
+            return 'react-vendor'
           }
         },
         // Optimize chunk names
