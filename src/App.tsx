@@ -234,7 +234,7 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
         user={user}
       />
       
-      <main className="relative z-10 w-full px-4 py-6 pt-32">
+      <main className="relative z-10 w-full px-4 py-6 pt-20">
         {currentState === 'emotion-selector' && (
           <div className="max-w-7xl mx-auto">
             {/* Main Emotion Selector - Now the primary focus */}
