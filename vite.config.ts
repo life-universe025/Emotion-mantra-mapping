@@ -29,7 +29,7 @@ export default defineConfig({
         manualChunks: (id) => {
           // Simplified chunking strategy
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router') || id.includes('react-icons')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
               return 'react-vendor'
             }
             if (id.includes('recharts')) {
