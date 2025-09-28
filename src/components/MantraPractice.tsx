@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
-import { IoPlay, IoPause, IoRefresh, IoCheckmarkCircle, IoVolumeHigh, IoTimer, IoSettings, IoClose, IoLeaf } from 'react-icons/io5'
+import { IoPlay, IoPause, IoRefresh, IoCheckmarkCircle, IoVolumeHigh, IoSettings, IoClose, IoLeaf } from 'react-icons/io5'
 import { FaBullseye } from 'react-icons/fa'
 import { Mantra, Emotion } from '../types'
 import { useTranslation } from 'react-i18next'
 import { SupabaseService } from '../services/supabase'
-import { mantraAudioService, AudioQuality } from '../services/audioService'
+import { mantraAudioService } from '../services/audioService'
 
 interface MantraPracticeProps {
   mantra: Mantra
@@ -27,7 +27,6 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
   const [mantraData, setMantraData] = useState<Mantra | null>(mantra)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [audioQuality, setAudioQuality] = useState<AudioQuality | null>(null)
   const { t } = useTranslation()
   
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -53,7 +52,6 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
           // Preload audio for better performance
           if (result.data) {
             await mantraAudioService.preloadMantra(result.data)
-            setAudioQuality(mantraAudioService.getAudioQuality(result.data))
           }
         }
       } catch (error) {
@@ -116,8 +114,7 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
     
     try {
       setIsPlaying(true)
-      const quality = await mantraAudioService.playMantra(mantraData)
-      setAudioQuality(quality)
+      await mantraAudioService.playMantra(mantraData)
     } catch (error) {
       console.error('Error playing mantra audio:', error)
       setIsPlaying(false)
