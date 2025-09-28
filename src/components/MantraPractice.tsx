@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
-import { IoPlay, IoPause, IoRefresh, IoCheckmarkCircle, IoVolumeHigh, IoTimer, IoSettings, IoClose, IoLeaf } from 'react-icons/io5'
+import { IoPlay, IoPause, IoRefresh, IoCheckmarkCircle, IoVolumeHigh, IoSettings, IoClose, IoLeaf } from 'react-icons/io5'
 import { FaBullseye } from 'react-icons/fa'
 import { Mantra, Emotion } from '../types'
 import { useTranslation } from 'react-i18next'
 import { SupabaseService } from '../services/supabase'
+import { mantraAudioService } from '../services/audioService'
 
 interface MantraPracticeProps {
   mantra: Mantra
@@ -47,6 +48,11 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
           console.error('Error loading mantra:', result.error)
         } else {
           setMantraData(result.data)
+          
+          // Preload audio for better performance
+          if (result.data) {
+            await mantraAudioService.preloadMantra(result.data)
+          }
         }
       } catch (error) {
         setError('Failed to load mantra data')
@@ -103,39 +109,21 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
     }
   }, [startTime, isCompleted])
 
-  const playAudio = () => {
-    if (audioRef.current && mantraData?.audio_url) {
-      // Use pre-rendered audio
-      audioRef.current.play()
-    } else if (mantraData) {
-      // Fallback to TTS
-      if (speechSynthesisRef.current) {
-        speechSynthesis.cancel()
-      }
-      
-      speechSynthesisRef.current = new SpeechSynthesisUtterance(mantraData.transliteration)
-      speechSynthesisRef.current.rate = 0.7
-      speechSynthesisRef.current.pitch = 1
-      speechSynthesisRef.current.volume = 0.8
-      
-      // Try to use a more appropriate voice if available
-      const voices = speechSynthesis.getVoices()
-      const preferredVoice = voices.find(voice => 
-        voice.lang.includes('en') && voice.name.includes('Google')
-      )
-      if (preferredVoice) {
-        speechSynthesisRef.current.voice = preferredVoice
-      }
-      
-      speechSynthesis.speak(speechSynthesisRef.current)
+  const playAudio = async () => {
+    if (!mantraData) return
+    
+    try {
+      setIsPlaying(true)
+      await mantraAudioService.playMantra(mantraData)
+    } catch (error) {
+      console.error('Error playing mantra audio:', error)
+      setIsPlaying(false)
     }
   }
 
   const stopAudio = () => {
-    if (audioRef.current) {
-      audioRef.current.pause()
-    }
-    speechSynthesis.cancel()
+    mantraAudioService.stopAudio()
+    setIsPlaying(false)
   }
 
   const handlePlayPause = () => {
@@ -278,60 +266,96 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
 
   return (
     <div className="max-w-4xl mx-auto">
-      {/* Enhanced emotion context header */}
-      <div className="text-center mb-8">
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-amber-100 dark:from-orange-200 dark:to-amber-200 rounded-2xl flex items-center justify-center text-2xl shadow-sm border border-orange-200/50 dark:border-orange-300/50">
+      {/* Enhanced emotion context header - Mobile optimized */}
+      <div className="text-center mb-2 sm:mb-4">
+        <div className="flex items-center justify-center gap-2 sm:gap-3 mb-1 sm:mb-2">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-orange-100 to-amber-100 dark:from-orange-200 dark:to-amber-200 rounded-xl sm:rounded-2xl flex items-center justify-center text-lg sm:text-xl shadow-sm border border-orange-200/50 dark:border-orange-300/50">
             {emotion.icon}
           </div>
           <div className="text-left">
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-amber-900 via-orange-800 to-yellow-800 dark:from-amber-300 dark:via-orange-300 dark:to-yellow-300 bg-clip-text text-transparent font-traditional">
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-amber-900 via-orange-800 to-yellow-800 dark:from-amber-300 dark:via-orange-300 dark:to-yellow-300 bg-clip-text text-transparent font-traditional">
               {t(`emotions.${emotion.id}.name`)}
             </h2>
-            <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{t(`emotions.${emotion.id}.description`)}</p>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mt-1">{t(`emotions.${emotion.id}.description`)}</p>
           </div>
         </div>
       </div>
 
-      {/* Enhanced mantra display */}
-      <div className="card mb-6 relative overflow-hidden">
+      {/* Enhanced mantra display with spiritual elements - Mobile optimized */}
+      <div className="card mb-2 sm:mb-4 relative overflow-hidden">
+        {/* Sacred background patterns */}
         <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 via-amber-50/50 to-yellow-50/50 dark:from-orange-900/20 dark:via-amber-900/20 dark:to-yellow-900/20 opacity-50"></div>
-        <div className="relative text-center p-4">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <IoVolumeHigh className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">
-              {mantraData.transliteration}
-            </h3>
+        
+        {/* Traditional Om symbols and lotus patterns - Smaller on mobile */}
+        <div className="absolute top-2 left-2 sm:top-4 sm:left-4 text-xl sm:text-2xl lg:text-3xl text-amber-200/30 dark:text-amber-400/20 font-sanskrit select-none">ॐ</div>
+        <div className="absolute top-2 right-2 sm:top-4 sm:right-4 text-xl sm:text-2xl lg:text-3xl text-orange-200/30 dark:text-orange-400/20 font-sanskrit select-none">ॐ</div>
+        <div className="absolute bottom-2 left-2 sm:bottom-4 sm:left-4 text-lg sm:text-xl lg:text-2xl text-yellow-200/30 dark:text-yellow-400/20 select-none">🪷</div>
+        <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 text-lg sm:text-xl lg:text-2xl text-amber-200/30 dark:text-amber-400/20 select-none">🪷</div>
+        
+        {/* Sacred geometry patterns - Responsive */}
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32 border border-amber-200/20 dark:border-amber-400/10 rounded-full"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 border border-orange-200/20 dark:border-orange-400/10 rounded-full"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 sm:w-16 sm:h-16 lg:w-16 lg:h-16 border border-yellow-200/20 dark:border-yellow-400/10 rounded-full"></div>
+        
+        <div className="relative text-center p-3 sm:p-4 lg:p-6">
+          {/* Traditional Sanskrit header - Mobile optimized */}
+          <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-800 dark:to-orange-800 rounded-full flex items-center justify-center shadow-lg border border-amber-200/50 dark:border-amber-600/50">
+              <IoVolumeHigh className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600 dark:text-amber-400" />
+            </div>
+            <div className="text-center">
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-amber-800 via-orange-700 to-yellow-700 dark:from-amber-300 dark:via-orange-300 dark:to-yellow-300 bg-clip-text text-transparent font-traditional">
+                {mantraData.transliteration}
+              </h3>
+            </div>
           </div>
           
-          <div className="mantra-text font-sanskrit text-center text-2xl mb-3">
-            {mantraData.devanagari}
-          </div>
-          
-          <div className="meaning text-center max-w-2xl mx-auto text-sm">
-            {mantraData.meaning}
+          {/* Enhanced Devanagari display with traditional styling - Mobile optimized */}
+          <div className="relative mb-3 sm:mb-4">
+            <div className="absolute inset-0 bg-gradient-to-r from-amber-100/30 via-orange-100/30 to-yellow-100/30 dark:from-amber-900/20 dark:via-orange-900/20 dark:to-yellow-900/20 rounded-2xl blur-sm"></div>
+            <div className="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-3 sm:p-4 lg:p-6 border border-amber-200/50 dark:border-amber-600/50 shadow-lg">
+              <div className="mantra-text font-sanskrit text-center text-2xl sm:text-3xl lg:text-4xl mb-2 sm:mb-3 leading-relaxed text-amber-800 dark:text-amber-200 font-bold tracking-wide">
+                {mantraData.devanagari}
+              </div>
+              
+              {/* Traditional Sanskrit ornamentation - Mobile optimized */}
+              <div className="flex items-center justify-center gap-2 sm:gap-4 mb-2 sm:mb-3">
+                <div className="w-6 sm:w-8 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
+                <div className="text-amber-500 dark:text-amber-400 text-sm sm:text-base lg:text-lg">ॐ</div>
+                <div className="w-6 sm:w-8 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
+              </div>
+              
+              <div className="meaning text-center max-w-2xl mx-auto text-sm sm:text-base text-amber-700 dark:text-amber-300 font-medium leading-relaxed">
+                {mantraData.meaning}
+              </div>
+            </div>
           </div>
 
-          {/* Enhanced audio controls */}
-          <div className="flex items-center justify-center gap-3 mt-6">
+          {/* Enhanced audio controls with proper UI - Mobile responsive */}
+          <div className="flex items-center justify-center gap-2 sm:gap-4 mt-4 sm:mt-6 px-4 sm:px-0">
+            {/* Play/Pause Button */}
             <button
               onClick={handlePlayPause}
-              className={`group relative p-3 rounded-2xl transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95 ${
+              className={`group relative flex items-center gap-2 px-3 sm:px-6 py-3 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 font-medium ${
                 isPlaying 
-                  ? 'bg-gradient-to-br from-red-500 to-red-600 text-white' 
-                  : 'bg-gradient-to-br from-orange-500 to-amber-600 text-white'
+                  ? 'bg-gradient-to-r from-red-500 to-red-600 text-white border border-red-400/50' 
+                  : 'bg-gradient-to-r from-orange-500 to-amber-600 text-white border border-orange-400/50'
               }`}
             >
               {isPlaying ? <IoPause className="w-5 h-5" /> : <IoPlay className="w-5 h-5" />}
+              <span className="text-sm font-semibold hidden sm:inline">
+                {isPlaying ? 'Pause' : 'Play'}
+              </span>
               <div className="absolute inset-0 rounded-2xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
-            
-            
+
+            {/* Reset Button */}
             <button
               onClick={handleReset}
-              className="group relative p-3 rounded-2xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl hover:bg-white dark:hover:bg-gray-700 border border-gray-200/60 dark:border-gray-600/60 hover:border-gray-300/80 dark:hover:border-gray-500/80 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 active:scale-95"
+              className="group relative flex items-center gap-2 px-3 sm:px-6 py-3 rounded-2xl bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl hover:bg-white dark:hover:bg-gray-700 border border-gray-200/60 dark:border-gray-600/60 hover:border-gray-300/80 dark:hover:border-gray-500/80 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 font-medium"
             >
               <IoRefresh className="w-5 h-5" />
+              <span className="text-sm font-semibold hidden sm:inline">Reset</span>
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-500/10 to-amber-500/10 dark:from-orange-400/15 dark:to-amber-400/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
 
@@ -339,10 +363,11 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
             {onAlternativePractices && (
               <button
                 onClick={() => onAlternativePractices(emotion)}
-                className="group relative p-3 rounded-2xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl hover:bg-white dark:hover:bg-gray-700 border border-gray-200/60 dark:border-gray-600/60 hover:border-gray-300/80 dark:hover:border-gray-500/80 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 active:scale-95"
+                className="group relative flex items-center gap-2 px-3 sm:px-6 py-3 rounded-2xl bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl hover:bg-white dark:hover:bg-gray-700 border border-gray-200/60 dark:border-gray-600/60 hover:border-gray-300/80 dark:hover:border-gray-500/80 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 font-medium"
                 title="Alternative Practices"
               >
                 <IoLeaf className="w-5 h-5" />
+                <span className="text-sm font-semibold hidden sm:inline">Alternatives</span>
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 dark:from-green-400/15 dark:to-emerald-400/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </button>
             )}
@@ -351,64 +376,92 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
       </div>
 
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        {/* Enhanced counter section */}
-        <div className="card relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-amber-50/50 via-orange-50/50 to-yellow-50/50 dark:from-amber-900/20 dark:via-orange-900/20 dark:to-yellow-900/20 opacity-50"></div>
-          <div className="relative text-center p-4">
-            <div className="flex items-center justify-center gap-2 mb-4">
+      {/* Enhanced combined practice stats with spiritual design - Mobile optimized */}
+      <div className="card relative overflow-hidden mb-6">
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-50/50 via-orange-50/50 to-yellow-50/50 dark:from-amber-900/20 dark:via-orange-900/20 dark:to-yellow-900/20 opacity-50"></div>
+        
+        {/* Sacred geometry background */}
+        <div className="absolute top-4 right-4 text-2xl text-amber-200/20 dark:text-amber-400/10 font-sanskrit select-none">ॐ</div>
+        <div className="absolute bottom-4 left-4 text-xl text-orange-200/20 dark:text-orange-400/10 select-none">🪷</div>
+        
+        <div className="relative p-3 sm:p-6">
+          {/* Header */}
+          <div className="flex items-center justify-center gap-3 mb-4 sm:mb-6">
+            <div className="w-8 h-8 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-800 dark:to-orange-800 rounded-full flex items-center justify-center shadow-lg border border-amber-200/50 dark:border-amber-600/50">
               <FaBullseye className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-              <h4 className="text-lg font-bold text-gray-800 dark:text-gray-200">{t('mantraPractice.practiceCounter')}</h4>
             </div>
+            <h4 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-amber-800 via-orange-700 to-yellow-700 dark:from-amber-300 dark:via-orange-300 dark:to-yellow-300 bg-clip-text text-transparent font-traditional">
+              {t('mantraPractice.practiceCounter')}
+            </h4>
+          </div>
 
-            <div className="mb-6">
-              <div className="text-5xl font-bold bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 bg-clip-text text-transparent mb-2">
+          {/* Mobile-first layout: Just counter and timer on mobile */}
+          <div className="grid grid-cols-2 gap-4 mb-3 sm:mb-4">
+            {/* Counter */}
+            <div className="text-center">
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 bg-clip-text text-transparent mb-1">
                 {count}
               </div>
-              <div className="flex items-center justify-center gap-2 mb-2">
-              <p className="text-sm text-gray-600 dark:text-gray-300 font-medium">
-                  {customGoal 
-                    ? t('mantraPractice.goalOf', { count: customGoal })
-                    : mantraData.suggested_rounds > 0 
-                  ? t('mantraPractice.suggestedRounds', { count: mantraData.suggested_rounds })
-                  : t('mantraPractice.repetitions')
-                }
-              </p>
-                {userId && (
-                  <button
-                    onClick={() => setShowGoalModal(true)}
-                    className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                    title={t('mantraPractice.setCustomGoal')}
-                  >
-                    <IoSettings className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                  </button>
-                )}
+              <div className="text-xs text-gray-600 dark:text-gray-300 font-medium">
+                {t('mantraPractice.repetitions')}
               </div>
-              {count >= currentGoal && currentGoal > 0 && (
-                <div className="text-sm font-medium text-green-600 dark:text-green-400 flex items-center justify-center gap-1">
-                  <IoCheckmarkCircle className="w-4 h-4" />
-                  {t('mantraPractice.goalReached')}
-                </div>
-              )}
             </div>
 
-            {/* Enhanced progress bar */}
-            {currentGoal > 0 && (
-              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 mb-6 shadow-inner">
-                <div 
-                  className="bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 dark:from-orange-400 dark:via-amber-400 dark:to-yellow-400 h-3 rounded-full transition-all duration-500 shadow-sm"
-                  style={{ width: `${progressPercentage}%` }}
-                />
-                <div className="text-xs text-gray-500 dark:text-gray-400 text-center mt-1">
-                  {Math.round(progressPercentage)}% {customGoal ? t('mantraPractice.customGoal') : ''}
-                </div>
+            {/* Timer */}
+            <div className="text-center">
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent mb-1">
+                {formatTime(duration)}
               </div>
-            )}
+              <div className="text-xs text-gray-600 dark:text-gray-300 font-medium">
+                {t('mantraPractice.time')}
+              </div>
+            </div>
+          </div>
 
-            {/* Enhanced 3D sphere counter */}
+          {/* Goal info - Compact mobile layout */}
+          <div className="text-center mb-3 sm:mb-4">
+            <p className="text-xs text-gray-600 dark:text-gray-300 font-medium mb-1">
+              {customGoal 
+                ? t('mantraPractice.goalOf', { count: customGoal })
+                : mantraData.suggested_rounds > 0 
+                ? t('mantraPractice.suggestedRounds', { count: mantraData.suggested_rounds })
+                : t('mantraPractice.repetitions')
+              }
+            </p>
+            {userId && (
+              <button
+                onClick={() => setShowGoalModal(true)}
+                className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                title={t('mantraPractice.setCustomGoal')}
+              >
+                <IoSettings className="w-3 h-3 text-gray-500 dark:text-gray-400" />
+              </button>
+            )}
+          </div>
+
+          {/* Progress bar - Compact */}
+          {currentGoal > 0 && (
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-3 sm:mb-4 shadow-inner">
+              <div 
+                className="bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 dark:from-orange-400 dark:via-amber-400 dark:to-yellow-400 h-2 rounded-full transition-all duration-500 shadow-sm"
+                style={{ width: `${progressPercentage}%` }}
+              />
+            </div>
+          )}
+
+          {/* Goal reached indicator - Compact */}
+          {count >= currentGoal && currentGoal > 0 && (
+            <div className="text-xs font-medium text-green-600 dark:text-green-400 flex items-center justify-center gap-1 mb-3">
+              <IoCheckmarkCircle className="w-3 h-3" />
+              {t('mantraPractice.goalReached')}
+            </div>
+          )}
+
+          {/* Enhanced 3D sphere counter - Compact mobile size */}
+          <div className="flex justify-center mb-3 sm:mb-4">
             <button
               onClick={handleCount}
-              className="relative w-32 h-32 rounded-full text-white font-bold text-sm transform hover:scale-105 active:scale-95 transition-all duration-300 mb-4 group overflow-hidden"
+              className="relative w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 rounded-full text-white font-bold text-xs transform hover:scale-105 active:scale-95 transition-all duration-300 group overflow-hidden"
               style={{
                 background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, rgba(249,115,22,0.95) 15%, rgba(234,88,12,1) 50%, rgba(194,65,12,1) 85%, rgba(154,52,18,1) 100%)',
                 boxShadow: `
@@ -430,8 +483,8 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
               
               {/* Main content */}
               <div className="relative flex flex-col items-center justify-center z-10">
-                <FaBullseye className="w-6 h-6 mb-1 drop-shadow-lg" />
-                <span className="drop-shadow-md">{t('mantraPractice.tapToCount')}</span>
+                <FaBullseye className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 mb-1 drop-shadow-lg" />
+                <span className="drop-shadow-md text-xs">Tap</span>
               </div>
               
               {/* Active state glow */}
@@ -445,43 +498,13 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
                 }}
               ></div>
             </button>
+          </div>
 
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+          {/* Session info */}
+          <div className="text-center">
+            <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
               {t('mantraPractice.tapToCountDescription')}
             </p>
-          </div>
-        </div>
-
-        {/* Enhanced timer section */}
-        <div className="card relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-green-50/50 via-emerald-50/50 to-teal-50/50 dark:from-green-900/20 dark:via-emerald-900/20 dark:to-teal-900/20 opacity-50"></div>
-          <div className="relative text-center p-4">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <IoTimer className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-              <h4 className="text-lg font-bold text-gray-800 dark:text-gray-200">{t('mantraPractice.sessionTimer')}</h4>
-            </div>
-
-            <div className="mb-6">
-              <div className="text-4xl font-bold bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent mb-2">
-                {formatTime(duration)}
-              </div>
-              <p className="text-sm text-gray-600 dark:text-gray-300 font-medium">
-                {t('mantraPractice.practiceDuration')}
-              </p>
-            </div>
-
-            {/* Session stats */}
-            <div className="grid grid-cols-2 gap-3 mb-4">
-              <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-3 border border-white/40 dark:border-gray-700/40">
-                <div className="text-xl font-bold text-orange-600 dark:text-orange-400">{count}</div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">{t('mantraPractice.repetitions')}</div>
-              </div>
-              <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-3 border border-white/40 dark:border-gray-700/40">
-                <div className="text-xl font-bold text-emerald-600 dark:text-emerald-400">{formatTime(duration)}</div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">{t('mantraPractice.time')}</div>
-              </div>
-            </div>
-
             {startTime && (
               <div className="text-xs text-gray-500 dark:text-gray-400">
                 {t('mantraPractice.startedAt', { time: startTime.toLocaleTimeString() })}
@@ -491,15 +514,29 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
         </div>
       </div>
 
-      {/* Complete button */}
+
+      {/* Enhanced Complete button with spiritual design */}
       <div className="text-center">
         <button
           onClick={handleComplete}
-          className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 hover:from-orange-700 hover:via-amber-700 hover:to-yellow-700 dark:from-orange-500 dark:via-amber-500 dark:to-yellow-500 dark:hover:from-orange-600 dark:hover:via-amber-600 dark:hover:to-yellow-600 text-white font-medium py-2.5 px-6 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 text-sm"
+          className="group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 hover:from-orange-700 hover:via-amber-700 hover:to-yellow-700 dark:from-orange-500 dark:via-amber-500 dark:to-yellow-500 dark:hover:from-orange-600 dark:hover:via-amber-600 dark:hover:to-yellow-600 text-white font-medium py-4 px-8 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 text-base border border-white/20"
         >
-          <IoCheckmarkCircle className="w-5 h-5" />
-          <span>{t('mantraPractice.completePractice')}</span>
+          {/* Sacred Om symbol */}
+          <span className="text-lg font-sanskrit">ॐ</span>
+          <IoCheckmarkCircle className="w-6 h-6" />
+          <span className="font-semibold">{t('mantraPractice.completePractice')}</span>
+          
+          {/* Spiritual energy glow */}
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-500/20 via-amber-500/20 to-yellow-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          
+          {/* Sacred geometry border */}
+          <div className="absolute inset-0 rounded-2xl border border-white/30 group-hover:border-white/50 transition-colors duration-300"></div>
         </button>
+        
+        {/* Spiritual guidance text */}
+        <p className="text-sm text-amber-600 dark:text-amber-400 mt-3 font-medium">
+          Complete your sacred practice and reflect on your journey
+        </p>
       </div>
 
       {/* Goal Setting Modal */}
