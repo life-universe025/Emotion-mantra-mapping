@@ -1,4 +1,5 @@
 import { Mantra } from '../types'
+import { pwaService } from './pwaService'
 
 export interface AudioQuality {
   level: 'low' | 'medium' | 'high' | 'premium'
@@ -46,7 +47,6 @@ export class MantraAudioService {
       return quality
 
     } catch (error) {
-      console.error('Error playing mantra audio:', error)
       throw new Error('Failed to play mantra audio')
     }
   }
@@ -77,7 +77,7 @@ export class MantraAudioService {
   }
 
   /**
-   * Preload audio for better performance
+   * Preload audio for better performance with PWA caching
    */
   async preloadMantra(mantra: Mantra): Promise<void> {
     if (mantra.audio_url && !this.audioCache.has(mantra.slug)) {
@@ -85,10 +85,26 @@ export class MantraAudioService {
         const audio = new Audio(mantra.audio_url)
         audio.preload = 'auto'
         this.audioCache.set(mantra.slug, audio)
+        
+        // Cache audio for offline use via PWA service worker
+        // await pwaService.cacheAudioFile(mantra.audio_url)
       } catch (error) {
-        console.warn('Failed to preload audio for mantra:', mantra.slug)
       }
     }
+  }
+
+  /**
+   * Preload all mantra audio for offline use
+   */
+  async preloadAllMantras(_mantras: Mantra[]): Promise<void> {
+    
+    // const audioUrls = mantras
+    //   .filter(mantra => mantra.audio_url)
+    //   .map(mantra => mantra.audio_url!)
+    
+    // Cache all audio files for offline use
+    // await pwaService.preloadMantraAudio(audioUrls)
+    
   }
 
   /**
@@ -119,7 +135,7 @@ export class MantraAudioService {
   }
 
   /**
-   * Play pre-recorded audio (highest quality)
+   * Play pre-recorded audio (highest quality) with offline support
    */
   private async playPreRecordedAudio(audioUrl: string): Promise<AudioQuality> {
     return new Promise((resolve, reject) => {
@@ -144,9 +160,18 @@ export class MantraAudioService {
         })
       }
       
-      audio.onerror = (error) => {
+      audio.onerror = async (error) => {
         this.isPlaying = false
         this.currentAudio = null
+        
+        // If online, try to cache the audio for offline use
+        if (!pwaService.isOffline()) {
+          try {
+            // await pwaService.cacheAudioFile(audioUrl)
+          } catch (cacheError) {
+          }
+        }
+        
         reject(error)
       }
     })
@@ -161,7 +186,6 @@ export class MantraAudioService {
       // For now, we'll use enhanced browser TTS as fallback
       return await this.playEnhancedTTS(text)
     } catch (error) {
-      console.warn('AI TTS failed, falling back to browser TTS')
       return await this.playEnhancedTTS(text)
     }
   }

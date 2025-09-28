@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { IoPlay, IoPause, IoRefresh, IoCheckmarkCircle, IoVolumeHigh, IoSettings, IoClose, IoLeaf } from 'react-icons/io5'
-import { FaBullseye } from 'react-icons/fa'
+import { OptimizedIcons } from './icons/OptimizedIcons'
 import { Mantra, Emotion } from '../types'
 import { useTranslation } from 'react-i18next'
 import { SupabaseService } from '../services/supabase'
@@ -27,6 +26,7 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
   const [mantraData, setMantraData] = useState<Mantra | null>(mantra)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [tapFeedback, setTapFeedback] = useState(false)
   const { t } = useTranslation()
   
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -45,7 +45,6 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
         
         if (result.error) {
           setError('Failed to load mantra data')
-          console.error('Error loading mantra:', result.error)
         } else {
           setMantraData(result.data)
           
@@ -56,7 +55,6 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
         }
       } catch (error) {
         setError('Failed to load mantra data')
-        console.error('Error loading mantra:', error)
       } finally {
         setLoading(false)
       }
@@ -116,7 +114,6 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
       setIsPlaying(true)
       await mantraAudioService.playMantra(mantraData)
     } catch (error) {
-      console.error('Error playing mantra audio:', error)
       setIsPlaying(false)
     }
   }
@@ -142,6 +139,10 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
   const handleCount = () => {
     const newCount = count + 1
     setCount(newCount)
+    
+    // Visual feedback for tap
+    setTapFeedback(true)
+    setTimeout(() => setTapFeedback(false), 200)
     
     // Auto-play audio for each count
     if (!isPlaying) {
@@ -187,7 +188,6 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
         setCustomGoal(result.goal)
       }
     } catch (error) {
-      console.error('Error loading custom goal:', error)
     }
   }
 
@@ -206,7 +206,6 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
         setGoalInput('')
       }
     } catch (error) {
-      console.error('Error setting custom goal:', error)
     } finally {
       setIsLoadingGoal(false)
     }
@@ -301,7 +300,7 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
           {/* Traditional Sanskrit header - Mobile optimized */}
           <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4">
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-800 dark:to-orange-800 rounded-full flex items-center justify-center shadow-lg border border-amber-200/50 dark:border-amber-600/50">
-              <IoVolumeHigh className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600 dark:text-amber-400" />
+              <OptimizedIcons.Volume className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600 dark:text-amber-400" />
             </div>
             <div className="text-center">
               <h3 className="text-lg sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-amber-800 via-orange-700 to-yellow-700 dark:from-amber-300 dark:via-orange-300 dark:to-yellow-300 bg-clip-text text-transparent font-traditional">
@@ -331,44 +330,41 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
             </div>
           </div>
 
-          {/* Enhanced audio controls with proper UI - Mobile responsive */}
-          <div className="flex items-center justify-center gap-2 sm:gap-4 mt-4 sm:mt-6 px-4 sm:px-0">
+          {/* Modern compact audio controls */}
+          <div className="flex items-center justify-center gap-3 mt-4 sm:mt-6">
             {/* Play/Pause Button */}
             <button
               onClick={handlePlayPause}
-              className={`group relative flex items-center gap-2 px-3 sm:px-6 py-3 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 font-medium ${
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 font-medium ${
                 isPlaying 
-                  ? 'bg-gradient-to-r from-red-500 to-red-600 text-white border border-red-400/50' 
-                  : 'bg-gradient-to-r from-orange-500 to-amber-600 text-white border border-orange-400/50'
+                  ? 'bg-red-500 hover:bg-red-600 text-white' 
+                  : 'bg-orange-500 hover:bg-orange-600 text-white'
               }`}
             >
-              {isPlaying ? <IoPause className="w-5 h-5" /> : <IoPlay className="w-5 h-5" />}
-              <span className="text-sm font-semibold hidden sm:inline">
+              {isPlaying ? <OptimizedIcons.Pause className="w-4 h-4" /> : <OptimizedIcons.Play className="w-4 h-4" />}
+              <span className="text-sm font-medium hidden sm:inline">
                 {isPlaying ? 'Pause' : 'Play'}
               </span>
-              <div className="absolute inset-0 rounded-2xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
 
             {/* Reset Button */}
             <button
               onClick={handleReset}
-              className="group relative flex items-center gap-2 px-3 sm:px-6 py-3 rounded-2xl bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl hover:bg-white dark:hover:bg-gray-700 border border-gray-200/60 dark:border-gray-600/60 hover:border-gray-300/80 dark:hover:border-gray-500/80 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 font-medium"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 font-medium"
             >
-              <IoRefresh className="w-5 h-5" />
-              <span className="text-sm font-semibold hidden sm:inline">Reset</span>
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-500/10 to-amber-500/10 dark:from-orange-400/15 dark:to-amber-400/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <OptimizedIcons.Refresh className="w-4 h-4" />
+              <span className="text-sm font-medium hidden sm:inline">Reset</span>
             </button>
 
-            {/* Alternative Practices Button */}
+            {/* Affirmations Button */}
             {onAlternativePractices && (
               <button
                 onClick={() => onAlternativePractices(emotion)}
-                className="group relative flex items-center gap-2 px-3 sm:px-6 py-3 rounded-2xl bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl hover:bg-white dark:hover:bg-gray-700 border border-gray-200/60 dark:border-gray-600/60 hover:border-gray-300/80 dark:hover:border-gray-500/80 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 font-medium"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-amber-100 dark:bg-amber-900/30 hover:bg-amber-200 dark:hover:bg-amber-900/50 text-amber-700 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 font-medium"
                 title="Alternative Practices"
               >
-                <IoLeaf className="w-5 h-5" />
-                <span className="text-sm font-semibold hidden sm:inline">Alternatives</span>
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 dark:from-green-400/15 dark:to-emerald-400/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <OptimizedIcons.Heart className="w-4 h-4" />
+                <span className="text-sm font-medium hidden sm:inline">Affirmations</span>
               </button>
             )}
           </div>
@@ -376,168 +372,112 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
       </div>
 
 
-      {/* Enhanced combined practice stats with spiritual design - Mobile optimized */}
-      <div className="card relative overflow-hidden mb-6">
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-50/50 via-orange-50/50 to-yellow-50/50 dark:from-amber-900/20 dark:via-orange-900/20 dark:to-yellow-900/20 opacity-50"></div>
-        
-        {/* Sacred geometry background */}
-        <div className="absolute top-4 right-4 text-2xl text-amber-200/20 dark:text-amber-400/10 font-sanskrit select-none">ॐ</div>
-        <div className="absolute bottom-4 left-4 text-xl text-orange-200/20 dark:text-orange-400/10 select-none">🪷</div>
-        
-        <div className="relative p-3 sm:p-6">
-          {/* Header */}
-          <div className="flex items-center justify-center gap-3 mb-4 sm:mb-6">
-            <div className="w-8 h-8 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-800 dark:to-orange-800 rounded-full flex items-center justify-center shadow-lg border border-amber-200/50 dark:border-amber-600/50">
-              <FaBullseye className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-            </div>
-            <h4 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-amber-800 via-orange-700 to-yellow-700 dark:from-amber-300 dark:via-orange-300 dark:to-yellow-300 bg-clip-text text-transparent font-traditional">
-              {t('mantraPractice.practiceCounter')}
-            </h4>
-          </div>
-
-          {/* Mobile-first layout: Just counter and timer on mobile */}
-          <div className="grid grid-cols-2 gap-4 mb-3 sm:mb-4">
+      {/* Modern compact practice counter */}
+      <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-lg mb-6">
+        <div className="p-4">
+          {/* Compact stats row */}
+          <div className="flex items-center justify-between mb-4">
             {/* Counter */}
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 bg-clip-text text-transparent mb-1">
-                {count}
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-xl flex items-center justify-center border border-orange-300 dark:border-orange-500">
+                <span className="text-orange-600 dark:text-orange-400 font-bold text-lg">{count}</span>
               </div>
-              <div className="text-xs text-gray-600 dark:text-gray-300 font-medium">
-                {t('mantraPractice.repetitions')}
+              <div>
+                <div className="text-sm font-medium text-gray-900 dark:text-gray-100">Repetitions</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">
+                  {customGoal 
+                    ? `Goal: ${customGoal}`
+                    : mantraData.suggested_rounds > 0 
+                    ? `Suggested: ${mantraData.suggested_rounds}`
+                    : 'No goal set'
+                  }
+                </div>
               </div>
             </div>
 
             {/* Timer */}
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent mb-1">
-                {formatTime(duration)}
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-xl flex items-center justify-center border border-gray-300 dark:border-gray-500">
+                <span className="text-gray-700 dark:text-gray-300 font-bold text-sm">{formatTime(duration)}</span>
               </div>
-              <div className="text-xs text-gray-600 dark:text-gray-300 font-medium">
-                {t('mantraPractice.time')}
+              <div>
+                <div className="text-sm font-medium text-gray-900 dark:text-gray-100">Duration</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">
+                  {startTime ? `Started ${startTime.toLocaleTimeString()}` : 'Not started'}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Goal info - Compact mobile layout */}
-          <div className="text-center mb-3 sm:mb-4">
-            <p className="text-xs text-gray-600 dark:text-gray-300 font-medium mb-1">
-              {customGoal 
-                ? t('mantraPractice.goalOf', { count: customGoal })
-                : mantraData.suggested_rounds > 0 
-                ? t('mantraPractice.suggestedRounds', { count: mantraData.suggested_rounds })
-                : t('mantraPractice.repetitions')
-              }
-            </p>
+            {/* Settings button */}
             {userId && (
               <button
                 onClick={() => setShowGoalModal(true)}
-                className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-all duration-200 hover:scale-105 active:scale-95"
                 title={t('mantraPractice.setCustomGoal')}
               >
-                <IoSettings className="w-3 h-3 text-gray-500 dark:text-gray-400" />
+                <OptimizedIcons.Settings className="w-4 h-4" />
               </button>
             )}
           </div>
 
-          {/* Progress bar - Compact */}
+          {/* Progress bar */}
           {currentGoal > 0 && (
-            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-3 sm:mb-4 shadow-inner">
-              <div 
-                className="bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 dark:from-orange-400 dark:via-amber-400 dark:to-yellow-400 h-2 rounded-full transition-all duration-500 shadow-sm"
-                style={{ width: `${progressPercentage}%` }}
-              />
+            <div className="mb-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-medium text-gray-600 dark:text-gray-400">Progress</span>
+                <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
+                  {Math.round(progressPercentage)}%
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                <div 
+                  className="bg-orange-500 h-2 rounded-full transition-all duration-500"
+                  style={{ width: `${progressPercentage}%` }}
+                />
+              </div>
+              {count >= currentGoal && (
+                <div className="flex items-center gap-1 mt-2 text-orange-600 dark:text-orange-400">
+                  <OptimizedIcons.Checkmark className="w-3 h-3" />
+                  <span className="text-xs font-medium">Well done! ✨</span>
+                </div>
+              )}
             </div>
           )}
 
-          {/* Goal reached indicator - Compact */}
-          {count >= currentGoal && currentGoal > 0 && (
-            <div className="text-xs font-medium text-green-600 dark:text-green-400 flex items-center justify-center gap-1 mb-3">
-              <IoCheckmarkCircle className="w-3 h-3" />
-              {t('mantraPractice.goalReached')}
-            </div>
-          )}
-
-          {/* Enhanced 3D sphere counter - Compact mobile size */}
-          <div className="flex justify-center mb-3 sm:mb-4">
+          {/* Elliptical tap button */}
+          <div className="flex justify-center">
             <button
               onClick={handleCount}
-              className="relative w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 rounded-full text-white font-bold text-xs transform hover:scale-105 active:scale-95 transition-all duration-300 group overflow-hidden"
-              style={{
-                background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, rgba(249,115,22,0.95) 15%, rgba(234,88,12,1) 50%, rgba(194,65,12,1) 85%, rgba(154,52,18,1) 100%)',
-                boxShadow: `
-                  inset -6px -6px 12px rgba(0,0,0,0.2),
-                  inset 4px 4px 8px rgba(255,255,255,0.08),
-                  0 8px 16px rgba(234,88,12,0.2),
-                  0 0 0 1px rgba(255,255,255,0.1)
-                `,
-                border: '1px solid rgba(255,255,255,0.15)'
-              }}
+              className={`relative w-24 h-16 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-semibold transform hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg hover:shadow-xl ${tapFeedback ? 'scale-95' : ''}`}
             >
-              {/* Subtle 3D highlight effect */}
-              <div 
-                className="absolute inset-0 rounded-full opacity-40"
-                style={{
-                  background: 'radial-gradient(circle at 25% 25%, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 25%, transparent 50%)'
-                }}
-              ></div>
-              
-              {/* Main content */}
-              <div className="relative flex flex-col items-center justify-center z-10">
-                <FaBullseye className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 mb-1 drop-shadow-lg" />
-                <span className="drop-shadow-md text-xs">Tap</span>
+              <div className="flex items-center justify-center gap-2">
+                <OptimizedIcons.Bullseye className="w-5 h-5" />
+                <span className="text-sm font-medium">TAP</span>
               </div>
               
-              {/* Active state glow */}
-              <div className="absolute inset-0 rounded-full animate-ping bg-orange-500/50 opacity-0 group-active:opacity-100"></div>
+              <div className="absolute inset-0 rounded-full bg-white/20 opacity-0 hover:opacity-100 transition-opacity duration-200"></div>
               
-              {/* Hover state enhancement */}
-              <div 
-                className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{
-                  background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 40%)'
-                }}
-              ></div>
+              {tapFeedback && (
+                <div className="absolute inset-0 rounded-full bg-white/30 animate-pulse"></div>
+              )}
             </button>
-          </div>
-
-          {/* Session info */}
-          <div className="text-center">
-            <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-              {t('mantraPractice.tapToCountDescription')}
-            </p>
-            {startTime && (
-              <div className="text-xs text-gray-500 dark:text-gray-400">
-                {t('mantraPractice.startedAt', { time: startTime.toLocaleTimeString() })}
-              </div>
-            )}
           </div>
         </div>
       </div>
 
 
-      {/* Enhanced Complete button with spiritual design */}
-      <div className="text-center">
-        <button
-          onClick={handleComplete}
-          className="group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 hover:from-orange-700 hover:via-amber-700 hover:to-yellow-700 dark:from-orange-500 dark:via-amber-500 dark:to-yellow-500 dark:hover:from-orange-600 dark:hover:via-amber-600 dark:hover:to-yellow-600 text-white font-medium py-4 px-8 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 text-base border border-white/20"
-        >
-          {/* Sacred Om symbol */}
-          <span className="text-lg font-sanskrit">ॐ</span>
-          <IoCheckmarkCircle className="w-6 h-6" />
-          <span className="font-semibold">{t('mantraPractice.completePractice')}</span>
-          
-          {/* Spiritual energy glow */}
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-500/20 via-amber-500/20 to-yellow-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          
-          {/* Sacred geometry border */}
-          <div className="absolute inset-0 rounded-2xl border border-white/30 group-hover:border-white/50 transition-colors duration-300"></div>
-        </button>
-        
-        {/* Spiritual guidance text */}
-        <p className="text-sm text-amber-600 dark:text-amber-400 mt-3 font-medium">
-          Complete your sacred practice and reflect on your journey
-        </p>
-      </div>
+      {/* Show finish button only when goal is completed */}
+      {count >= currentGoal && currentGoal > 0 && (
+        <div className="text-center">
+          <button
+            onClick={handleComplete}
+            className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-medium py-2.5 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 text-sm"
+          >
+            <OptimizedIcons.Checkmark className="w-4 h-4" />
+            <span>Finish Session</span>
+          </button>
+        </div>
+      )}
 
       {/* Goal Setting Modal */}
       {showGoalModal && (
@@ -551,7 +491,7 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl flex items-center justify-center shadow-md">
-                    <FaBullseye className="w-4 h-4 text-white" />
+                    <OptimizedIcons.Bullseye className="w-4 h-4 text-white" />
                   </div>
                   <h3 className="text-lg font-bold bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 dark:from-orange-400 dark:via-amber-400 dark:to-yellow-400 bg-clip-text text-transparent">
                     {t('mantraPractice.setCustomGoal')}
@@ -561,7 +501,7 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
                   onClick={() => setShowGoalModal(false)}
                   className="p-1.5 rounded-xl hover:bg-white/60 dark:hover:bg-gray-800/60 transition-all duration-300 group"
                 >
-                  <IoClose className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
+                  <OptimizedIcons.Close className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
                 </button>
               </div>
               
@@ -600,7 +540,7 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
                       </>
                     ) : (
                       <>
-                        <IoCheckmarkCircle className="w-3.5 h-3.5" />
+                        <OptimizedIcons.Checkmark className="w-3.5 h-3.5" />
                         <span className="text-xs">Save Goal</span>
                       </>
                     )}
@@ -613,7 +553,7 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
                 >
                   <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <span className="relative flex items-center justify-center gap-1 whitespace-nowrap">
-                    <FaBullseye className="w-3.5 h-3.5" />
+                    <OptimizedIcons.Bullseye className="w-3.5 h-3.5" />
                     <span className="text-xs">Use Suggested</span>
                   </span>
                 </button>

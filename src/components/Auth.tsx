@@ -23,13 +23,11 @@ export function Auth({ onAuthSuccess: _onAuthSuccess }: AuthProps) {
       
       if (error) {
         setMessage('Error sending magic link. Please try again.')
-        console.error('Auth error:', error)
       } else {
         setMessage('Check your email for the magic link!')
       }
     } catch (error) {
       setMessage('Something went wrong. Please try again.')
-      console.error('Auth error:', error)
     } finally {
       setIsLoading(false)
     }
@@ -44,12 +42,10 @@ export function Auth({ onAuthSuccess: _onAuthSuccess }: AuthProps) {
       
       if (error) {
         setMessage('Error signing in with Google. Please try again.')
-        console.error('Google auth error:', error)
       }
       // Note: User will be redirected to Google OAuth, so we don't need to handle success here
     } catch (error) {
       setMessage('Something went wrong. Please try again.')
-      console.error('Google auth error:', error)
     } finally {
       setIsLoading(false)
     }
@@ -62,7 +58,6 @@ export function Auth({ onAuthSuccess: _onAuthSuccess }: AuthProps) {
   //     // The app will automatically redirect to auth screen
   //     window.location.reload()
   //   } catch (error) {
-  //     console.error('Logout error:', error)
   //   }
   // }
 

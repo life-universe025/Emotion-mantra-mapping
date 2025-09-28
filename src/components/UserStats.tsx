@@ -3,7 +3,10 @@ import { IoCalendar, IoBarChart, IoFlame, IoTime, IoTrophy } from 'react-icons/i
 import { FaBullseye, FaChartLine } from 'react-icons/fa'
 import { SupabaseService } from '../services/supabase'
 import { UserStats as UserStatsType } from '../types'
-import { PracticeChart } from './PracticeChart'
+import { lazy, Suspense } from 'react'
+
+// Lazy load the chart component
+const PracticeChart = lazy(() => import('./PracticeChart').then(module => ({ default: module.PracticeChart })))
 import { StreakAnimation } from './StreakAnimation'
 import { MoodAnalytics } from './MoodAnalytics'
 import { useTranslation } from 'react-i18next'
@@ -88,12 +91,10 @@ export function UserStats({ userId, onMantraSelect, compact = false, onRecentSes
       const { data: allData, error } = await SupabaseService.getAllUserData(userId)
       
       if (error) {
-        console.error('Error loading stats:', error)
         return
       }
       
       if (!allData) {
-        console.error('No data received')
         return
       }
       
@@ -125,7 +126,6 @@ export function UserStats({ userId, onMantraSelect, compact = false, onRecentSes
         onRecentSessionsLoaded(allData.recentSessions)
       }
     } catch (error) {
-      console.error('Error loading stats:', error)
     } finally {
       setLoading(false)
     }
@@ -477,13 +477,15 @@ export function UserStats({ userId, onMantraSelect, compact = false, onRecentSes
           </div>
 
           {/* Chart */}
-          <PracticeChart
-            data={chartData}
-            type="area"
-            metric={selectedMetric}
-            timeframe={timeFrame}
-            height={250}
-          />
+          <Suspense fallback={<div className="flex items-center justify-center h-[250px]"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div></div>}>
+            <PracticeChart
+              data={chartData}
+              type="area"
+              metric={selectedMetric}
+              timeframe={timeFrame}
+              height={250}
+            />
+          </Suspense>
         </div>
       </div>
 

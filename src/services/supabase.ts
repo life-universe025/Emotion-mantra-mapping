@@ -1,6 +1,18 @@
 import { EdgeFunctionService } from './edgeFunctions'
 import { Session, UserStats } from '../types'
 
+// Import Supabase normally to avoid module resolution issues
+// import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error('Missing Supabase environment variables')
+}
+
+// const supabaseClient = createClient(supabaseUrl, supabaseKey)
+
 export class SupabaseService {
   // Authentication - delegate to EdgeFunctionService
   static async signInWithEmail(email: string) {

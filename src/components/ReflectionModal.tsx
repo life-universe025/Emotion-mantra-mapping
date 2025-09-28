@@ -48,7 +48,6 @@ export function ReflectionModal({
     try {
       // Use user from props instead of making API call
       if (!user) {
-        console.error('User not authenticated')
         // For demo purposes, continue without saving
         onComplete()
         return
@@ -59,7 +58,6 @@ export function ReflectionModal({
       const hasMoodData = beforeMood || afterMood
       
       if (!hasPracticeData && !hasMoodData) {
-        console.warn('No practice or mood data to save, skipping session creation')
         onComplete()
         return
       }
@@ -76,7 +74,6 @@ export function ReflectionModal({
           after_mood: afterMood?.value,
           mood_improvement: moodData.mood_improvement
         })
-        console.log('Session saved successfully')
         
         // Show success state briefly before completing
         setIsSuccess(true)
@@ -84,12 +81,10 @@ export function ReflectionModal({
           onComplete()
         }, 1500) // Increased duration to show success message longer
       } catch (e) {
-        console.error('Error saving session via edge function:', e)
         // Still complete even if saving fails
         onComplete()
       }
     } catch (error) {
-      console.error('Error saving reflection:', error)
       // Still complete the flow even if saving fails
       onComplete()
     } finally {

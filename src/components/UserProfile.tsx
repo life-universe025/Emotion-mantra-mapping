@@ -27,12 +27,10 @@ export function UserProfile({ user, onLogout, onClose }: UserProfileProps) {
     try {
       const { data, error } = await SupabaseService.getUserStats(user.id)
       if (error) {
-        console.error('Error loading stats:', error)
         return
       }
       setStats(data)
     } catch (error) {
-      console.error('Error loading stats:', error)
     } finally {
       setLoading(false)
     }
@@ -43,7 +41,6 @@ export function UserProfile({ user, onLogout, onClose }: UserProfileProps) {
       await SupabaseService.signOut()
       onLogout()
     } catch (error) {
-      console.error('Logout error:', error)
     }
   }
 
@@ -90,7 +87,6 @@ export function UserProfile({ user, onLogout, onClose }: UserProfileProps) {
       await new Promise(resolve => setTimeout(resolve, 1000))
       alert('Avatar upload feature coming soon!')
     } catch (error) {
-      console.error('Error uploading avatar:', error)
       alert('Failed to upload avatar')
     } finally {
       setUploadingAvatar(false)

@@ -24,7 +24,6 @@ export function AlternativePractices({ emotion }: AlternativePracticesProps) {
         setRelevantAffirmations(response.data || [])
         setError(null)
       } catch (err) {
-        console.error('Error fetching affirmations:', err)
         setError('Failed to load affirmations')
         setRelevantAffirmations([])
       } finally {

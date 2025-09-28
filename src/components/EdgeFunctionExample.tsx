@@ -3,7 +3,7 @@ import { EdgeFunctionService } from '../services/edgeFunctions'
 import { supabase } from '../lib/supabase'
 
 export function EdgeFunctionExample() {
-  const [mantras, setMantras] = useState<any[]>([])
+  const [mantras, _setMantras] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [user, setUser] = useState<any>(null)
@@ -21,12 +21,10 @@ export function EdgeFunctionExample() {
     setLoading(true)
     setError(null)
     try {
-      const result = await EdgeFunctionService.getMantras()
-      setMantras(result.data || [])
-      console.log('✅ GET /mantras successful:', result)
+      await EdgeFunctionService.getMantras()
+      // setMantras(result.data || [])
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
-      console.error('❌ GET /mantras failed:', err)
     }
     setLoading(false)
   }
@@ -35,12 +33,10 @@ export function EdgeFunctionExample() {
     setLoading(true)
     setError(null)
     try {
-      const result = await EdgeFunctionService.getMantras('ANXIETY')
-      setMantras(result.data || [])
-      console.log('✅ GET /mantras?emotion=ANXIETY successful:', result)
+      await EdgeFunctionService.getMantras('ANXIETY')
+      // setMantras(result.data || [])
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
-      console.error('❌ GET /mantras?emotion=ANXIETY failed:', err)
     }
     setLoading(false)
   }
@@ -49,14 +45,12 @@ export function EdgeFunctionExample() {
     setLoading(true)
     setError(null)
     try {
-      const result = await EdgeFunctionService.getMantraById(1)
-      console.log('✅ GET /mantras/1 successful:', result)
-      if (result.data) {
-        setMantras([result.data])
-      }
+      await EdgeFunctionService.getMantraById(1)
+      // if (result.data) {
+      //   setMantras([result.data])
+      // }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
-      console.error('❌ GET /mantras/1 failed:', err)
     }
     setLoading(false)
   }
@@ -70,16 +64,14 @@ export function EdgeFunctionExample() {
     setLoading(true)
     setError(null)
     try {
-      const result = await EdgeFunctionService.createSession({
+      await EdgeFunctionService.createSession({
         mantra_id: 1,
         repetitions: 108,
         duration_seconds: 1800,
         notes: 'Test session from browser'
       })
-      console.log('✅ POST /sessions successful:', result)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
-      console.error('❌ POST /sessions failed:', err)
     }
     setLoading(false)
   }
@@ -93,11 +85,9 @@ export function EdgeFunctionExample() {
     setLoading(true)
     setError(null)
     try {
-      const result = await EdgeFunctionService.getUserStats(user.id)
-      console.log('✅ GET /users/:id/stats successful:', result)
+      await EdgeFunctionService.getUserStats(user.id)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
-      console.error('❌ GET /users/:id/stats failed:', err)
     }
     setLoading(false)
   }

@@ -835,5 +835,28 @@
         "content": "If you have any questions about this Privacy Policy or our data practices, please contact us through the application or at our support email."
       }
     }
+  },
+  "pwa": {
+    "install": {
+      "title": "Install App",
+      "subtitle": "Get the full experience",
+      "benefits": {
+        "title": "Enhanced Experience",
+        "description": "Access your mantras offline, get notifications, and enjoy a native app experience."
+      },
+      "features": {
+        "title": "Key Features",
+        "offline": "Offline mantra practice",
+        "notifications": "Daily practice reminders",
+        "fast": "Faster loading and performance"
+      },
+      "ios": {
+        "title": "Install on iOS",
+        "instructions": "Tap the Share button and select \"Add to Home Screen\"",
+        "button": "Got it!"
+      },
+      "dismiss": "Not now",
+      "install": "Install"
+    }
   }
 }

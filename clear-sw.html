@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear Service Workers</title>
+</head>
+<body>
+    <h1>Clear Service Workers and Caches</h1>
+    <button onclick="clearServiceWorkers()">Clear Service Workers</button>
+    <button onclick="clearCaches()">Clear Caches</button>
+    <button onclick="clearAll()">Clear All</button>
+    <div id="status"></div>
+
+    <script>
+        function updateStatus(message) {
+            document.getElementById('status').innerHTML += '<p>' + message + '</p>';
+        }
+
+        async function clearServiceWorkers() {
+            try {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                for (const registration of registrations) {
+                    await registration.unregister();
+                    updateStatus('Service Worker unregistered: ' + registration.scope);
+                }
+                updateStatus('All service workers cleared!');
+            } catch (error) {
+                updateStatus('Error clearing service workers: ' + error.message);
+            }
+        }
+
+        async function clearCaches() {
+            try {
+                const cacheNames = await caches.keys();
+                for (const cacheName of cacheNames) {
+                    await caches.delete(cacheName);
+                    updateStatus('Cache deleted: ' + cacheName);
+                }
+                updateStatus('All caches cleared!');
+            } catch (error) {
+                updateStatus('Error clearing caches: ' + error.message);
+            }
+        }
+
+        async function clearAll() {
+            await clearServiceWorkers();
+            await clearCaches();
+            updateStatus('Everything cleared! Refresh the page.');
+        }
+
+        // Auto-run on page load
+        window.addEventListener('load', () => {
+            updateStatus('Page loaded. Click buttons to clear service workers and caches.');
+        });
+    </script>
+</body>
+</html>

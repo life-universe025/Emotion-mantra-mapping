@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Emotion, Mantra } from '../types'
-import { IoSearch, IoSparkles, IoHappy, IoFlash } from 'react-icons/io5'
+import { IoSearch, IoSparkles } from 'react-icons/io5'
 import { useTranslation } from 'react-i18next'
 import { SupabaseService } from '../services/supabase'
 
@@ -11,7 +11,6 @@ interface EmotionSelectorProps {
 
 export function EmotionSelector({ onEmotionSelect }: EmotionSelectorProps) {
   const [searchQuery, setSearchQuery] = useState('')
-  const [showReactIcons, setShowReactIcons] = useState(false)
   const [mantras, setMantras] = useState<Mantra[]>([])
   const [emotions, setEmotions] = useState<Emotion[]>([])
   const [loading, setLoading] = useState(true)
@@ -32,37 +31,29 @@ export function EmotionSelector({ onEmotionSelect }: EmotionSelectorProps) {
         
         if (result.error) {
           setError('Failed to load mantras')
-          console.error('Error loading mantras:', result.error)
           return
         }
         
-        console.log('API Response:', result)
-        console.log('Mantras data:', result.data)
         setMantras(result.data || [])
         
         // Extract unique emotions from mantras - ONLY from emotion_mantra array
         const uniqueEmotions = new Map()
         result.data?.forEach((mantra: any) => {
-          console.log('Processing mantra:', mantra.slug, 'with relationships:', mantra.emotion_mantra)
           
           // ONLY handle new relationship structure (emotion_mantra)
           if (mantra.emotion_mantra && mantra.emotion_mantra.length > 0) {
             mantra.emotion_mantra.forEach((rel: any) => {
-              console.log('Emotion relationship:', rel)
               if (rel.emotions && !uniqueEmotions.has(rel.emotions.id)) {
                 uniqueEmotions.set(rel.emotions.id, rel.emotions)
               }
             })
           } else {
-            console.warn(`Mantra ${mantra.slug} has no emotion_mantra data!`)
           }
         })
         
-        console.log('Extracted emotions:', Array.from(uniqueEmotions.values()))
         setEmotions(Array.from(uniqueEmotions.values()))
       } catch (error) {
         setError('Failed to load data')
-        console.error('Error loading data:', error)
       } finally {
         setLoading(false)
       }
@@ -189,34 +180,6 @@ export function EmotionSelector({ onEmotionSelect }: EmotionSelectorProps) {
             </div>
           </div>
           
-          {/* Enhanced icon style toggle */}
-          <div className="relative group">
-            <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-orange-500/20 dark:from-amber-400/30 dark:to-orange-400/30 rounded-2xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="relative flex items-center bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-2xl p-1.5 border border-gray-200/60 dark:border-gray-600/60 shadow-lg hover:shadow-xl transition-all duration-200">
-              <button
-                onClick={() => setShowReactIcons(false)}
-                className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 ${
-                  !showReactIcons 
-                    ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md' 
-                    : 'text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20'
-                }`}
-              >
-                <IoHappy className="w-4 h-4" />
-                <span>{t('emotionSelector.emoji')}</span>
-              </button>
-              <button
-                onClick={() => setShowReactIcons(true)}
-                className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 ${
-                  showReactIcons 
-                    ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md' 
-                    : 'text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20'
-                }`}
-              >
-                <IoFlash className="w-4 h-4" />
-                <span>{t('emotionSelector.modern')}</span>
-              </button>
-            </div>
-          </div>
           
         </div>
       </div>
@@ -249,15 +212,9 @@ export function EmotionSelector({ onEmotionSelect }: EmotionSelectorProps) {
             >
               <div className="relative z-10 text-center">
                 <div className="flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
-                  {showReactIcons && emotion.reactIcon ? (
-                    <div className="w-12 h-12 flex items-center justify-center">
-                      <emotion.reactIcon className="w-8 h-8 text-amber-600 dark:text-amber-400" />
-                    </div>
-                  ) : (
-                    <div className="text-4xl">
-                      {emotion.icon}
-                    </div>
-                  )}
+                  <div className="text-4xl">
+                    {emotion.icon}
+                  </div>
                 </div>
                 <h3 className="font-semibold text-base mb-2 text-amber-800 dark:text-amber-200 group-hover:text-amber-900 dark:group-hover:text-amber-100 transition-colors duration-300">
                   {t(`emotions.${emotion.id}.name`)}

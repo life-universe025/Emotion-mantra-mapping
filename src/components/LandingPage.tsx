@@ -65,13 +65,11 @@ export function LandingPage({ onAuthSuccess: _onAuthSuccess }: LandingPageProps)
       
       if (error) {
         setMessage(t('landing.auth.errorSending'))
-        console.error('Auth error:', error)
       } else {
         setMessage(t('landing.auth.checkEmail'))
       }
     } catch (error) {
       setMessage(t('landing.auth.somethingWrong'))
-      console.error('Auth error:', error)
     } finally {
       setIsLoading(false)
     }
@@ -86,12 +84,10 @@ export function LandingPage({ onAuthSuccess: _onAuthSuccess }: LandingPageProps)
       
       if (error) {
         setMessage(t('landing.auth.errorGoogle'))
-        console.error('Google auth error:', error)
       }
       // Note: User will be redirected to Google OAuth, so we don't need to handle success here
     } catch (error) {
       setMessage(t('landing.auth.somethingWrong'))
-      console.error('Google auth error:', error)
     } finally {
       setIsLoading(false)
     }
@@ -114,7 +110,6 @@ export function LandingPage({ onAuthSuccess: _onAuthSuccess }: LandingPageProps)
         setTimeout(() => setMessage(''), 3000)
       }
     } catch (error) {
-      console.error('Error sharing:', error)
       // Fallback: copy to clipboard
       try {
         await navigator.clipboard.writeText(`${shareData.title} - ${shareData.text}\n${shareData.url}`)

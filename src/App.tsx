@@ -1,17 +1,24 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense, lazy } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { EmotionSelector } from './components/EmotionSelector'
-import { MantraPractice } from './components/MantraPractice'
-import { ReflectionModal } from './components/ReflectionModal'
-import { AlternativePractices } from './components/AlternativePractices'
 import { Header } from './components/Header'
-import { LandingPage } from './components/LandingPage'
-import { UserStats } from './components/UserStats'
-// import { UserProfile } from './components/UserProfile'
-import { UserProfilePage } from './pages/UserProfilePage'
+// Lazy load LandingPage
+const LandingPage = lazy(() => import('./components/LandingPage').then(module => ({ default: module.LandingPage })))
+// Lazy load UserStats
+const UserStats = lazy(() => import('./components/UserStats').then(module => ({ default: module.UserStats })))
 import { Footer } from './components/Footer'
+import { PWAInstallPrompt } from './components/PWAInstallPrompt'
+import { perfMonitor } from './utils/performance'
+
+// Lazy load heavy components
+const MantraPractice = lazy(() => import('./components/MantraPractice').then(module => ({ default: module.MantraPractice })))
+const ReflectionModal = lazy(() => import('./components/ReflectionModal').then(module => ({ default: module.ReflectionModal })))
+const AlternativePractices = lazy(() => import('./components/AlternativePractices').then(module => ({ default: module.AlternativePractices })))
+const UserProfilePage = lazy(() => import('./pages/UserProfilePage').then(module => ({ default: module.UserProfilePage })))
 import { Emotion, Mantra } from './types'
 import { SupabaseService } from './services/supabase'
+import { pwaService } from './services/pwaService'
+import { mantraAudioService } from './services/audioService'
 import { emotions } from './data/emotions'
 import { mantras } from './data/mantras'
 import { useTranslation } from 'react-i18next'
@@ -37,7 +44,34 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
 
   // Check authentication status on mount
   useEffect(() => {
+    perfMonitor.mark('app-mount-start')
     checkAuth()
+    perfMonitor.mark('app-mount-end')
+    perfMonitor.measure('app-mount-duration', 'app-mount-start', 'app-mount-end')
+  }, [])
+
+  // Initialize PWA features
+  useEffect(() => {
+    const initializePWA = async () => {
+      try {
+        // Register service worker
+        await pwaService.registerServiceWorker()
+        
+        // Request notification permission for practice reminders
+        // await pwaService.requestNotificationPermission()
+        
+        // Schedule daily practice reminder at 9 AM
+        // await pwaService.schedulePracticeReminder(9, 0)
+        
+        // Preload all mantra audio for offline use
+        const fullMantras = mantras.map((mantra, index) => ({ id: index + 1, ...mantra }))
+        await mantraAudioService.preloadAllMantras(fullMantras)
+        
+      } catch (error) {
+      }
+    }
+
+    initializePWA()
   }, [])
 
 
@@ -111,7 +145,6 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
         setCurrentState('auth')
       }
     } catch (error) {
-      console.error('Auth check error:', error)
       setIsAuthenticated(false)
       setCurrentState('auth')
     } finally {
@@ -209,7 +242,11 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
   }
 
   if (!isAuthenticated) {
-    return <LandingPage onAuthSuccess={handleAuthSuccess} />
+    return (
+      <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div></div>}>
+        <LandingPage onAuthSuccess={handleAuthSuccess} />
+      </Suspense>
+    )
   }
 
   return (
@@ -247,7 +284,9 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
             {/* Stats Section - Moved below and made more subtle */}
             {user && (
               <div className="mt-12 animate-in fade-in slide-in-from-top-4 duration-700" style={{animationDelay: '300ms'}}>
-                <UserStats userId={user.id} onMantraSelect={handleFavoriteMantraSelect} compact={true} />
+                <Suspense fallback={<div className="flex items-center justify-center p-8"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div></div>}>
+                  <UserStats userId={user.id} onMantraSelect={handleFavoriteMantraSelect} compact={true} />
+                </Suspense>
               </div>
             )}
           </div>
@@ -255,40 +294,48 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
         
         {currentState === 'mantra-practice' && selectedMantra && (
           <div className="animate-in fade-in slide-in-from-right-4 duration-700">
-            <MantraPractice
-              mantra={selectedMantra}
-              emotion={selectedEmotion!}
-              onComplete={handlePracticeComplete}
-              onAlternativePractices={handleAlternativePractices}
-              userId={user?.id}
-            />
+            <Suspense fallback={<div className="flex items-center justify-center p-8"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div></div>}>
+              <MantraPractice
+                mantra={selectedMantra}
+                emotion={selectedEmotion!}
+                onComplete={handlePracticeComplete}
+                onAlternativePractices={handleAlternativePractices}
+                userId={user?.id}
+              />
+            </Suspense>
           </div>
         )}
         
         {currentState === 'reflection' && sessionData && selectedMantra && (
           <div className="animate-in fade-in zoom-in-95 duration-500">
-            <ReflectionModal
-              mantra={selectedMantra}
-              emotion={selectedEmotion!}
-              sessionData={sessionData}
-              onComplete={handleReflectionComplete}
-              onClose={handleReflectionClose}
-              user={user}
-            />
+            <Suspense fallback={<div className="flex items-center justify-center p-8"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div></div>}>
+              <ReflectionModal
+                mantra={selectedMantra}
+                emotion={selectedEmotion!}
+                sessionData={sessionData}
+                onComplete={handleReflectionComplete}
+                onClose={handleReflectionClose}
+                user={user}
+              />
+            </Suspense>
           </div>
         )}
 
         {currentState === 'profile' && user && (
           <div className="animate-in fade-in slide-in-from-left-4 duration-700">
-            <UserProfilePage user={user} onMantraSelect={handleFavoriteMantraSelect} />
+            <Suspense fallback={<div className="flex items-center justify-center p-8"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div></div>}>
+              <UserProfilePage user={user} onMantraSelect={handleFavoriteMantraSelect} />
+            </Suspense>
           </div>
         )}
 
         {currentState === 'alternative-practices' && selectedEmotion && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <AlternativePractices
-              emotion={selectedEmotion}
-            />
+            <Suspense fallback={<div className="flex items-center justify-center p-8"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div></div>}>
+              <AlternativePractices
+                emotion={selectedEmotion}
+              />
+            </Suspense>
           </div>
         )}
 
@@ -297,6 +344,9 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
 
       {/* Only show footer on main page (emotion selector) */}
       {currentState === 'emotion-selector' && <Footer />}
+      
+      {/* PWA Install Prompt */}
+      <PWAInstallPrompt />
     </div>
   )
 }

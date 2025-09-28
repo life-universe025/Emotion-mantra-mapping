@@ -164,4 +164,34 @@
     content: '';
     @apply absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-500/10 to-amber-500/10 dark:from-orange-400/15 dark:to-amber-400/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300;
   }
+
+  /* Prevent layout shift */
+  .prevent-layout-shift {
+    contain: layout;
+  }
+
+  /* Image optimization */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Prevent font loading layout shift */
+  .font-loading {
+    font-display: swap;
+  }
+
+  /* Skeleton loading states */
+  .skeleton {
+    @apply animate-pulse bg-gray-200 dark:bg-gray-700 rounded;
+  }
+
+  /* Fixed dimensions for common elements */
+  .emotion-card {
+    min-height: 200px;
+  }
+
+  .mantra-practice-container {
+    min-height: 400px;
+  }
 }
