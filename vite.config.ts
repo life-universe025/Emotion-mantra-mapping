@@ -52,7 +52,10 @@ export default defineConfig({
             }
             return 'vendor'
           }
-          // Split app code by feature
+          // Split app code by feature - ensure icons are bundled with React
+          if (id.includes('components/icons/OptimizedIcons')) {
+            return 'react-vendor' // Bundle icons with React
+          }
           if (id.includes('components/MantraPractice')) {
             return 'mantra-practice'
           }
