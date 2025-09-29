@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { IoSend, IoClose, IoCheckmarkCircle } from 'react-icons/io5'
-import { Mantra, Emotion } from '../types'
+import { Mantra } from '../types'
 import { EdgeFunctionService } from '../services/edgeFunctions'
 import { useTranslation } from 'react-i18next'
 import { MoodSelector } from './MoodSelector'
@@ -9,7 +9,6 @@ import { useMoodTracking } from '../hooks/useMoodTracking'
 
 interface ReflectionModalProps {
   mantra: Mantra
-  emotion: Emotion
   sessionData: {
     repetitions: number
     duration: number
@@ -21,7 +20,6 @@ interface ReflectionModalProps {
 
 export function ReflectionModal({ 
   mantra, 
-  emotion, 
   sessionData, 
   onComplete,
   onClose,

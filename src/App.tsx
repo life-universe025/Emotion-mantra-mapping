@@ -311,7 +311,6 @@ function App({ initialRoute }: { initialRoute?: 'profile' | 'practice' | 'mantra
             <Suspense fallback={<div className="flex items-center justify-center p-8"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div></div>}>
               <ReflectionModal
                 mantra={selectedMantra}
-                emotion={selectedEmotion!}
                 sessionData={sessionData}
                 onComplete={handleReflectionComplete}
                 onClose={handleReflectionClose}
