@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Emotion, Mantra } from '../types'
-import { IoSearch, IoSparkles } from 'react-icons/io5'
+import { IoSearch, IoSparkles, IoMic } from 'react-icons/io5'
 import { useTranslation } from 'react-i18next'
 import { SupabaseService } from '../services/supabase'
 
@@ -161,18 +161,30 @@ export function EmotionSelector({ onEmotionSelect }: EmotionSelectorProps) {
           <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-orange-500/20 to-amber-500/20 dark:from-orange-400/30 dark:to-amber-400/30 rounded-2xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div className="relative">
-              <IoSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-amber-500 dark:text-amber-400 w-5 h-5 transition-colors duration-200 group-focus-within:text-orange-500 dark:group-focus-within:text-orange-400" />
-              <input
-                type="text"
-                placeholder={t('emotionSelector.searchPlaceholder')}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-80 sm:w-96 pl-12 pr-12 py-3.5 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl border border-gray-200/60 dark:border-gray-600/60 rounded-2xl focus:ring-2 focus:ring-orange-500/50 dark:focus:ring-orange-400/50 focus:border-orange-400 dark:focus:border-orange-500 focus:outline-none transition-all duration-200 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 shadow-lg hover:shadow-xl focus:shadow-xl text-sm font-medium"
-              />
+              <IoSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5 transition-all duration-200 group-focus-within:text-orange-500 dark:group-focus-within:text-orange-400 group-focus-within:scale-110 z-10" />
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder={t('emotionSelector.searchPlaceholder')}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-96 sm:w-[28rem] md:w-[32rem] lg:w-[36rem] pl-12 pr-20 py-3.5 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl border border-gray-200/60 dark:border-gray-600/60 rounded-2xl focus:ring-2 focus:ring-orange-500/50 dark:focus:ring-orange-400/50 focus:border-orange-400 dark:focus:border-orange-500 focus:outline-none transition-all duration-200 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 shadow-lg hover:shadow-xl focus:shadow-xl text-sm font-medium"
+                />
+                <button
+                  onClick={() => {
+                    // TODO: Implement voice search functionality
+                    console.log('Voice search clicked')
+                  }}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-orange-500 dark:hover:text-orange-400 w-11 h-11 transition-all duration-200 hover:scale-110 z-10 flex items-center justify-center"
+                  title="Voice search"
+                >
+                  <IoMic className="mx-auto w-5 h-5" />
+                </button>
+              </div>
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-full flex items-center justify-center transition-colors duration-200"
+                  className="absolute right-14 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-full flex items-center justify-center transition-colors duration-200"
                 >
                   <span className="text-gray-600 dark:text-gray-300 text-xs font-bold">×</span>
                 </button>
