@@ -27,6 +27,7 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [tapFeedback, setTapFeedback] = useState(false)
+  const [showMeaning, setShowMeaning] = useState(false)
   const { t } = useTranslation()
   
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -297,6 +298,18 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 sm:w-16 sm:h-16 lg:w-16 lg:h-16 border border-yellow-200/20 dark:border-yellow-400/10 rounded-full"></div>
         
         <div className="relative text-center p-3 sm:p-4 lg:p-6">
+          {/* Info button positioned at top right */}
+          <div className="absolute -top-4 -right-4 z-10">
+            <button
+              onClick={() => setShowMeaning(true)}
+              className="inline-flex items-center justify-center w-6 h-6 bg-amber-100 dark:bg-amber-900/30 hover:bg-amber-200 dark:hover:bg-amber-900/50 text-amber-700 dark:text-amber-300 rounded-full text-xs font-medium transition-colors duration-200 border border-amber-200 dark:border-amber-700 shadow-lg"
+            >
+              <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+              </svg>
+            </button>
+          </div>
+          
           {/* Traditional Sanskrit header - Mobile optimized */}
           <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4">
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-800 dark:to-orange-800 rounded-full flex items-center justify-center shadow-lg border border-amber-200/50 dark:border-amber-600/50">
@@ -322,10 +335,6 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
                 <div className="w-6 sm:w-8 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
                 <div className="text-amber-500 dark:text-amber-400 text-sm sm:text-base lg:text-lg">ॐ</div>
                 <div className="w-6 sm:w-8 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
-              </div>
-              
-              <div className="meaning text-center max-w-2xl mx-auto text-sm sm:text-base text-amber-700 dark:text-amber-300 font-medium leading-relaxed">
-                {mantraData.meaning}
               </div>
             </div>
           </div>
@@ -466,18 +475,22 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
       </div>
 
 
-      {/* Show finish button only when goal is completed */}
-      {count >= currentGoal && currentGoal > 0 && (
-        <div className="text-center">
-          <button
-            onClick={handleComplete}
-            className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-medium py-2.5 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 text-sm"
-          >
-            <OptimizedIcons.Checkmark className="w-4 h-4" />
-            <span>Finish Session</span>
-          </button>
-        </div>
-      )}
+      {/* Finish button - always visible but disabled until goal is reached */}
+      <div className="text-center">
+        <button
+          onClick={handleComplete}
+          disabled={count < currentGoal || currentGoal <= 0}
+          className={`inline-flex items-center gap-2 font-medium py-2.5 px-6 rounded-xl transition-all duration-200 text-sm ${
+            count >= currentGoal && currentGoal > 0
+              ? 'bg-green-500 hover:bg-green-600 text-white shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 cursor-pointer'
+              : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed opacity-60'
+          }`}
+        >
+          <OptimizedIcons.Checkmark className="w-4 h-4" />
+          <span>Finish Session</span>
+        </button>
+      </div>
+
 
       {/* Goal Setting Modal */}
       {showGoalModal && (
@@ -558,6 +571,47 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
                   </span>
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Mantra Meaning Modal */}
+      {showMeaning && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-md w-full mx-4 shadow-2xl border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                Mantra Meaning
+              </h3>
+              <button
+                onClick={() => setShowMeaning(false)}
+                className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
+              >
+                <OptimizedIcons.Close className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+              </button>
+            </div>
+            
+            <div className="text-center mb-4">
+              <div className="text-2xl font-bold text-amber-800 dark:text-amber-200 mb-2">
+                {mantraData?.devanagari}
+              </div>
+              <div className="text-sm text-amber-600 dark:text-amber-400 font-medium">
+                {mantraData?.transliteration}
+              </div>
+            </div>
+            
+            <div className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm">
+              {mantraData?.meaning}
+            </div>
+            
+            <div className="mt-6 flex justify-end">
+              <button
+                onClick={() => setShowMeaning(false)}
+                className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-sm font-medium transition-colors duration-200"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>

@@ -458,6 +458,7 @@ export class EdgeFunctionService {
 
     return await response.json()
   }
+
 }
 
 // Usage examples:

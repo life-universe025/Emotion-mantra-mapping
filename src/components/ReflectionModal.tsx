@@ -121,14 +121,14 @@ export function ReflectionModal({
         </button>
         <div className="p-6">
           {/* Header */}
-          <div className="text-center mb-5">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-1.5 tracking-tight">
+          <div className="text-center mb-4">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1 tracking-tight">
               {sessionData.repetitions > 0 || sessionData.duration > 0 
                 ? t('reflectionModal.practiceComplete')
                 : 'Mood Check-in'
               }
             </h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+            <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
               {sessionData.repetitions > 0 || sessionData.duration > 0 
                 ? t('reflectionModal.takeMoment')
                 : 'Take a moment to check in with your current mood'
@@ -150,16 +150,7 @@ export function ReflectionModal({
 
           {/* Session summary */}
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-xl p-3 mb-5 border border-gray-200/50 dark:border-gray-600/50">
-            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2.5 tracking-wide">{t('reflectionModal.yourPractice')}</h3>
             <div className="space-y-1.5 text-xs">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-500 dark:text-gray-400">{t('reflectionModal.mantra')}</span>
-                <span className="font-medium text-gray-800 dark:text-gray-200">{t(`mantras.${mantra.slug}.transliteration`)}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-500 dark:text-gray-400">{t('reflectionModal.emotion')}</span>
-                <span className="font-medium text-gray-800 dark:text-gray-200">{t(`emotions.${emotion.id}.name`)}</span>
-              </div>
               <div className="flex justify-between items-center">
                 <span className="text-gray-500 dark:text-gray-400">{t('reflectionModal.repetitions')}</span>
                 <span className={`font-medium ${sessionData.repetitions > 0 ? 'text-gray-800 dark:text-gray-200' : 'text-gray-400 dark:text-gray-500'}`}>
@@ -177,9 +168,6 @@ export function ReflectionModal({
 
           {/* Clean Mood Tracking Section */}
           <div className="mb-5">
-            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 text-center tracking-wide">
-              {t('reflectionModal.moodTracking')}
-            </h3>
             
             {/* Simple Side-by-Side Layout */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-3">
@@ -217,8 +205,8 @@ export function ReflectionModal({
           </div>
 
           {/* Reflection form */}
-          <div className="mb-5">
-            <label htmlFor="reflection" className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5 tracking-wide">
+          <div className="mb-4">
+            <label htmlFor="reflection" className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1 tracking-wide">
               {t('reflectionModal.howDoYouFeel')}
             </label>
             <textarea
@@ -226,10 +214,10 @@ export function ReflectionModal({
               value={reflection}
               onChange={(e) => setReflection(e.target.value)}
               placeholder={t('reflectionModal.shareThoughts')}
-              className="w-full p-2.5 border border-amber-200 dark:border-gray-600 rounded-lg focus:ring-1 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-transparent resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 text-sm leading-relaxed"
-              rows={3}
+              className="w-full p-2 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-1 focus:ring-orange-400 dark:focus:ring-orange-300 focus:border-orange-400 dark:focus:border-orange-300 focus:outline-none resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 text-xs leading-relaxed"
+              rows={2}
             />
-            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+            <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5">
               {t('reflectionModal.optionalNote')}
             </p>
           </div>
@@ -274,8 +262,8 @@ export function ReflectionModal({
           </div>
 
           {/* Encouragement */}
-          <div className="mt-4 text-center">
-            <p className="text-xs text-gray-400 dark:text-gray-500">
+          <div className="mt-3 text-center">
+            <p className="text-[10px] text-gray-400 dark:text-gray-500">
               {t('reflectionModal.greatWork')}
             </p>
           </div>

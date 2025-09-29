@@ -184,4 +184,5 @@ export class SupabaseService {
       return { success: false, data: null, error: error instanceof Error ? error.message : 'Unknown error' }
     }
   }
+
 }
