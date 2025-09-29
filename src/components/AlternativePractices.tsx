@@ -50,25 +50,10 @@ export function AlternativePractices({ emotion }: AlternativePracticesProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50/40 to-yellow-50/60 dark:from-gray-900 dark:via-slate-900/90 dark:to-gray-800 p-4">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-3">
-            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${emotion.color}`}>
-              <span className="text-2xl">{emotion.icon}</span>
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-900 via-orange-800 to-yellow-800 dark:from-amber-300 dark:via-orange-300 dark:to-yellow-300 bg-clip-text text-transparent font-traditional">
-                {emotion.name}
-              </h1>
-              <p className="text-amber-700 dark:text-amber-200">{emotion.description}</p>
-            </div>
-          </div>
-        </div>
-
         {/* Affirmations Section */}
           <div className="space-y-6">
             <h2 className="text-xl font-bold bg-gradient-to-r from-amber-900 via-orange-800 to-yellow-800 dark:from-amber-300 dark:via-orange-300 dark:to-yellow-300 bg-clip-text text-transparent font-traditional text-center">
-              {t('alternativePractices.affirmationsFor', { emotion: emotion.name })}
+              {t('alternativePractices.affirmations')}
             </h2>
             
             {loading ? (

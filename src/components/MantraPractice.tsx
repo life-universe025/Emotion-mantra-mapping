@@ -28,6 +28,8 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
   const [error, setError] = useState<string | null>(null)
   const [tapFeedback, setTapFeedback] = useState(false)
   const [showMeaning, setShowMeaning] = useState(false)
+  const [showFirstTimeGuide, setShowFirstTimeGuide] = useState(false)
+  const [showAlternativePractices, setShowAlternativePractices] = useState(false)
   const { t } = useTranslation()
   
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -70,6 +72,14 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
       loadCustomGoal()
     }
   }, [userId])
+
+  // Show first-time guide for new users
+  useEffect(() => {
+    const hasSeenGuideBefore = localStorage.getItem('mantra-practice-guide-seen')
+    if (!hasSeenGuideBefore) {
+      setShowFirstTimeGuide(true)
+    }
+  }, [])
 
   // Initialize audio
   useEffect(() => {
@@ -219,6 +229,11 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
     setGoalInput('')
   }
 
+  const handleCloseFirstTimeGuide = () => {
+    setShowFirstTimeGuide(false)
+    localStorage.setItem('mantra-practice-guide-seen', 'true')
+  }
+
   // Show loading state
   if (loading) {
     return (
@@ -268,17 +283,7 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
     <div className="max-w-4xl mx-auto">
       {/* Enhanced emotion context header - Mobile optimized */}
       <div className="text-center mb-2 sm:mb-4">
-        <div className="flex items-center justify-center gap-2 sm:gap-3 mb-1 sm:mb-2">
-          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-orange-100 to-amber-100 dark:from-orange-200 dark:to-amber-200 rounded-xl sm:rounded-2xl flex items-center justify-center text-lg sm:text-xl shadow-sm border border-orange-200/50 dark:border-orange-300/50">
-            {emotion.icon}
-          </div>
-          <div className="text-left">
-            <h2 className="text-lg sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-amber-900 via-orange-800 to-yellow-800 dark:from-amber-300 dark:via-orange-300 dark:to-yellow-300 bg-clip-text text-transparent font-traditional">
-              {t(`emotions.${emotion.id}.name`)}
-            </h2>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mt-1">{t(`emotions.${emotion.id}.description`)}</p>
-          </div>
-        </div>
+        {/* Emotion icon, name and description hidden */}
       </div>
 
       {/* Enhanced mantra display with spiritual elements - Mobile optimized */}
@@ -340,42 +345,40 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
           </div>
 
           {/* Modern compact audio controls */}
-          <div className="flex items-center justify-center gap-3 mt-4 sm:mt-6">
+          <div className="flex items-center justify-center gap-2 mt-4 sm:mt-6">
             {/* Play/Pause Button */}
             <button
               onClick={handlePlayPause}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 font-medium ${
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 text-xs font-medium ${
                 isPlaying 
                   ? 'bg-red-500 hover:bg-red-600 text-white' 
                   : 'bg-orange-500 hover:bg-orange-600 text-white'
               }`}
             >
-              {isPlaying ? <OptimizedIcons.Pause className="w-4 h-4" /> : <OptimizedIcons.Play className="w-4 h-4" />}
-              <span className="text-sm font-medium hidden sm:inline">
-                {isPlaying ? 'Pause' : 'Play'}
-              </span>
+              {isPlaying ? <OptimizedIcons.Pause className="w-3.5 h-3.5" /> : <OptimizedIcons.Play className="w-3.5 h-3.5" />}
+              <span>{isPlaying ? 'Pause' : 'Play'}</span>
             </button>
 
             {/* Reset Button */}
             <button
               onClick={handleReset}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 font-medium"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 text-xs font-medium"
             >
-              <OptimizedIcons.Refresh className="w-4 h-4" />
-              <span className="text-sm font-medium hidden sm:inline">Reset</span>
+              <OptimizedIcons.Refresh className="w-3.5 h-3.5" />
+              <span>Reset</span>
             </button>
 
-            {/* Affirmations Button */}
-            {onAlternativePractices && (
-              <button
-                onClick={() => onAlternativePractices(emotion)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-amber-100 dark:bg-amber-900/30 hover:bg-amber-200 dark:hover:bg-amber-900/50 text-amber-700 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 font-medium"
-                title="Alternative Practices"
-              >
-                <OptimizedIcons.Heart className="w-4 h-4" />
-                <span className="text-sm font-medium hidden sm:inline">Affirmations</span>
-              </button>
-            )}
+
+            {/* Help Button */}
+            <button
+              onClick={() => setShowFirstTimeGuide(true)}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800/30 hover:bg-gray-200 dark:hover:bg-gray-700/50 text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 text-xs font-medium"
+            >
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+              </svg>
+              <span>Help</span>
+            </button>
           </div>
         </div>
       </div>
@@ -395,10 +398,10 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
                 <div className="text-sm font-medium text-gray-900 dark:text-gray-100">Repetitions</div>
                 <div className="text-xs text-gray-500 dark:text-gray-400">
                   {customGoal 
-                    ? `Goal: ${customGoal}`
+                    ? `Repetitions: ${customGoal}`
                     : mantraData.suggested_rounds > 0 
                     ? `Suggested: ${mantraData.suggested_rounds}`
-                    : 'No goal set'
+                    : 'No repetitions set'
                   }
                 </div>
               </div>
@@ -417,16 +420,19 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
               </div>
             </div>
 
-            {/* Settings button */}
+            {/* Settings button in stats area */}
             {userId && (
-              <button
-                onClick={() => setShowGoalModal(true)}
-                className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-all duration-200 hover:scale-105 active:scale-95"
-                title={t('mantraPractice.setCustomGoal')}
-              >
-                <OptimizedIcons.Settings className="w-4 h-4" />
-              </button>
+              <div className="flex items-center">
+                <button
+                  onClick={() => setShowGoalModal(true)}
+                  className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-all duration-200 hover:scale-105 active:scale-95"
+                  title="Set Repetition Goal"
+                >
+                  <OptimizedIcons.Settings className="w-4 h-4" />
+                </button>
+              </div>
             )}
+
           </div>
 
           {/* Progress bar */}
@@ -453,29 +459,46 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
             </div>
           )}
 
-          {/* Elliptical tap button */}
-          <div className="flex justify-center">
-            <button
-              onClick={handleCount}
-              className={`relative w-24 h-16 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-semibold transform hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg hover:shadow-xl ${tapFeedback ? 'scale-95' : ''}`}
-            >
-              <div className="flex items-center justify-center gap-2">
-                <OptimizedIcons.Bullseye className="w-5 h-5" />
-                <span className="text-sm font-medium">TAP</span>
+          {/* Enhanced tap button with instructions */}
+          <div className="text-center">
+            
+            {/* Main tap button */}
+            <div className="relative">
+              <button
+                onClick={handleCount}
+                className={`relative w-28 h-20 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold transform hover:scale-105 active:scale-95 transition-all duration-200 shadow-xl hover:shadow-2xl z-10 ${tapFeedback ? 'scale-95' : ''}`}
+                style={{ zIndex: 10 }}
+              >
+                <div className="flex flex-col items-center justify-center gap-1">
+                  <OptimizedIcons.Bullseye className="w-6 h-6" />
+                  <span className="text-sm font-bold">TAP</span>
+                  <span className="text-xs opacity-90">to count</span>
+                </div>
+                
+                <div className="absolute inset-0 rounded-full bg-white/20 opacity-0 hover:opacity-100 transition-opacity duration-200"></div>
+                
+                {tapFeedback && (
+                  <div className="absolute inset-0 rounded-full bg-white/30 animate-pulse"></div>
+                )}
+              </button>
+              
+            </div>
+            
+            {/* Progress encouragement */}
+            {count > 0 && count < (currentGoal || mantraData.suggested_rounds) && (
+              <div className="mt-3 text-center">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Great! Keep going... {count} of {currentGoal || mantraData.suggested_rounds} completed
+                </p>
               </div>
-              
-              <div className="absolute inset-0 rounded-full bg-white/20 opacity-0 hover:opacity-100 transition-opacity duration-200"></div>
-              
-              {tapFeedback && (
-                <div className="absolute inset-0 rounded-full bg-white/30 animate-pulse"></div>
-              )}
-            </button>
+            )}
+            
           </div>
         </div>
       </div>
 
 
-      {/* Finish button - always visible but disabled until goal is reached */}
+      {/* Finish button */}
       <div className="text-center">
         <button
           onClick={handleComplete}
@@ -491,8 +514,55 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
         </button>
       </div>
 
+      {/* Alternative Practices Section */}
+      {onAlternativePractices && (
+        <div className="mt-8">
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200/60 dark:border-gray-700/60 shadow-md overflow-hidden">
+            {/* Collapsible Header */}
+            <button
+              onClick={() => setShowAlternativePractices(!showAlternativePractices)}
+              className="w-full p-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 bg-gradient-to-br from-amber-100 via-orange-100 to-yellow-100 dark:from-amber-800 dark:via-orange-800 dark:to-yellow-800 rounded-lg flex items-center justify-center">
+                    <OptimizedIcons.Heart className="w-3 h-3 text-amber-600 dark:text-amber-400" />
+                  </div>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    More Practices
+                  </span>
+                </div>
+                <div className={`transform transition-transform duration-200 ${showAlternativePractices ? 'rotate-180' : ''}`}>
+                  <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+            </button>
+            
+            {/* Collapsible Content */}
+            {showAlternativePractices && (
+              <div className="px-3 pb-3 border-t border-gray-200/60 dark:border-gray-700/60">
+                <div className="pt-3 text-center">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-3">
+                    Explore positive affirmations and alternative practices
+                  </p>
+                  
+                  <button
+                    onClick={() => onAlternativePractices(emotion)}
+                    className="px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-95"
+                  >
+                    View Affirmations
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
-      {/* Goal Setting Modal */}
+
+      {/* Repetitions Setting Modal */}
       {showGoalModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="relative bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl p-4 w-full max-w-xs shadow-2xl border border-white/20 dark:border-gray-700/30">
@@ -554,7 +624,7 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
                     ) : (
                       <>
                         <OptimizedIcons.Checkmark className="w-3.5 h-3.5" />
-                        <span className="text-xs">Save Goal</span>
+                        <span className="text-xs">Save Repetitions</span>
                       </>
                     )}
                   </span>
@@ -571,6 +641,75 @@ export function MantraPractice({ mantra, emotion, onComplete, onAlternativePract
                   </span>
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* First Time User Guide Modal */}
+      {showFirstTimeGuide && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="relative bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl p-6 w-full max-w-sm shadow-2xl border border-white/20 dark:border-gray-700/30">
+            {/* Decorative background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 via-amber-50/50 to-yellow-50/50 dark:from-orange-900/20 dark:via-amber-900/20 dark:to-yellow-900/20 rounded-2xl opacity-50"></div>
+            
+            <div className="relative">
+              {/* Header */}
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <span className="text-2xl font-sanskrit text-white flex items-center justify-center leading-none">ॐ</span>
+                </div>
+                <h3 className="text-xl font-bold bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 dark:from-orange-400 dark:via-amber-400 dark:to-yellow-400 bg-clip-text text-transparent mb-2">
+                  Welcome to Mantra Practice!
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Let's get you started with your first practice session
+                </p>
+              </div>
+              
+              {/* Step by step guide */}
+              <div className="space-y-4 mb-6">
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-white text-xs font-bold">1</span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-800 dark:text-gray-200">Listen to the mantra</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">Tap the Play button to hear the pronunciation</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-white text-xs font-bold">2</span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-800 dark:text-gray-200">Tap to count repetitions</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">Each tap counts one repetition of the mantra</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-white text-xs font-bold">3</span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-800 dark:text-gray-200">Complete your repetitions</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">Finish the suggested repetitions to complete your practice</p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Action button */}
+              <button
+                onClick={handleCloseFirstTimeGuide}
+                className="w-full bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 hover:from-orange-700 hover:via-amber-700 hover:to-yellow-700 text-white font-medium py-3 px-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95"
+              >
+                <span className="flex items-center justify-center gap-2">
+                  <span>Start Practicing</span>
+                  <OptimizedIcons.Play className="w-4 h-4" />
+                </span>
+              </button>
             </div>
           </div>
         </div>
