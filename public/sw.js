@@ -1,8 +1,8 @@
 // Service Worker for Sanatan Mantra Sadhana PWA
-const CACHE_NAME = 'mantra-sadhana-v1.0.0';
-const STATIC_CACHE = 'mantra-sadhana-static-v1.0.0';
-const AUDIO_CACHE = 'mantra-sadhana-audio-v1.0.0';
-const API_CACHE = 'mantra-sadhana-api-v1.0.0';
+const CACHE_NAME = 'mantra-sadhana-v1.0.1';
+const STATIC_CACHE = 'mantra-sadhana-static-v1.0.1';
+const AUDIO_CACHE = 'mantra-sadhana-audio-v1.0.1';
+const API_CACHE = 'mantra-sadhana-api-v1.0.1';
 
 // Files to cache for offline functionality
 const STATIC_FILES = [
@@ -15,7 +15,16 @@ const STATIC_FILES = [
   '/pwa-192.png',
   '/pwa-512.png',
   '/pwa-maskable-192.png',
-  '/pwa-maskable-512.png'
+  '/pwa-maskable-512.png',
+  '/assets/index-7c09c803.js',
+  '/assets/index-ec65536c.css',
+  '/assets/AlternativePractices-395dcd89.js',
+  '/assets/LandingPage-0dd0e18f.js',
+  '/assets/MantraPractice-19a3fcd5.js',
+  '/assets/PracticeChart-17d2943a.js',
+  '/assets/ReflectionModal-034aacaf.js',
+  '/assets/UserProfilePage-75efbd73.js',
+  '/assets/UserStats-c100e622.js'
 ];
 
 // Audio files to cache (will be populated dynamically)
@@ -141,6 +150,19 @@ async function handleStaticRequest(request) {
     
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
+      // Ensure proper MIME type for JavaScript modules
+      if (request.url.endsWith('.js')) {
+        const responseClone = networkResponse.clone();
+        const headers = new Headers(responseClone.headers);
+        headers.set('Content-Type', 'application/javascript');
+        const modifiedResponse = new Response(responseClone.body, {
+          status: responseClone.status,
+          statusText: responseClone.statusText,
+          headers: headers
+        });
+        cache.put(request, modifiedResponse.clone());
+        return modifiedResponse;
+      }
       cache.put(request, networkResponse.clone());
     }
     return networkResponse;
@@ -223,7 +245,8 @@ async function handleOtherRequest(request) {
   if (request.url.includes('@vite') || 
       request.url.includes('@react-refresh') ||
       request.url.includes('localhost:3000/src/') ||
-      request.url.includes('localhost:3000/node_modules/')) {
+      request.url.includes('localhost:3000/node_modules/') ||
+      request.url.includes('localhost:3000/assets/')) {
     return fetch(request);
   }
 
@@ -254,6 +277,18 @@ async function handleOtherRequest(request) {
     // For development, just pass through the request
     if (request.url.includes('localhost:3000')) {
       return fetch(request);
+    }
+    
+    // Handle HTTP 0 errors (network issues) more gracefully
+    if (error.message.includes('HTTP 0') || error.message.includes('Failed to fetch')) {
+      console.log('Service Worker: Network error detected, serving offline fallback');
+      return new Response('Network error - Please check your connection', {
+        status: 200,
+        statusText: 'OK',
+        headers: {
+          'Content-Type': 'text/html'
+        }
+      });
     }
     
     // Return a proper offline response instead of 503
